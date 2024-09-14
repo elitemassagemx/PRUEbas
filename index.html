@@ -5,163 +5,425 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elite Massage</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --primary-color: #D4AF37;
+            --secondary-color: #8B4513;
+            --text-color: #ffffff;
+            --background-color: #1a1a1a;
+            --item-background: #2a2a2a;
+            --header-background: #4c0026;
+            --main-blue: #082032;
+            --gold: #FFD700;
+        }
+
+        /* Reset y estilos base */
+        body, h1, h2, h3, p, ul {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            background: linear-gradient(270deg, #1a1a1a, #2c2c2c, #3a3a3a);
+            background-size: 600% 600%;
+            animation: gradientTransition 15s ease infinite;
+            color: var(--text-color);
+            padding-bottom: 60px;
+        }
+
+        @keyframes gradientTransition {
+            0% { background-position: 0% 50% }
+            50% { background-position: 100% 50% }
+            100% { background-position: 0% 50% }
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        a, button {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        /* Contenedor principal */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+            box-sizing: border-box;
+        }
+
+        /* Header y navegación */
+        #sticky-header {
+            background-color: var(--header-background);
+            color: white;
+            padding: 5px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 15px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-right: 10px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .language-selector {
+            position: relative;
+        }
+
+        #translate-icon {
+            width: 30px;
+            height: 30px;
+            background-color: #FFD700;
+            border-radius: 50%;
+            padding: 2px;
+        }
+
+        .language-options {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--item-background);
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .lang-option {
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+            width: 100%;
+            border: none;
+            background-color: transparent;
+            color: var(--text-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .lang-option:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .lang-option img {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Secciones */
+        .section {
+            padding: 50px 0;
+        }
+
+        .hero {
+            background-color: var(--item-background);
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .hero h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        /* Grids de servicios y paquetes */
+        .services-grid, #package-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            padding: 0 15px;
+            box-sizing: border-box;
+        }
+
+        .service-item, .package-item {
+            background: linear-gradient(135deg, var(--item-background) 0%, #3a3a3a 100%);
+            border: 2px solid var(--primary-color);
+            border-radius: 15px;
+            padding: 1rem 2rem 2rem;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .service-item:hover, .package-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .service-item h3, .package-item h3 {
+            color: var(--primary-color);
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .service-icon {
+            width: 3em;
+            height: 3em;
+            margin-right: 0.5em;
+            object-fit: contain;
+        }
+
+        .service-item p, .package-item p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .icon-text-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5em;
+        }
+
+        .benefits-icon, .duration-icon {
+            width: 2.5em;
+            height: 2.5em;
+            margin-right: 0.5em;
+            object-fit: contain;
+        }
+
+        .benefits-icons {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5em;
+            margin-bottom: 1em;
+        }
+
+        .benefits-icons .benefits-icon {
+            width: 3em;
+            height: 3em;
+        }
+
+        .benefits-description {
+            margin-left: 0.5em;
+        }
+
+        .service-buttons, .package-item .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+
+        .service-buttons button, .package-item button {
+            background-color: var(--primary-color);
+            color: var(--background-color);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1rem;
+            flex: 1;
+            margin: 0 5px;
+            max-width: 150px;
+        }
+
+        .service-buttons button:hover, .package-item button:hover {
+            background-color: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Estilos para la sección de servicios */
+        .category-selector {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .choice-chip {
+            background-color: var(--item-background);
+            color: var(--text-color);
+            border: 2px solid var(--primary-color);
+            padding: 0.75rem 1.5rem;
+            margin: 0 0.75rem;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .choice-chip:hover, .choice-chip.active {
+            background-color: var(--primary-color);
+            color: var(--background-color);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Ajustes para la tarjeta de servicio */
+        .service-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .service-title {
+            margin: 0;
+            margin-left: 0.5rem;
+        }
+
+        .service-description {
+            margin-bottom: 1rem;
+        }
+
+        /* Estilos para la sección de testimonios */
+        .testimonials {
+            background-color: var(--item-background);
+            padding: 2rem 0;
+        }
+
+        .testimonial {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial p {
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+
+        .testimonial .author {
+            text-align: right;
+            font-weight: bold;
+        }
+
+        /* Estilos para la galería */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Estilos para el popup */
+        .popup {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background-color: var(--background-color);
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .popup-content h2 {
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .popup-content p {
+            margin-bottom: 1.5rem;
+            color: var(--text-color-secondary);
+        }
+
+        .popup-content .close-btn {
+            background-color: var(--primary-color);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .popup-content .close-btn:hover {
+            background-color: var(--primary-hover-color);
+        }
+
+        /* Mostrar popup */
+        .popup.show {
+            display: flex;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -250px;
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .navbar .menu-icon {
+                display: block;
+            }
+
+            .content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .popup-content {
+                padding: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <header id="sticky-header">
-        <div class="container">
-            <div class="header-top">
-                <div class="logo-container">
-                    <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/logo.png" alt="Elite Massage Logo" class="logo" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/fallback-logo.png';">
-                    <h1>Elite Massage</h1>
-                </div>
-                <div class="language-selector">
-                    <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/trad.png" alt="Traducir" id="translate-icon" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/fallback-translate-icon.png';">
-                    <div class="language-options">
-                        <button class="lang-option" data-lang="es"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/omx.png" alt="Bandera de México" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/fallback-flag.png';"> Español</button>
-                        <button class="lang-option" data-lang="en"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ous.png" alt="Bandera de Estados Unidos" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/fallback-flag.png';"> English</button>
-                        <button class="lang-option" data-lang="iw"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ois.png" alt="Bandera de Israel" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/fallback-flag.png';"> עברית</button>
-                        <button class="lang-option" data-lang="fr"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ofr.png" alt="Bandera de Francia" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/fallback-flag.png';"> Français</button>
-                        <button class="lang-option" data-lang="zh-CN"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/och.png" alt="Bandera de China" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/fallback-flag.png';"> 中文</button>
-                    </div>
-                </div>
-                <div id="google_translate_element" style="display:none;"></div>
-            </div>
-        </div>
-    </header>
-
-    <main role="main">
-        <section id="inicio" class="section hero">
-            <div class="container">
-                <h2>Bienvenido a tu Oasis de Tranquilidad</h2>
-                <p>Descubre el poder de la relajación y el bienestar en nuestro exclusivo spa de masajes.</p>
-            </div>
-        </section>
-
-        <section id="servicios" class="section services">
-            <div class="container">
-                <h2>Nuestros Servicios</h2>
-                <div class="category-selector">
-                    <button class="choice-chip active" data-category="individual">Individual</button>
-                    <button class="choice-chip" data-category="pareja">En Pareja</button>
-                </div>
-                <div id="services-list" class="services-grid"></div>
-            </div>
-        </section>
-
-        <section id="paquetes" class="section packages">
-            <div class="container">
-                <h2>Paquetes Especiales</h2>
-                <div id="package-list"></div>
-            </div>
-        </section>
-
-        <section id="testimonios" class="section testimonials">
-            <div class="container">
-                <h2>Lo que dicen nuestros clientes</h2>
-                <div class="testimonial">
-                    <p>"Una experiencia increíble. El masaje de aromaterapia fue justo lo que necesitaba para relajarme completamente. ¡Volveré pronto!"</p>
-                    <p class="author">- María G.</p>
-                </div>
-                <div class="testimonial">
-                    <p>"El paquete en pareja fue maravilloso. El ambiente, el servicio y los masajes superaron nuestras expectativas. Totalmente recomendado."</p>
-                    <p class="author">- Carlos y Ana</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="galeria" class="section gallery">
-            <div class="container">
-                <h2>Galería de Imágenes</h2>
-                <div class="gallery-grid">
-                    <div class="gallery-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/copasq.JPG" alt="Interior del Spa" width="250" height="250" loading="lazy" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/fallback-image.png';">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/.JPG" alt="Evento de Masajes" width="250" height="250" loading="lazy" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/fallback-image.png';">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/noche1.JPG" alt="Productos de Spa" width="250" height="250" loading="lazy" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/fallback-image.png';">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/rosa.JPG" alt="Nuestro Equipo" width="250" height="250" loading="lazy" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/fallback-image.png';">
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-            <div class="container">
-        <div class="footer-content">
-            <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/lista.gif" alt="Gif 1" class="footer-gif">
-            <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/reg.gif" alt="Gif 2" class="footer-gif">
-            <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/coment.gif" alt="Gif 3" class="footer-gif">
-            <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/fotos.gif" alt="Gif 4" class="footer-gif">
-        </div>
-        <p>&copy; 2023 Elite Massage. Todos los derechos reservados.</p>
-        <p><a href="/politica-privacidad">Política de Privacidad</a> | <a href="/terminos-condiciones">Términos y Condiciones</a></p>
-        <div class="social-media">
-            <a href="https://facebook.com/elitemassage" target="_blank" rel="noopener noreferrer">Facebook</a> |
-            <a href="https://instagram.com/elitemassage" target="_blank" rel="noopener noreferrer">Instagram</a> |
-            <a href="https://twitter.com/elitemassage" target="_blank" rel="noopener noreferrer">Twitter</a>
-        </div>
-    </div>
-        <div class="container">
-            <p>&copy; 2023 Elite Massage. Todos los derechos reservados.</p>
-            <p><a href="/politica-privacidad">Política de Privacidad</a> | <a href="/terminos-condiciones">Términos y Condiciones</a></p>
-            <div class="social-media">
-                <a href="https://facebook.com/elitemassage" target="_blank" rel="noopener noreferrer">Facebook</a> |
-                <a href="https://instagram.com/elitemassage" target="_blank" rel="noopener noreferrer">Instagram</a> |
-                <a href="https://twitter.com/elitemassage" target="_blank" rel="noopener noreferrer">Twitter</a>
-            </div>
-        </div>
-    </footer>
-
-    <div class="fixed-bar">
-        <nav class="main-nav">
-            <ul>
-                <li><a href="#servicios"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/lista.gif" alt="Icono Servicios" class="nav-icon" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/fallback-icon.png';"><span class="nav-text">Masajes</span></a></li>
-                <li><a href="#paquetes"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/reg.gif" alt="Icono Paquetes" class="nav-icon" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/fallback-icon.png';"><span class="nav-text">Paquetes</span></a></li>
-                <li><a href="#testimonios"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/coment.gif" alt="Icono Testimonios" class="nav-icon" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/fallback-icon.png';"><span class="nav-text">Testimonios</span></a></li>
-                <li><a href="#galeria"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/fotos.gif" alt="Icono Galería" class="nav-icon" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/fallback-icon.png';"><span class="nav-text">Galería</span></a></li>
-            </ul>
-        </nav>
-    </div>
-
-    <div id="popup" class="popup">
-        <div class="popup-content">
-            <span class="close">&times;</span>
-            <h2 id="popup-title"></h2>
-            <img id="popup-image" src="" alt="Imagen del servicio" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/fallback-service-image.png';">
-            <p id="popup-description"></p>
-        </div>
-    </div>
-
-    <template id="service-template">
-        <div class="service-item">
-            <div class="service-header">
-                <img class="service-icon" alt="Icono del servicio" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/fallback-icon.png';">
-                <h3 class="service-title"></h3>
-            </div>
-            <p class="service-description"></p>
-            <div class="benefits-container">
-                <span>Beneficios:</span>
-                <img src="path-to-benefits-icon.png" alt="Beneficios" class="benefits-icon" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/fallback-icon.png';">
-                <span class="service-benefits"></span>
-            </div>
-            <div class="duration-container">
-                <span>Duración:</span>
-                <img src="path-to-duration-icon.png" alt="Duración" class="duration-icon" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/fallback-icon.png';">
-                <span class="service-duration"></span>
-            </div>
-            <div class="service-buttons">
-                <button class="reserve-button">Reserva ahora</button>
-                <button class="info-button">Saber más</button>
-            </div>
-        </div>
-    </template>
-
+    <!-- Your existing HTML content here -->
+    
     <script type="text/javascript">
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({pageLanguage: 'es', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
