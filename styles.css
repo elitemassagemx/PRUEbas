@@ -27,6 +27,12 @@ body {
     padding-bottom: 60px;
 }
 
+@keyframes gradientTransition {
+    0% { background-position: 0% 50% }
+    50% { background-position: 100% 50% }
+    100% { background-position: 0% 50% }
+}
+
 img {
     max-width: 100%;
     height: auto;
@@ -328,7 +334,6 @@ h1 {
 .gallery-item img:hover {
     transform: scale(1.05);
 }
-
 
 /* Estilos para el popup */
 .popup {
