@@ -151,10 +151,43 @@ h1 {
     margin-bottom: 10px;
 }
 
+/* Sugerencias */
+.sugerencias-section {
+    padding: 30px 0;
+    background-color: var(--item-background);
+}
+
+.sugerencias-container {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;  /* Para Firefox */
+    -ms-overflow-style: none;  /* Para Internet Explorer y Edge */
+}
+
+.sugerencias-container::-webkit-scrollbar {
+    display: none;  /* Para Chrome, Safari y Opera */
+}
+
+.sugerencia-item {
+    flex: 0 0 auto;
+    width: 150px;
+    margin-right: 20px;
+    text-align: center;
+    scroll-snap-align: start;
+}
+
+.sugerencia-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 10px;
+}
+
 /* Grids de servicios y paquetes */
-.services-grid, #package-list {
+.services-grid, .package-grid {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1rem;
     padding: 0 15px;
     box-sizing: border-box;
