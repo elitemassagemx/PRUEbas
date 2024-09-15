@@ -1,18 +1,7 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const BASE_URL = "https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/";
-    
-    // Definición de servicios y paquetes
-    const services = {
-        individual: [
-            // ... (mantener los servicios individuales existentes)
-        ],
-        pareja: [
-            // ... (mantener los servicios en pareja existentes)
-        ],
-        paquetes: [
-            // ... (mantener los paquetes existentes)
-        ]
-    };
+ // Paginación
+    let currentPage = 1;
+    const itemsPerPage = 3;
+    let totalPages = Math.ceil(services.individual.length / itemsPerPage);
 
     function renderServices(category) {
         const servicesList = document.getElementById('services-list');
@@ -21,30 +10,23 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         servicesList.innerHTML = '';
-        
+        const template = document.getElementById('service-template');
+        if (!template) {
+            console.error('Element with id "service-template" not found');
+            return;
+        }
+
         services[category].forEach((service, index) => {
             if (index >= (currentPage - 1) * itemsPerPage && index < currentPage * itemsPerPage) {
-                const serviceElement = document.createElement('div');
-                serviceElement.className = 'service-item';
-                serviceElement.innerHTML = `
-                    <img src="${service.icon}" alt="${service.title}" class="service-icon">
-                    <h3>${service.title}</h3>
-                    <p>${service.description}</p>
-                    <div class="benefits-container">
-                        <span>Beneficios:</span>
-                        <img src="${service.benefitsIcons[0]}" alt="Beneficios" class="benefits-icon">
-                        <span>${service.benefits.join(', ')}</span>
-                    </div>
-                    <div class="duration-container">
-                        <span>Duración:</span>
-                        <img src="${service.durationIcon}" alt="Duración" class="duration-icon">
-                        <span>${service.duration}</span>
-                    </div>
-                    <div class="service-buttons">
-                        <button class="reserve-button">Reserva ahora</button>
-                        <button class="info-button">Saber más</button>
-                    </div>
-                `;
+                const serviceElement = template.content.cloneNode(true);
+                
+                serviceElement.querySelector('.service-title').textContent = service.title;
+                serviceElement.querySelector('.service-icon').src = service.icon;
+                serviceElement.querySelector('.service-description').textContent = service.description;
+                serviceElement.querySelector('.benefits-icon').src = Array.isArray(service.benefitsIcon) ? service.benefitsIcon[0] : service.benefitsIcon;
+                serviceElement.querySelector('.service-benefits').textContent = service.benefits.join(', ');
+                serviceElement.querySelector('.duration-icon').src = service.durationIcon;
+                serviceElement.querySelector('.service-duration').textContent = service.duration;
 
                 const reserveButton = serviceElement.querySelector('.reserve-button');
                 reserveButton.addEventListener('click', () => sendWhatsAppMessage('Reservar', service.title));
@@ -58,39 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         updatePagination();
     }
- function renderServices(category) {
-        const servicesList = document.getElementById('services-list');
-        if (!servicesList) {
-            console.error('Element with id "services-list" not found');
-            return;
-        }
-        servicesList.innerHTML = '';
-        const template = document.getElementById('service-template');
-        if (!template) {
-            console.error('Element with id "service-template" not found');
-            return;
-        }
 
-        services[category].forEach(service => {
-            const serviceElement = template.content.cloneNode(true);
-            
-            serviceElement.querySelector('.service-title').textContent = service.title;
-            serviceElement.querySelector('.service-icon').src = service.icon;
-            serviceElement.querySelector('.service-description').textContent = service.description;
-            serviceElement.querySelector('.benefits-icon').src = Array.isArray(service.benefitsIcon) ? service.benefitsIcon[0] : service.benefitsIcon;
-            serviceElement.querySelector('.service-benefits').textContent = service.benefits.join(', ');
-            serviceElement.querySelector('.duration-icon').src = service.durationIcon;
-            serviceElement.querySelector('.service-duration').textContent = service.duration;
-
-            const reserveButton = serviceElement.querySelector('.reserve-button');
-            reserveButton.addEventListener('click', () => sendWhatsAppMessage('Reservar', service.title));
-
-            const infoButton = serviceElement.querySelector('.info-button');
-            infoButton.addEventListener('click', () => showPopup(service));
-
-            servicesList.appendChild(serviceElement);
-        });
-    }
     function renderPackages() {
         const packageList = document.getElementById('package-list');
         if (!packageList) {
@@ -138,11 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.open(url, '_blank');
     }
 
-    // Paginación
-    let currentPage = 1;
-    const itemsPerPage = 3;
-    let totalPages = Math.ceil(services.individual.length / itemsPerPage);
-
     function updatePagination() {
         const paginationContainer = document.querySelector('.pagination-container');
         paginationContainer.innerHTML = '';
@@ -160,9 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const activeCategory = document.querySelector('.choice-chip.active').dataset.category;
         renderServices(activeCategory);
     }
-
-    document.querySelector('.btn--prev').addEventListener('click', () => changePage(-1));
-    document.querySelector('.btn--next').addEventListener('click', () => changePage(1));
 
     // Acordeón
     const accordionItems = document.querySelectorAll('.accordion .link');
@@ -325,6 +267,18 @@ document.addEventListener('DOMContentLoaded', () => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
             smoothScroll(this.getAttribute('href'), 1000);
+        });
+    });
+
+    // Event Listeners
+    document.querySelector('.btn--prev').addEventListener('click', () => changePage(-1));
+    document.querySelector('.btn--next').addEventListener('click', () => changePage(1));
+
+    document.querySelectorAll('.choice-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+            document.querySelectorAll('.choice-chip').forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            renderServices(chip.dataset.category);
         });
     });
 
