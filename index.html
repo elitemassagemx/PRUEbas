@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elite Massage</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="stylesmain.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
 </head>
@@ -19,18 +20,11 @@
                 <div class="language-selector">
                     <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/trad.png" alt="Traducir" id="translate-icon">
                     <div class="language-options">
-                        <button class="lang-option" data-lang="es">
-                            <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/omx.png" alt="Bandera de México">
-                            Español
-                        </button>
-                        <button class="lang-option" data-lang="en">
-                            <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ous.png" alt="Bandera de Estados Unidos">
-                            English
-                        </button>
-                        <button class="lang-option" data-lang="fr">
-                            <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ofr.png" alt="Bandera de Francia">
-                            Français
-                        </button>
+                        <button class="lang-option" data-lang="es"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/omx.png" alt="Bandera de México"> Español</button>
+                        <button class="lang-option" data-lang="en"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ous.png" alt="Bandera de Estados Unidos"> English</button>
+                        <button class="lang-option" data-lang="fr"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ofr.png" alt="Bandera de Francia"> Français</button>
+                        <button class="lang-option" data-lang="iw"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ois.png" alt="Bandera de Israel"> עברית</button>
+                        <button class="lang-option" data-lang="zh-CN"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/och.png" alt="Bandera de China"> 中文</button>
                     </div>
                 </div>
                 <nav class="main-nav">
@@ -205,6 +199,17 @@
         </div>
     </footer>
 
+    <div class="fixed-bar">
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#servicios"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/lista.gif" alt="Icono Servicios" class="nav-icon"><span class="nav-text">Masajes</span></a></li>
+                <li><a href="#paquetes"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/reg.gif" alt="Icono Paquetes" class="nav-icon"><span class="nav-text">Paquetes</span></a></li>
+                <li><a href="#testimonios"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/coment.gif" alt="Icono Testimonios" class="nav-icon"><span class="nav-text">Testimonios</span></a></li>
+                <li><a href="#galeria"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/fotos.gif" alt="Icono Galería" class="nav-icon"><span class="nav-text">Galería</span></a></li>
+            </ul>
+        </nav>
+    </div>
+
     <div id="popup" class="popup">
         <div class="popup-content">
             <button class="close" aria-label="Cerrar">&times;</button>
@@ -216,5 +221,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="script.js"></script>
+    <script src="scriptmain.js"></script>
 </body>
 </html>
+    
