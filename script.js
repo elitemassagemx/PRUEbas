@@ -373,11 +373,14 @@ document.addEventListener('DOMContentLoaded', () => {
             image: `${BASE_URL}copas.jpg`,
             popupDescription: "El Paquete Relajación y Gourmet ofrece una experiencia completa de bienestar y placer culinario. Comienza con un masaje sueco en pareja de 60 minutos, utilizando técnicas de presión suave y movimientos largos para aliviar la tensión muscular y promover la relajación. Después, disfruten de 30 minutos de indulgencia con una copa de vino selecto, fresas cubiertas de chocolate y una selección de quesos finos. Este paquete es ideal para parejas que buscan una combinación perfecta de relajación física y placer gastronómico en un ambiente lujoso y romántico.",
             popupImage: `${BASE_URL}relajacion-gourmet-popup.jpg`
-        }
+        },
     ]
 };
 
- // Paginación
+
+
+
+
     let currentPage = 1;
     const itemsPerPage = 3;
     let totalPages = Math.ceil(services.individual.length / itemsPerPage);
