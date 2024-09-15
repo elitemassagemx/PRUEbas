@@ -58,7 +58,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
         updatePagination();
     }
+ function renderServices(category) {
+        const servicesList = document.getElementById('services-list');
+        if (!servicesList) {
+            console.error('Element with id "services-list" not found');
+            return;
+        }
+        servicesList.innerHTML = '';
+        const template = document.getElementById('service-template');
+        if (!template) {
+            console.error('Element with id "service-template" not found');
+            return;
+        }
 
+        services[category].forEach(service => {
+            const serviceElement = template.content.cloneNode(true);
+            
+            serviceElement.querySelector('.service-title').textContent = service.title;
+            serviceElement.querySelector('.service-icon').src = service.icon;
+            serviceElement.querySelector('.service-description').textContent = service.description;
+            serviceElement.querySelector('.benefits-icon').src = Array.isArray(service.benefitsIcon) ? service.benefitsIcon[0] : service.benefitsIcon;
+            serviceElement.querySelector('.service-benefits').textContent = service.benefits.join(', ');
+            serviceElement.querySelector('.duration-icon').src = service.durationIcon;
+            serviceElement.querySelector('.service-duration').textContent = service.duration;
+
+            const reserveButton = serviceElement.querySelector('.reserve-button');
+            reserveButton.addEventListener('click', () => sendWhatsAppMessage('Reservar', service.title));
+
+            const infoButton = serviceElement.querySelector('.info-button');
+            infoButton.addEventListener('click', () => showPopup(service));
+
+            servicesList.appendChild(serviceElement);
+        });
+    }
     function renderPackages() {
         const packageList = document.getElementById('package-list');
         if (!packageList) {
