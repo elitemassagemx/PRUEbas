@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', () => {
+
+    document.addEventListener('DOMContentLoaded', () => {
     const BASE_URL = "https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/";
     const services = {
     individual: [
@@ -377,6 +378,382 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
 };
 
+    let currentPage = 1;
+    const itemsPerPage = 3;
+    let totalPages = Math.ceil(services.individual.length / itemsPerPage);
+
+    function renderServices(category) {
+        const servicesList = document.getElementById('services-list');
+        if (!servicesList) {
+            console.error('Element with id "services-list" not found');
+            return;
+        }
+        servicesList.innerHTML = '';
+        const template = document.getElementById('service-template');
+        if (!template) {
+            console.error('Element with id "service-template" not found');
+            return;
+        }
+
+        services[category].forEach((service, index) => {
+            if (index >= (currentPage - 1) * itemsPerPage && index < currentPage * itemsPerPage) {
+                const serviceElement = template.content.cloneNode(true);
+                
+                serviceElement.querySelector('.service-title').textContent = service.title;
+                serviceElement.querySelector('.service-icon').src = service.icon;
+                serviceElement.querySelector('.service-description').textContent = service.description;
+                
+                const benefitsList = serviceElement.querySelector('.benefits-list');
+                service.benefits.forEach((benefit, index) => {
+                    const li = document.createElement('li');
+                    li.textContent = benefit;
+                    if (service.benefitsIcons && service.benefitsIcons[index]) {
+                        const icon = document.createElement('img');
+                        icon.src = service.benefitsIcons[index];
+                        icon.alt = benefit;
+                        icon.className = 'benefit-icon';
+                        li.prepend(icon);
+                    }
+                    benefitsList.appendChild(li);
+                });
+                
+                serviceElement.querySelector('.duration-icon').src = service.durationIcon;
+                serviceElement.querySelector('.service-duration-text').textContent = service.duration;
+
+                const reserveButton = serviceElement.querySelector('.reserve-button');
+                reserveButton.addEventListener('click', () => sendWhatsAppMessage('Reservar', service.title));
+
+                const infoButton = serviceElement.querySelector('.info-button');
+                infoButton.addEventListener('click', () => showPopup(service));
+
+                servicesList.appendChild(serviceElement);
+            }
+        });
+
+        updatePagination();
+    }
+
+    function renderPackages() {
+        const packageList = document.getElementById('package-list');
+        if (!packageList) {
+            console.error('Element with id "package-list" not found');
+            return;
+        }
+        packageList.innerHTML = '';
+        services.paquetes.forEach(pkg => {
+            const packageElement = document.createElement('div');
+            packageElement.className = 'package-item';
+            packageElement.innerHTML = `
+                <div class="package-main">
+                    <img src="${pkg.icon}" alt="${pkg.title}" class="package-icon">
+                    <h3>${pkg.title}</h3>
+                    <p>${pkg.description}</p>
+                </div>
+                <div class="package-includes">
+                    <h4>Incluye:</h4>
+                    <ul>${pkg.includes.map(item => `<li>${item}</li>`).join('')}</ul>
+                </div>
+                <div class="package-duration">
+                    <img src="${pkg.durationIcon}" alt="Duración" class="duration-icon">
+                    <p>${pkg.duration}</p>
+                </div>
+                <div class="package-benefits">
+                    <h4>Beneficios:</h4>
+                    <ul>${pkg.benefits.map((benefit, index) => `
+                        <li>
+                            ${pkg.benefitsIcons ? `<img src="${pkg.benefitsIcons[index]}" alt="${benefit}" class="benefit-icon">` : ''}
+                            ${benefit}
+                        </li>`).join('')}
+                    </ul>
+                </div>
+                <div class="package-buttons">
+                    <button class="reserve-button">Reservar</button>
+                    <button class="info-button">Saber más</button>
+                </div>
+            `;
+
+            packageElement.querySelector('.reserve-button').addEventListener('click', () => sendWhatsAppMessage('Reservar', pkg.title));
+            packageElement.querySelector('.info-button').addEventListener('click', () => showPopup(pkg));
+
+            packageList.appendChild(packageElement);
+        });
+        setupPackagePagination();
+    }
+
+    function showPopup(data) {
+        const popup = document.getElementById('popup');
+        const popupTitle = document.getElementById('popup-title');
+        const popupImage = document.getElementById('popup-image');
+        const popupDescription = document.getElementById('popup-description');
+
+        popupTitle.textContent = data.title || '';
+        popupImage.src = data.popupImage || data.image || '';
+        popupImage.alt = data.title || '';
+        popupDescription.textContent = data.popupDescription || data.description || '';
+
+        popup.style.display = 'flex';
+    }
+
+    function sendWhatsAppMessage(action, serviceTitle) {
+        const message = encodeURIComponent(`Hola! Quiero ${action} un ${serviceTitle}`);
+        const url = `https://wa.me/5215640020305?text=${message}`;
+        window.open(url, '_blank');
+    }
+
+    function updatePagination() {
+        const paginationContainer = document.querySelector('.pagination-container');
+        paginationContainer.innerHTML = '';
+        for (let i = 1; i <= totalPages; i++) {
+            const dot = document.createElement('div');
+            dot.className = `little-dot${i === currentPage ? ' active' : ''}`;
+            dot.addEventListener('click', () => {
+                currentPage = i;
+                const activeCategory = document.querySelector('.choice-chip.active').dataset.category;
+                renderServices(activeCategory);
+            });
+            paginationContainer.appendChild(dot);
+        }
+    }
+
+    function changePage(direction) {
+        currentPage += direction;
+        if (currentPage < 1) currentPage = totalPages;
+        if (currentPage > totalPages) currentPage = 1;
+        const activeCategory = document.querySelector('.choice-chip.active').dataset.category;
+        renderServices(activeCategory);
+    }
+
+    function setupAccordion() {
+        const accordionItems = document.querySelectorAll('.accordion .link');
+        accordionItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const parent = this.parentElement;
+                parent.classList.toggle('open');
+                const submenu = this.nextElementSibling;
+                submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+            });
+        });
+    }
+
+    function setupExperiencias() {
+        const experienciasContainer = document.querySelector('.checkbox-group');
+        const experiencias = [
+            { name: 'Masaje Relajante', icon: 'massage' },
+            { name: 'Aromaterapia', icon: 'spa' },
+            { name: 'Piedras Calientes', icon: 'hot-tub' },
+            { name: 'Reflexología', icon: 'foot' },
+            { name: 'Masaje en Pareja', icon: 'people' }
+        ];
+
+        experiencias.forEach(exp => {
+            const checkboxDiv = document.createElement('div');
+            checkboxDiv.className = 'checkbox';
+            checkboxDiv.innerHTML = `
+                <label class="checkbox-wrapper">
+                    <input type="checkbox" class="checkbox-input" name="experiencia" value="${exp.name}">
+                    <span class="checkbox-tile">
+                        <span class="checkbox-icon">
+                            <i class="fa fa-${exp.icon}"></i>
+                        </span>
+                        <span class="checkbox-label">${exp.name}</span>
+                    </span>
+                </label>
+            `;
+            experienciasContainer.appendChild(checkboxDiv);
+        });
+
+        const checkboxes = document.querySelectorAll('.checkbox-input');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const tile = this.nextElementSibling;
+                tile.classList.toggle('checked', this.checked);
+            });
+        });
+    }
+
+    function createVenetianBlinds() {
+        const venetianContainer = document.querySelector('.venetian-blinds');
+        if (!venetianContainer) {
+            console.error('Venetian blinds container not found');
+            return;
+        }
+        
+        venetianContainer.innerHTML = '';
+        const image1 = `${BASE_URL}chem.JPG`;
+        const image2 = `${BASE_URL}venetian-image2.jpg`;
+        
+        for (let i = 0; i < 10; i++) {
+            const blind = document.createElement('div');
+            blind.className = 'blind';
+            blind.style.left = `${i * 10}%`;
+            blind.style.backgroundImage = `url(${image1})`;
+            blind.style.backgroundPosition = `${i * -10}% 0`;
+            
+            blind.addEventListener('mouseover', () => {
+                blind.style.backgroundImage = `url(${image2})`;
+            });
+            
+            blind.addEventListener('mouseout', () => {
+                blind.style.backgroundImage = `url(${image1})`;
+            });
+            
+            venetianContainer.appendChild(blind);
+        }
+    }
+
+    function setupVenetianBlinds() {
+        const venetianLink = document.querySelector('.accordion .link:contains("Explora")');
+        if (venetianLink) {
+            venetianLink.addEventListener('click', function() {
+                const venetianContainer = document.querySelector('.venetian-blinds');
+                if (venetianContainer) {
+                    venetianContainer.style.display = venetianContainer.style.display === 'none' ? 'block' : 'none';
+                } else {
+                    createVenetianBlinds();
+                }
+            });
+        }
+    }
+
+    function setupGallery() {
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const popup = document.getElementById('popup');
+        const popupImage = document.getElementById('popup-image');
+        const popupTitle = document.getElementById('popup-title');
+        const popupDescription = document.getElementById('popup-description');
+        const closePopup = document.querySelector('.close');
+
+        galleryItems.forEach(item => {
+            const icon = item.querySelector('.gallery-icon');
+            icon.addEventListener('click', () => {
+                const img = item.querySelector('img');
+                popupImage.src = img.src;
+                popupTitle.textContent = img.alt;
+                popupDescription.textContent = "Descripción de la imagen..."; // Puedes personalizar esto
+                popup.style.display = 'flex';
+            });
+        });
+
+        closePopup.addEventListener('click', () => {
+            popup.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === popup) {
+                popup.style.display = 'none';
+            }
+        });
+    }
+
+    function setupLanguageSelector() {
+        const translateIcon = document.getElementById('translate-icon');
+        const languageOptions = document.querySelector('.language-options');
+
+        translateIcon.addEventListener('click', () => {
+            languageOptions.style.display = languageOptions.style.display === 'block' ? 'none' : 'block';
+        });
+
+        document.querySelectorAll('.lang-option').forEach(option => {
+            option.addEventListener('click', (e) => {
+                const lang = e.currentTarget.dataset.lang;
+                changeLanguage(lang);
+                languageOptions.style.display = 'none';
+            });
+        });
+    }
+
+    function changeLanguage(lang) {
+        console.log(`Cambiando idioma a: ${lang}`);
+        updateContent(lang);
+    }
+
+    function updateContent(lang) {
+        const translations = {
+            es: {
+                title: "Elite Massage",
+                welcome: "Bienvenido a tu Oasis de Tranquilidad",
+                services: "Nuestros Servicios",
+                packages: "Paquetes Especiales",
+                experiences: "Experiencias",
+                gallery: "Galería de Imágenes",
+                contact: "Contacto"
+            },
+            en: {
+                title: "Elite Massage",
+                welcome: "Welcome to your Oasis of Tranquility",
+                services: "Our Services",
+                packages: "Special Packages",
+                experiences: "Experiences",
+                gallery: "Image Gallery",
+                contact: "Contact"
+            },
+            fr: {
+                title: "Elite Massage",
+                welcome: "Bienvenue dans votre Oasis de Tranquillité",
+                services: "Nos Services",
+                packages: "Forfaits Spéciaux",
+                experiences: "Expériences",
+                gallery: "Galerie d'Images",
+                contact: "Contact"
+            }
+        };
+
+        document.querySelector('h1').textContent = translations[lang].title;
+        document.querySelector('#inicio h2').textContent = translations[lang].welcome;
+        document.querySelector('#servicios h2').textContent = translations[lang].services;
+        document.querySelector('#paquetes h2').textContent = translations[lang].packages;
+        document.querySelector('#experiencias h2').textContent = translations[lang].experiences;
+        document.querySelector('#galeria h2').textContent = translations[lang].gallery;
+        document.querySelector('#contacto h2').textContent = translations[lang].contact;
+    }
+
+    function setupMobileMenu() {
+        const menuToggle = document.getElementById('menu-toggle');
+        const accordion = document.getElementById('accordion');
+
+        menuToggle.addEventListener('click', () => {
+            accordion.classList.toggle('active');
+        });
+    }
+
+    function smoothScroll(target, duration) {
+        const targetElement = document.querySelector(target);
+        const targetPosition = targetElement.getBoundingClientRect().top;
+        const startPosition = window.pageYOffset;
+        const distance = targetPosition - startPosition;
+        let startTime = null;
+
+        function animation(currentTime) {
+            if (startTime === null) startTime = currentTime;
+            const timeElapsed = currentTime - startTime;
+            const run = ease(timeElapsed, startPosition, distance, duration);
+            window.scrollTo(0, run);
+            if (timeElapsed < duration) requestAnimationFrame(animation);
+        }
+
+        function ease(t, b, c, d) {
+            t /= d / 2;
+            if (t < 1) return c / 2 * t * t + b;
+            t--;
+            return -c / 2 * (t * (t - 2) - 1) + b;
+        }
+
+        requestAnimationFrame(animation);
+    }
+
+    function setupPackagePagination() {
+        const packageList = document.getElementById('package-list');
+        const packages = Array.from(packageList.children);
+        const itemsPerPage = 3;
+        let currentPage = 1;
+
+        function showPage(page) {
+            const startIndex = (page - 1)
+
+
+            
+
+    
     let currentPage = 1;
     const itemsPerPage = 3;
     let totalPages = Math.ceil(services.individual.length / itemsPerPage);
