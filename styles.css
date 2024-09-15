@@ -197,10 +197,9 @@ h1 {
     background: linear-gradient(135deg, var(--item-background) 0%, #3a3a3a 100%);
     border: 2px solid var(--primary-color);
     border-radius: 15px;
-    padding: 1rem 2rem 2rem;
-    display: flex;
-    flex-direction: column;
-    transition: all 0.3s ease;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
 }
 
 .service-item:hover, .package-item:hover {
@@ -208,81 +207,112 @@ h1 {
     box-shadow: 0 8px 15px rgba(212, 175, 55, 0.4);
 }
 
-.service-item h3, .package-item h3 {
-    color: var(--primary-color);
-    font-size: 1.75rem;
-    margin-bottom: 1.5rem;
+.service-main {
+    grid-area: main;
+    padding: 15px;
+    background-color: var(--item-background);
+}
+
+.service-header {
     display: flex;
     align-items: center;
+    margin-bottom: 10px;
 }
 
 .service-icon {
-    width: 3em;
-    height: 3em;
-    margin-right: 0.5em;
-    object-fit: contain;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
 }
 
-.service-item p, .package-item p {
-    margin-bottom: 1.5rem;
-    font-size: 1.1rem;
-    display: flex;
-    align-items: center;
+.service-title {
+    font-size: 1.2em;
+    color: var(--primary-color);
+    margin: 0;
 }
 
-.icon-text-container {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.5em;
+.service-description {
+    color: var(--text-color);
+    font-size: 0.9em;
+    margin: 0;
 }
 
-.benefits-icon, .duration-icon {
-    width: 2.5em;
-    height: 2.5em;
-    margin-right: 0.5em;
-    object-fit: contain;
-}
-
-.benefits-icons {
+.service-benefits {
+    grid-area: benefits;
+    background-color: var(--header-background);
+    color: var(--text-color);
+    padding: 15px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5em;
-    margin-bottom: 1em;
+    justify-content: center;
 }
 
-.benefits-icons .benefits-icon {
-    width: 3em;
-    height: 3em;
+.service-benefits h4 {
+    color: var(--primary-color);
+    margin-top: 0;
 }
 
-.benefits-description {
-    margin-left: 0.5em;
+.benefits-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
 
-.service-buttons, .package-item .button-container {
+.benefits-list li {
+    margin-bottom: 5px;
+    font-size: 0.9em;
+}
+
+.service-duration {
+    grid-area: duration;
+    background-color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    color: var(--background-color);
+}
+
+.duration-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.service-duration-text {
+    margin: 0;
+    font-weight: bold;
+}
+
+.service-buttons {
+    grid-area: buttons;
     display: flex;
     justify-content: space-between;
-    margin-top: auto;
+    padding: 15px;
+    background-color: var(--item-background);
 }
 
-.service-buttons button, .package-item button {
+.reserve-button, .info-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    font-weight: bold;
+}
+
+.reserve-button {
     background-color: var(--primary-color);
     color: var(--background-color);
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 25px;
-    font-weight: bold;
-    font-size: 1rem;
-    flex: 1;
-    margin: 0 5px;
-    max-width: 150px;
 }
 
-.service-buttons button:hover, .package-item button:hover {
-    background-color: var(--gold);
+.info-button {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+}
+
+.reserve-button:hover, .info-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 /* Estilos para la sección de servicios */
@@ -309,22 +339,6 @@ h1 {
     color: var(--background-color);
     transform: translateY(-3px);
     box-shadow: 0 4px 8px rgba(212, 175, 55, 0.3);
-}
-
-/* Ajustes para la tarjeta de servicio */
-.service-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-.service-title {
-    margin: 0;
-    margin-left: 0.5rem;
-}
-
-.service-description {
-    margin-bottom: 1rem;
 }
 
 /* Estilos para la sección de testimonios */
@@ -357,15 +371,37 @@ h1 {
     gap: 1rem;
 }
 
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
 .gallery-item img {
     width: 100%;
     height: auto;
-    border-radius: 10px;
     transition: transform 0.3s ease;
 }
 
-.gallery-item img:hover {
+.gallery-item:hover img {
     transform: scale(1.05);
+}
+
+.gallery-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .gallery-icon {
+    opacity: 1;
 }
 
 /* Estilos para el popup */
@@ -789,3 +825,5 @@ footer a:hover {
         font-size: 1.5rem;
     }
 }
+
+
