@@ -1,223 +1,212 @@
 document.addEventListener('DOMContentLoaded', () => {
     const BASE_URL = "https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/";
     
-    // Definición de servicios y paquetes (mantén tu objeto services existente)
+    // Definición de servicios y paquetes
     const services = {
-        // ... tu objeto services existente
+        individual: [
+            {
+                title: "Aromaterapia",
+                description: "Elige de nuestra selección de aceites esenciales pensados en tu relajación.",
+                benefits: ["Reduce estrés", "Mejora el ánimo", "Alivia tensiones"],
+                duration: "60 min",
+                icon: `${BASE_URL}cfragancia2.png`,
+                image: `${BASE_URL}aroma.JPG`
+            },
+            // Añade más servicios individuales aquí
+        ],
+        pareja: [
+            {
+                title: "Aromaterapia para 2",
+                description: "Disfruten juntos de un masaje relajante con aceites esenciales.",
+                benefits: ["Reducción de estrés", "Mejora del estado de ánimo", "Conexión en pareja"],
+                duration: "60 min",
+                icon: `${BASE_URL}cfragancia2.png`,
+                image: `${BASE_URL}aroma-pareja.JPG`
+            },
+            // Añade más servicios en pareja aquí
+        ],
+        paquetes: [
+            {
+                title: "Paquete Romance Total",
+                description: "Una experiencia completa para parejas.",
+                includes: ["Masaje en pareja", "Copa de vino", "Fresas con chocolate"],
+                duration: "90 min",
+                icon: `${BASE_URL}romance-icon.png`,
+                image: `${BASE_URL}romance-package.JPG`
+            },
+            // Añade más paquetes aquí
+        ]
     };
 
+    // Función para renderizar servicios
     function renderServices(category) {
-        // ... tu función renderServices existente
-    }
-
-    function renderPackages() {
-        // ... tu función renderPackages existente
-    }
-
-    function showPopup(data) {
-        // ... tu función showPopup existente
-    }
-
-    function sendWhatsAppMessage(action, serviceTitle) {
-        // ... tu función sendWhatsAppMessage existente
-    }
-
-    // Nuevas funciones
-
-    function changeLanguage(lang) {
-        console.log(`Cambiando idioma a: ${lang}`);
-        updateContent(lang);
-    }
-
-    function updateContent(lang) {
-        const translations = {
-            es: {
-                title: "Elite Massage",
-                welcome: "Bienvenido a tu Oasis de Tranquilidad",
-                // ... más traducciones
-            },
-            en: {
-                title: "Elite Massage",
-                welcome: "Welcome to your Oasis of Tranquility",
-                // ... más traducciones
-            },
-            // ... otros idiomas
-        };
-
-        document.querySelector('h1').textContent = translations[lang].title;
-        document.querySelector('#inicio h2').textContent = translations[lang].welcome;
-        // ... actualizar más elementos
-    }
-
-    function smoothScroll(target, duration) {
-        var target = document.querySelector(target);
-        var targetPosition = target.getBoundingClientRect().top;
-        var startPosition = window.pageYOffset;
-        var distance = targetPosition - startPosition;
-        var startTime = null;
-
-        function animation(currentTime) {
-            if (startTime === null) startTime = currentTime;
-            var timeElapsed = currentTime - startTime;
-            var run = ease(timeElapsed, startPosition, distance, duration);
-            window.scrollTo(0, run);
-            if (timeElapsed < duration) requestAnimationFrame(animation);
-        }
-
-        function ease(t, b, c, d) {
-            t /= d / 2;
-            if (t < 1) return c / 2 * t * t + b;
-            t--;
-            return -c / 2 * (t * (t - 2) - 1) + b;
-        }
-
-        requestAnimationFrame(animation);
-    }
-
-    // Paginación
-    var btns = document.querySelectorAll('.btn');
-    var paginationWrapper = document.querySelector('.pagination-wrapper');
-    var bigDotContainer = document.querySelector('.big-dot-container');
-    var littleDot = document.querySelector('.little-dot');
-
-    for(var i = 0; i < btns.length; i++) {
-        btns[i].addEventListener('click', btnClick);
-    }
-
-    function btnClick() {
-        if(this.classList.contains('btn--prev')) {
-            paginationWrapper.classList.add('transition-prev');
-        } else {
-            paginationWrapper.classList.add('transition-next');  
-        }
-        
-        var timeout = setTimeout(cleanClasses, 500);
-    }
-
-    function cleanClasses() {
-        if(paginationWrapper.classList.contains('transition-next')) {
-            paginationWrapper.classList.remove('transition-next')
-        } else if(paginationWrapper.classList.contains('transition-prev')) {
-            paginationWrapper.classList.remove('transition-prev')
-        }
-    }
-
-    // Acordeón
-    $(function() {
-        var Accordion = function(el, multiple) {
-            this.el = el || {};
-            this.multiple = multiple || false;
-
-            var links = this.el.find('.link');
-            links.on('click', {el: this.el, multiple: this.multiple}, this.dropdown)
-        }
-
-        Accordion.prototype.dropdown = function(e) {
-            var $el = e.data.el;
-                $this = $(this),
-                $next = $this.next();
-
-            $next.slideToggle();
-            $this.parent().toggleClass('open');
-
-            if (!e.data.multiple) {
-                $el.find('.submenu').not($next).slideUp().parent().removeClass('open');
-            };
-        }	
-
-        var accordion = new Accordion($('#accordion'), false);
-    });
-
-    // Venetian Blinds
-    var options = {
-        imgSrc2: "//s3-us-west-2.amazonaws.com/s.cdpn.io/261873/TelephoneBananaInverted.jpg",
-        imgSrc2: "//s3-us-west-2.amazonaws.com/s.cdpn.io/261873/TelephoneBananaInverted.jpg",
-        containerName : "placeholder",
-        columns:16,
-        margin:3
-    }
-
-    function VenetianBlinds(defaults)
-    {
-        var cols = defaults.columns;
-        var margin = defaults.margin;
-        var img1 = defaults.imgSrc1;
-        var img2 = defaults.imgSrc2;
-        var placeholder = document.getElementsByClassName(defaults.containerName)[0];
-        var directionX, directionY;
-        
-        var column, blind, blindImg;
-        var bgImg, rot;
-        var colL;
-        var colW = (placeholder.offsetWidth / cols) - margin;
-        for (var i=0; i < cols; i++)
-        {
-            colL = ((colW + margin) * i);
-            
-            column = document.createElement('div');
-            column.className = "column";
-            column.style.width = colW + "px";
-            column.style.left = colL + "px";
-            placeholder.appendChild(column); 
-            
-            for (var j=0; j<4; j++)
-            {
-                blind = document.createElement('div');
-                blind.className = "blind";
-                blind.style.width = colW + "px";
-                blindImg = document.createElement('div');
-                blindImg.className = "blindImg";
-                
-                switch (j){
-                    case 0:
-                        TweenMax.set(blind, {rotationY: "0"});
-                        bgImg = img1;
-                        break;
-                    case 1:
-                        TweenMax.set(blind, {rotationY: "90"});
-                        bgImg = img2;
-                        break;
-                    case 2: 
-                        TweenMax.set(blind, {rotationY: "180"});
-                        bgImg = img1;
-                        break;              
-                    case 3:
-                        TweenMax.set(blind, {rotationY: "270"});
-                        bgImg = img2;
-                        break;
-                }
-                blindImg.style.width = placeholder.offsetWidth + "px";
-                blindImg.style.backgroundImage = "url("+bgImg+")";
-                blindImg.style.left = -colL + "px";
-
-                column.appendChild(blind);
-                blind.appendChild(blindImg);
-                
-                TweenMax.set(blind, { transformOrigin:"50% 50% " + -colW/2, transformStyle: "preserve-3d"});
-            }
-            
-            TweenMax.set(column, {transformStyle:"preserve-3d", transformPerspective:1000, rotationY:0});
-            
-            column.addEventListener("mouseenter", function(event){
-                var elem = event.currentTarget;
-                var rotY = elem._gsTransform.rotationY;
-                
-                if(directionX > 0){
-                    TweenMax.to(elem, 1, {rotationY:Math.floor(rotY/90)*90+90, transformOrigin:"50% 50% -" + colW/2, ease:Back.easeOut});
-                }else{
-                    TweenMax.to(elem, 1, {rotationY:Math.floor(rotY/90)*90-90, transformOrigin:"50% 50% -" + colW/2, ease:Back.easeOut});
-                }
-            })
-        }
-        document.addEventListener('mousemove', function (event) {
-            directionX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
-            directionY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+        const servicesList = document.getElementById('services-list');
+        servicesList.innerHTML = '';
+        services[category].forEach(service => {
+            const serviceElement = document.createElement('div');
+            serviceElement.className = 'service-item';
+            serviceElement.innerHTML = `
+                <img src="${service.icon}" alt="${service.title}" class="service-icon">
+                <h3>${service.title}</h3>
+                <p>${service.description}</p>
+                <ul>
+                    ${service.benefits.map(benefit => `<li>${benefit}</li>`).join('')}
+                </ul>
+                <p>Duración: ${service.duration}</p>
+                <button class="btn-reserve">Reservar</button>
+                <button class="btn-info">Más información</button>
+            `;
+            servicesList.appendChild(serviceElement);
         });
     }
 
-    VenetianBlinds(options);
+    // Función para renderizar paquetes
+    function renderPackages() {
+        const packageList = document.getElementById('package-list');
+        packageList.innerHTML = '';
+        services.paquetes.forEach(pack => {
+            const packageElement = document.createElement('div');
+            packageElement.className = 'package-item';
+            packageElement.innerHTML = `
+                <img src="${pack.icon}" alt="${pack.title}" class="package-icon">
+                <h3>${pack.title}</h3>
+                <p>${pack.description}</p>
+                <ul>
+                    ${pack.includes.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+                <p>Duración: ${pack.duration}</p>
+                <button class="btn-reserve">Reservar</button>
+                <button class="btn-info">Más información</button>
+            `;
+            packageList.appendChild(packageElement);
+        });
+    }
 
-    // Event listeners
+    // Inicialización de servicios y paquetes
+    renderServices('individual');
+    renderPackages();
+
+    // Manejo de categorías de servicios
+    const categoryButtons = document.querySelectorAll('.choice-chip');
+    categoryButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            categoryButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            renderServices(button.dataset.category);
+        });
+    });
+
+    // Paginación
+    let currentPage = 1;
+    const itemsPerPage = 3;
+    const totalPages = Math.ceil(services.individual.length / itemsPerPage);
+
+    function updatePagination() {
+        const paginationContainer = document.querySelector('.pagination-container');
+        paginationContainer.innerHTML = '';
+        for (let i = 1; i <= totalPages; i++) {
+            const dot = document.createElement('div');
+            dot.className = `little-dot${i === currentPage ? ' active' : ''}`;
+            paginationContainer.appendChild(dot);
+        }
+    }
+
+    function changePage(direction) {
+        currentPage += direction;
+        if (currentPage < 1) currentPage = totalPages;
+        if (currentPage > totalPages) currentPage = 1;
+        renderServices(document.querySelector('.choice-chip.active').dataset.category);
+        updatePagination();
+    }
+
+    document.querySelector('.btn--prev').addEventListener('click', () => changePage(-1));
+    document.querySelector('.btn--next').addEventListener('click', () => changePage(1));
+
+    // Acordeón
+    const accordionItems = document.querySelectorAll('.accordion .link');
+    accordionItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const parent = this.parentElement;
+            parent.classList.toggle('open');
+            const submenu = this.nextElementSibling;
+            if (submenu.style.display === "block") {
+                submenu.style.display = "none";
+            } else {
+                submenu.style.display = "block";
+            }
+        });
+    });
+
+    // Experiencias (Checkbox)
+    const checkboxes = document.querySelectorAll('.checkbox-input');
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const tile = this.nextElementSibling;
+            if (this.checked) {
+                tile.classList.add('checked');
+            } else {
+                tile.classList.remove('checked');
+            }
+        });
+    });
+
+    // Efecto Venetian Blinds
+    function createVenetianBlinds() {
+        const venetianContainer = document.querySelector('.venetian-blinds');
+        const image1 = `${BASE_URL}venetian-image1.jpg`;
+        const image2 = `${BASE_URL}venetian-image2.jpg`;
+        
+        for (let i = 0; i < 10; i++) {
+            const blind = document.createElement('div');
+            blind.className = 'blind';
+            blind.style.backgroundImage = `url(${image1})`;
+            blind.style.left = `${i * 10}%`;
+            
+            blind.addEventListener('mouseover', () => {
+                blind.style.backgroundImage = `url(${image2})`;
+            });
+            
+            blind.addEventListener('mouseout', () => {
+                blind.style.backgroundImage = `url(${image1})`;
+            });
+            
+            venetianContainer.appendChild(blind);
+        }
+    }
+
+    createVenetianBlinds();
+
+    // Galería
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    const popup = document.getElementById('popup');
+    const popupImage = document.getElementById('popup-image');
+    const popupTitle = document.getElementById('popup-title');
+    const popupDescription = document.getElementById('popup-description');
+    const closePopup = document.querySelector('.close');
+
+    galleryItems.forEach(item => {
+        const icon = item.querySelector('.gallery-icon');
+        icon.addEventListener('click', () => {
+            const img = item.querySelector('img');
+            popupImage.src = img.src;
+            popupTitle.textContent = img.alt;
+            popupDescription.textContent = "Descripción de la imagen..."; // Puedes personalizar esto
+            popup.style.display = 'block';
+        });
+    });
+
+    closePopup.addEventListener('click', () => {
+        popup.style.display = 'none';
+    });
+
+    // Cierra el popup si se hace clic fuera de él
+    window.addEventListener('click', (e) => {
+        if (e.target === popup) {
+            popup.style.display = 'none';
+        }
+    });
+
+    // Widget de traducción
     const translateIcon = document.getElementById('translate-icon');
     const languageOptions = document.querySelector('.language-options');
 
@@ -226,27 +215,45 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.querySelectorAll('.lang-option').forEach(option => {
-        option.addEventListener('click', (event) => {
-            const lang = event.currentTarget.dataset.lang;
-            changeLanguage(lang);
+        option.addEventListener('click', (e) => {
+            const lang = e.currentTarget.dataset.lang;
+            // Aquí puedes implementar la lógica de traducción
+            console.log(`Cambiando idioma a: ${lang}`);
             languageOptions.style.display = 'none';
         });
     });
 
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            smoothScroll(this.getAttribute('href'), 1000);
-        });
+    // Botón de menú para dispositivos móviles
+    const menuToggle = document.getElementById('menu-toggle');
+    const accordion = document.getElementById('accordion');
+
+    menuToggle.addEventListener('click', () => {
+        accordion.classList.toggle('active');
+    });
+
+    // Función para enviar mensaje de WhatsApp
+    function sendWhatsAppMessage(action, serviceTitle) {
+        const message = encodeURIComponent(`Hola! Quiero ${action} un ${serviceTitle}`);
+        const url = `https://wa.me/5215640020305?text=${message}`;
+        window.open(url, '_blank');
+    }
+
+    // Agregar event listeners para los botones de reserva e información
+    document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('btn-reserve')) {
+            const serviceTitle = e.target.closest('.service-item, .package-item').querySelector('h3').textContent;
+            sendWhatsAppMessage('reservar', serviceTitle);
+        } else if (e.target.classList.contains('btn-info')) {
+            const serviceItem = e.target.closest('.service-item, .package-item');
+            const serviceTitle = serviceItem.querySelector('h3').textContent;
+            const serviceDescription = serviceItem.querySelector('p').textContent;
+            popupTitle.textContent = serviceTitle;
+            popupDescription.textContent = serviceDescription;
+            popupImage.src = serviceItem.querySelector('img').src;
+            popup.style.display = 'block';
+        }
     });
 
     // Inicialización
-    function init() {
-        renderServices('individual');
-        renderPackages();
-        // Otras inicializaciones que puedas tener
-    }
-
-    // Llamada a la función de inicialización
-    init();
+    updatePagination();
 });
