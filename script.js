@@ -1,28 +1,234 @@
 document.addEventListener('DOMContentLoaded', () => {
     const BASE_URL = "https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/";
     
-    // Definición de servicios y paquetes (mantén tu objeto services existente)
+    // Definición de servicios y paquetes
     const services = {
-        // ... tu objeto services existente
+        individual: [
+            // ... (mantener los servicios individuales existentes)
+        ],
+        pareja: [
+            // ... (mantener los servicios en pareja existentes)
+        ],
+        paquetes: [
+            // ... (mantener los paquetes existentes)
+        ]
     };
 
     function renderServices(category) {
-        // ... tu función renderServices existente
+        const servicesList = document.getElementById('services-list');
+        if (!servicesList) {
+            console.error('Element with id "services-list" not found');
+            return;
+        }
+        servicesList.innerHTML = '';
+        
+        services[category].forEach((service, index) => {
+            if (index >= (currentPage - 1) * itemsPerPage && index < currentPage * itemsPerPage) {
+                const serviceElement = document.createElement('div');
+                serviceElement.className = 'service-item';
+                serviceElement.innerHTML = `
+                    <img src="${service.icon}" alt="${service.title}" class="service-icon">
+                    <h3>${service.title}</h3>
+                    <p>${service.description}</p>
+                    <div class="benefits-container">
+                        <span>Beneficios:</span>
+                        <img src="${service.benefitsIcons[0]}" alt="Beneficios" class="benefits-icon">
+                        <span>${service.benefits.join(', ')}</span>
+                    </div>
+                    <div class="duration-container">
+                        <span>Duración:</span>
+                        <img src="${service.durationIcon}" alt="Duración" class="duration-icon">
+                        <span>${service.duration}</span>
+                    </div>
+                    <div class="service-buttons">
+                        <button class="reserve-button">Reserva ahora</button>
+                        <button class="info-button">Saber más</button>
+                    </div>
+                `;
+
+                const reserveButton = serviceElement.querySelector('.reserve-button');
+                reserveButton.addEventListener('click', () => sendWhatsAppMessage('Reservar', service.title));
+
+                const infoButton = serviceElement.querySelector('.info-button');
+                infoButton.addEventListener('click', () => showPopup(service));
+
+                servicesList.appendChild(serviceElement);
+            }
+        });
+
+        updatePagination();
     }
 
     function renderPackages() {
-        // ... tu función renderPackages existente
+        const packageList = document.getElementById('package-list');
+        if (!packageList) {
+            console.error('Element with id "package-list" not found');
+            return;
+        }
+        packageList.innerHTML = '';
+        services.paquetes.forEach(pkg => {
+            const packageElement = document.createElement('div');
+            packageElement.className = 'package-item';
+            packageElement.innerHTML = `
+                <h3>${pkg.title}</h3>
+                <p>${pkg.description}</p>
+                <p><strong>Incluye:</strong> ${pkg.includes.join(', ')}</p>
+                <p><strong>Duración:</strong> ${pkg.duration}</p>
+                <p><strong>Beneficios:</strong> ${pkg.benefits.join(', ')}</p>
+                <button class="reserve-button">Reservar</button>
+                <button class="info-button">Saber más</button>
+            `;
+
+            packageElement.querySelector('.reserve-button').addEventListener('click', () => sendWhatsAppMessage('Reservar', pkg.title));
+            packageElement.querySelector('.info-button').addEventListener('click', () => showPopup(pkg));
+
+            packageList.appendChild(packageElement);
+        });
     }
 
     function showPopup(data) {
-        // ... tu función showPopup existente
+        const popup = document.getElementById('popup');
+        const popupTitle = document.getElementById('popup-title');
+        const popupImage = document.getElementById('popup-image');
+        const popupDescription = document.getElementById('popup-description');
+
+        popupTitle.textContent = data.title || '';
+        popupImage.src = data.popupImage || data.image || '';
+        popupImage.alt = data.title || '';
+        popupDescription.textContent = data.popupDescription || data.description || '';
+
+        popup.style.display = 'block';
     }
 
     function sendWhatsAppMessage(action, serviceTitle) {
-        // ... tu función sendWhatsAppMessage existente
+        const message = encodeURIComponent(`Hola! Quiero ${action} un ${serviceTitle}`);
+        const url = `https://wa.me/5215640020305?text=${message}`;
+        window.open(url, '_blank');
     }
 
-    // Nuevas funciones
+    // Paginación
+    let currentPage = 1;
+    const itemsPerPage = 3;
+    let totalPages = Math.ceil(services.individual.length / itemsPerPage);
+
+    function updatePagination() {
+        const paginationContainer = document.querySelector('.pagination-container');
+        paginationContainer.innerHTML = '';
+        for (let i = 1; i <= totalPages; i++) {
+            const dot = document.createElement('div');
+            dot.className = `little-dot${i === currentPage ? ' active' : ''}`;
+            paginationContainer.appendChild(dot);
+        }
+    }
+
+    function changePage(direction) {
+        currentPage += direction;
+        if (currentPage < 1) currentPage = totalPages;
+        if (currentPage > totalPages) currentPage = 1;
+        const activeCategory = document.querySelector('.choice-chip.active').dataset.category;
+        renderServices(activeCategory);
+    }
+
+    document.querySelector('.btn--prev').addEventListener('click', () => changePage(-1));
+    document.querySelector('.btn--next').addEventListener('click', () => changePage(1));
+
+    // Acordeón
+    const accordionItems = document.querySelectorAll('.accordion .link');
+    accordionItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const parent = this.parentElement;
+            parent.classList.toggle('open');
+            const submenu = this.nextElementSibling;
+            if (submenu.style.display === "block") {
+                submenu.style.display = "none";
+            } else {
+                submenu.style.display = "block";
+            }
+        });
+    });
+
+    // Experiencias (Checkbox)
+    const checkboxes = document.querySelectorAll('.checkbox-input');
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const tile = this.nextElementSibling;
+            if (this.checked) {
+                tile.classList.add('checked');
+            } else {
+                tile.classList.remove('checked');
+            }
+        });
+    });
+
+    // Efecto Venetian Blinds
+    function createVenetianBlinds() {
+        const venetianContainer = document.querySelector('.venetian-blinds');
+        const image1 = `${BASE_URL}venetian-image1.jpg`;
+        const image2 = `${BASE_URL}venetian-image2.jpg`;
+        
+        for (let i = 0; i < 10; i++) {
+            const blind = document.createElement('div');
+            blind.className = 'blind';
+            blind.style.backgroundImage = `url(${image1})`;
+            blind.style.left = `${i * 10}%`;
+            
+            blind.addEventListener('mouseover', () => {
+                blind.style.backgroundImage = `url(${image2})`;
+            });
+            
+            blind.addEventListener('mouseout', () => {
+                blind.style.backgroundImage = `url(${image1})`;
+            });
+            
+            venetianContainer.appendChild(blind);
+        }
+    }
+
+    // Galería
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    const popup = document.getElementById('popup');
+    const popupImage = document.getElementById('popup-image');
+    const popupTitle = document.getElementById('popup-title');
+    const popupDescription = document.getElementById('popup-description');
+    const closePopup = document.querySelector('.close');
+
+    galleryItems.forEach(item => {
+        const icon = item.querySelector('.gallery-icon');
+        icon.addEventListener('click', () => {
+            const img = item.querySelector('img');
+            popupImage.src = img.src;
+            popupTitle.textContent = img.alt;
+            popupDescription.textContent = "Descripción de la imagen..."; // Puedes personalizar esto
+            popup.style.display = 'block';
+        });
+    });
+
+    closePopup.addEventListener('click', () => {
+        popup.style.display = 'none';
+    });
+
+    // Cierra el popup si se hace clic fuera de él
+    window.addEventListener('click', (e) => {
+        if (e.target === popup) {
+            popup.style.display = 'none';
+        }
+    });
+
+    // Widget de traducción
+    const translateIcon = document.getElementById('translate-icon');
+    const languageOptions = document.querySelector('.language-options');
+
+    translateIcon.addEventListener('click', () => {
+        languageOptions.style.display = languageOptions.style.display === 'block' ? 'none' : 'block';
+    });
+
+    document.querySelectorAll('.lang-option').forEach(option => {
+        option.addEventListener('click', (e) => {
+            const lang = e.currentTarget.dataset.lang;
+            changeLanguage(lang);
+            languageOptions.style.display = 'none';
+        });
+    });
 
     function changeLanguage(lang) {
         console.log(`Cambiando idioma a: ${lang}`);
@@ -49,9 +255,18 @@ document.addEventListener('DOMContentLoaded', () => {
         // ... actualizar más elementos
     }
 
+    // Botón de menú para dispositivos móviles
+    const menuToggle = document.getElementById('menu-toggle');
+    const accordion = document.getElementById('accordion');
+
+    menuToggle.addEventListener('click', () => {
+        accordion.classList.toggle('active');
+    });
+
+    // Smooth Scroll
     function smoothScroll(target, duration) {
-        var target = document.querySelector(target);
-        var targetPosition = target.getBoundingClientRect().top;
+        var targetElement = document.querySelector(target);
+        var targetPosition = targetElement.getBoundingClientRect().top;
         var startPosition = window.pageYOffset;
         var distance = targetPosition - startPosition;
         var startTime = null;
@@ -74,165 +289,6 @@ document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(animation);
     }
 
-    // Paginación
-    var btns = document.querySelectorAll('.btn');
-    var paginationWrapper = document.querySelector('.pagination-wrapper');
-    var bigDotContainer = document.querySelector('.big-dot-container');
-    var littleDot = document.querySelector('.little-dot');
-
-    for(var i = 0; i < btns.length; i++) {
-        btns[i].addEventListener('click', btnClick);
-    }
-
-    function btnClick() {
-        if(this.classList.contains('btn--prev')) {
-            paginationWrapper.classList.add('transition-prev');
-        } else {
-            paginationWrapper.classList.add('transition-next');  
-        }
-        
-        var timeout = setTimeout(cleanClasses, 500);
-    }
-
-    function cleanClasses() {
-        if(paginationWrapper.classList.contains('transition-next')) {
-            paginationWrapper.classList.remove('transition-next')
-        } else if(paginationWrapper.classList.contains('transition-prev')) {
-            paginationWrapper.classList.remove('transition-prev')
-        }
-    }
-
-    // Acordeón
-    $(function() {
-        var Accordion = function(el, multiple) {
-            this.el = el || {};
-            this.multiple = multiple || false;
-
-            var links = this.el.find('.link');
-            links.on('click', {el: this.el, multiple: this.multiple}, this.dropdown)
-        }
-
-        Accordion.prototype.dropdown = function(e) {
-            var $el = e.data.el;
-                $this = $(this),
-                $next = $this.next();
-
-            $next.slideToggle();
-            $this.parent().toggleClass('open');
-
-            if (!e.data.multiple) {
-                $el.find('.submenu').not($next).slideUp().parent().removeClass('open');
-            };
-        }	
-
-        var accordion = new Accordion($('#accordion'), false);
-    });
-
-    // Venetian Blinds
-    var options = {
-        imgSrc2: "//s3-us-west-2.amazonaws.com/s.cdpn.io/261873/TelephoneBananaInverted.jpg",
-        imgSrc2: "//s3-us-west-2.amazonaws.com/s.cdpn.io/261873/TelephoneBananaInverted.jpg",
-        containerName : "placeholder",
-        columns:16,
-        margin:3
-    }
-
-    function VenetianBlinds(defaults)
-    {
-        var cols = defaults.columns;
-        var margin = defaults.margin;
-        var img1 = defaults.imgSrc1;
-        var img2 = defaults.imgSrc2;
-        var placeholder = document.getElementsByClassName(defaults.containerName)[0];
-        var directionX, directionY;
-        
-        var column, blind, blindImg;
-        var bgImg, rot;
-        var colL;
-        var colW = (placeholder.offsetWidth / cols) - margin;
-        for (var i=0; i < cols; i++)
-        {
-            colL = ((colW + margin) * i);
-            
-            column = document.createElement('div');
-            column.className = "column";
-            column.style.width = colW + "px";
-            column.style.left = colL + "px";
-            placeholder.appendChild(column); 
-            
-            for (var j=0; j<4; j++)
-            {
-                blind = document.createElement('div');
-                blind.className = "blind";
-                blind.style.width = colW + "px";
-                blindImg = document.createElement('div');
-                blindImg.className = "blindImg";
-                
-                switch (j){
-                    case 0:
-                        TweenMax.set(blind, {rotationY: "0"});
-                        bgImg = img1;
-                        break;
-                    case 1:
-                        TweenMax.set(blind, {rotationY: "90"});
-                        bgImg = img2;
-                        break;
-                    case 2: 
-                        TweenMax.set(blind, {rotationY: "180"});
-                        bgImg = img1;
-                        break;              
-                    case 3:
-                        TweenMax.set(blind, {rotationY: "270"});
-                        bgImg = img2;
-                        break;
-                }
-                blindImg.style.width = placeholder.offsetWidth + "px";
-                blindImg.style.backgroundImage = "url("+bgImg+")";
-                blindImg.style.left = -colL + "px";
-
-                column.appendChild(blind);
-                blind.appendChild(blindImg);
-                
-                TweenMax.set(blind, { transformOrigin:"50% 50% " + -colW/2, transformStyle: "preserve-3d"});
-            }
-            
-            TweenMax.set(column, {transformStyle:"preserve-3d", transformPerspective:1000, rotationY:0});
-            
-            column.addEventListener("mouseenter", function(event){
-                var elem = event.currentTarget;
-                var rotY = elem._gsTransform.rotationY;
-                
-                if(directionX > 0){
-                    TweenMax.to(elem, 1, {rotationY:Math.floor(rotY/90)*90+90, transformOrigin:"50% 50% -" + colW/2, ease:Back.easeOut});
-                }else{
-                    TweenMax.to(elem, 1, {rotationY:Math.floor(rotY/90)*90-90, transformOrigin:"50% 50% -" + colW/2, ease:Back.easeOut});
-                }
-            })
-        }
-        document.addEventListener('mousemove', function (event) {
-            directionX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
-            directionY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
-        });
-    }
-
-    VenetianBlinds(options);
-
-    // Event listeners
-    const translateIcon = document.getElementById('translate-icon');
-    const languageOptions = document.querySelector('.language-options');
-
-    translateIcon.addEventListener('click', () => {
-        languageOptions.style.display = languageOptions.style.display === 'block' ? 'none' : 'block';
-    });
-
-    document.querySelectorAll('.lang-option').forEach(option => {
-        option.addEventListener('click', (event) => {
-            const lang = event.currentTarget.dataset.lang;
-            changeLanguage(lang);
-            languageOptions.style.display = 'none';
-        });
-    });
-
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -244,7 +300,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function init() {
         renderServices('individual');
         renderPackages();
-        // Otras inicializaciones que puedas tener
+        createVenetianBlinds();
+        updatePagination();
     }
 
     // Llamada a la función de inicialización
