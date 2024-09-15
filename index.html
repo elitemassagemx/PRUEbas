@@ -1,220 +1,200 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Massage</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
-</head>
-<body>
-    <header id="sticky-header">
-        <div class="container">
-            <div class="header-top">
-                <div class="logo-container">
-                    <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/logo.png" alt="Elite Massage Logo" class="logo">
-                    <h1>Elite Massage</h1>
-                </div>
-                <div class="language-selector">
-                    <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/trad.png" alt="Traducir" id="translate-icon">
-                    <div class="language-options">
-                        <button class="lang-option" data-lang="es">
-                            <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/omx.png" alt="Bandera de México">
-                            Español
-                        </button>
-                        <button class="lang-option" data-lang="en">
-                            <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ous.png" alt="Bandera de Estados Unidos">
-                            English
-                        </button>
-                        <button class="lang-option" data-lang="fr">
-                            <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ofr.png" alt="Bandera de Francia">
-                            Français
-                        </button>
-                    </div>
-                </div>
-                <nav class="main-nav">
-                    <button id="menu-toggle" aria-label="Abrir menú">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                    <ul id="accordion" class="accordion">
-                        <li>
-                            <div class="link"><i class="fa fa-spa"></i>Servicios<i class="fa fa-chevron-down"></i></div>
-                            <ul class="submenu">
-                                <li><a href="#servicios">Masajes</a></li>
-                                <li><a href="#paquetes">Paquetes</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <div class="link"><i class="fa fa-star"></i>Experiencias<i class="fa fa-chevron-down"></i></div>
-                            <ul class="submenu">
-                                <li><a href="#experiencias">Nuestras Experiencias</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <div class="link"><i class="fa fa-image"></i>Galería<i class="fa fa-chevron-down"></i></div>
-                            <ul class="submenu">
-                                <li><a href="#galeria">Ver Galería</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <div class="link"><i class="fa fa-envelope"></i>Contacto<i class="fa fa-chevron-down"></i></div>
-                            <ul class="submenu">
-                                <li><a href="#contacto">Contactar</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-            <a href="#" class="btn-shine">Masajes premium para conocedores</a>
-        </div>
-    </header>
+::: {#sticky-header}
+::: container
+::: header-top
+::: logo-container
+![Elite Massage
+Logo](https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/logo.png){.logo}
 
-    <main role="main">
-        <section id="inicio" class="hero">
-            <div class="container">
-                <h2 class="btn-shine">Bienvenido a tu Oasis de Tranquilidad</h2>
-                <p>Descubre el poder de la relajación y el bienestar en nuestro exclusivo spa de masajes.</p>
-            </div>
-        </section>
+# Elite Massage
+:::
 
-        <section id="servicios" class="section services">
-            <div class="container">
-                <h2>Nuestros Servicios</h2>
-                <div class="category-selector">
-                    <button class="choice-chip active" data-category="individual">Individual</button>
-                    <button class="choice-chip" data-category="pareja">En Pareja</button>
-                </div>
-                <div id="services-list" class="services-grid"></div>
-                <div class="pagination-wrapper">
-                    <button class="btn btn--prev" aria-label="Página anterior">
-                        <svg height="96" viewBox="0 0 24 24" width="96" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"/>
-                        </svg>
-                    </button>
-                    <div class="pagination-container">
-                        <div class="little-dot little-dot--first"></div>
-                        <div class="little-dot">
-                            <div class="big-dot-container">
-                                <div class="big-dot"></div>
-                            </div>
-                        </div>
-                        <div class="little-dot little-dot--last"></div>
-                    </div>
-                    <button class="btn btn--next" aria-label="Página siguiente">
-                        <svg height="96" viewBox="0 0 24 24" width="96" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </section>
+::: language-selector
+![Traducir](https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/trad.png){#translate-icon}
 
-        <section id="paquetes" class="section packages">
-            <div class="container">
-                <h2>Paquetes Especiales</h2>
-                <div id="package-list"></div>
-            </div>
-        </section>
+::: language-options
+![Bandera de
+México](https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/omx.png)
+Español
 
-        <section id="experiencias" class="section experiences">
-            <div class="container">
-                <h2>Experiencias</h2>
-                <fieldset class="checkbox-group">
-                    <legend class="checkbox-group-legend">Elige tus experiencias favoritas</legend>
-                    <div class="checkbox">
-                        <label class="checkbox-wrapper">
-                            <input type="checkbox" class="checkbox-input" />
-                            <span class="checkbox-tile">
-                                <span class="checkbox-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" fill="currentColor" viewBox="0 0 256 256">
-                                        <rect width="256" height="256" fill="none"></rect>
-                                        <circle cx="96" cy="144.00002" r="10"></circle>
-                                        <circle cx="160" cy="144.00002" r="10"></circle>
-                                        <path d="M74.4017,80A175.32467,175.32467,0,0,1,128,72a175.32507,175.32507,0,0,1,53.59754,7.99971" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></path>
-                                        <path d="M181.59717,176.00041A175.32523,175.32523,0,0,1,128,184a175.32505,175.32505,0,0,1-53.59753-7.99971" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></path>
-                                        <path d="M155.04392,182.08789l12.02517,24.05047a7.96793,7.96793,0,0,0,8.99115,4.20919c24.53876-5.99927,45.69294-16.45908,61.10024-29.85086a8.05225,8.05225,0,0,0,2.47192-8.38971L205.65855,58.86074a8.02121,8.02121,0,0,0-4.62655-5.10908,175.85294,175.85294,0,0,0-29.66452-9.18289,8.01781,8.01781,0,0,0-9.31925,5.28642l-7.97318,23.91964" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></path>
-                                        <path d="M100.95624,182.08757l-12.02532,24.0508a7.96794,7.96794,0,0,1-8.99115,4.20918c-24.53866-5.99924-45.69277-16.459-61.10006-29.85069a8.05224,8.05224,0,0,1-2.47193-8.38972L50.34158,58.8607a8.0212,8.0212,0,0,1,4.62655-5.1091,175.85349,175.85349,0,0,1,29.66439-9.18283,8.0178,8.0178,0,0,1,9.31924,5.28642l7.97318,23.91964" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></path>
-                                    </svg>
-                                </span>
-                                <span class="checkbox-label">Masaje Relajante</span>
-                            </span>
-                        </label>
-                    </div>
-                    <!-- Agregar más opciones de experiencias aquí -->
-                </fieldset>
-            </div>
-        </section>
+![Bandera de Estados
+Unidos](https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ous.png)
+English
 
-        <section id="explora" class="section explora">
-            <div class="container">
-                <h2>Explora</h2>
-                <div class="venetian-blinds">
-                    <!-- El contenido de Venetian Blinds se generará dinámicamente con JavaScript -->
-                </div>
-            </div>
-        </section>
+![Bandera de
+Francia](https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ofr.png)
+Français
+:::
+:::
+:::
 
-        <section id="galeria" class="section gallery">
-            <div class="container">
-                <h2>Galería de Imágenes</h2>
-                <div class="gallery-grid">
-                    <div class="gallery-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/copasq.JPG" alt="Interior del Spa" width="250" height="250" loading="lazy">
-                        <button class="gallery-icon" aria-label="Ver detalles">
-                            <i class="fa fa-search-plus"></i>
-                        </button>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/noche1.JPG" alt="Productos de Spa" width="250" height="250" loading="lazy">
-                        <button class="gallery-icon" aria-label="Ver detalles">
-                            <i class="fa fa-search-plus"></i>
-                        </button>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/rosa.JPG" alt="Nuestro Equipo" width="250" height="250" loading="lazy">
-                        <button class="gallery-icon" aria-label="Ver detalles">
-                            <i class="fa fa-search-plus"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+[Masajes premium para conocedores](#){.btn-shine}
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/lista.gif" alt="Gif 1" class="footer-gif">
-                <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/reg.gif" alt="Gif 2" class="footer-gif">
-                <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/coment.gif" alt="Gif 3" class="footer-gif">
-                <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/fotos.gif" alt="Gif 4" class="footer-gif">
-            </div>
-            <p>&copy; 2023 Elite Massage. Todos los derechos reservados.</p>
-            <nav>
-                <a href="/politica-privacidad">Política de Privacidad</a> | 
-                <a href="/terminos-condiciones">Términos y Condiciones</a>
-            </nav>
-            <div class="social-media">
-                <a href="https://facebook.com/elitemassage" target="_blank" rel="noopener noreferrer">Facebook</a> |
-                <a href="https://instagram.com/elitemassage" target="_blank" rel="noopener noreferrer">Instagram</a> |
-                <a href="https://twitter.com/elitemassage" target="_blank" rel="noopener noreferrer">Twitter</a>
-            </div>
-        </div>
-    </footer>
+-   [Servicios](#servicios)
+-   [Paquetes](#paquetes)
+-   [Experiencias](#experiencias)
+-   [Explora](#explora)
+-   [Galería](#galeria)
+:::
+:::
 
-    <div id="popup" class="popup">
-        <div class="popup-content">
-            <button class="close" aria-label="Cerrar">&times;</button>
-            <h2 id="popup-title"></h2>
-            <img id="popup-image" src="" alt="">
-            <p id="popup-description"></p>
-        </div>
-    </div>
+::: {role="main"}
+::: {#inicio .section .section .hero}
+::: container
+## Bienvenido a tu Oasis de Tranquilidad {#bienvenido-a-tu-oasis-de-tranquilidad .btn-shine}
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="script.js"></script>
-</body>
-</html>
+Descubre el poder de la relajación y el bienestar en nuestro exclusivo
+spa de masajes.
+:::
+:::
+
+::: {#servicios .section .section .services}
+::: container
+## Nuestros Servicios
+
+::: category-selector
+Individual
+
+En Pareja
+:::
+
+::: {#services-list .services-grid}
+:::
+
+::: pagination-wrapper
+![](data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iYnRuIGJ0bi0tcHJldiIgaGVpZ2h0PSI5NiIgdmlld2JveD0iMCAwIDI0IDI0IiB3aWR0aD0iOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICAgICAgICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0xNS40MSAxNi4wOWwtNC41OC00LjU5IDQuNTgtNC41OUwxNCA1LjVsLTYgNiA2IDZ6Ij48L3BhdGg+CiAgICAgICAgICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0wLS41aDI0djI0SDB6IiBmaWxsPSJub25lIj48L3BhdGg+CiAgICAgICAgICAgICAgICAgICAgPC9zdmc+){.btn
+.btn--prev}
+
+::: pagination-container
+::: {.little-dot .little-dot--first}
+:::
+
+::: little-dot
+::: big-dot-container
+::: big-dot
+:::
+:::
+:::
+
+::: {.little-dot .little-dot--last}
+:::
+:::
+
+![](data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iYnRuIGJ0bi0tbmV4dCIgaGVpZ2h0PSI5NiIgdmlld2JveD0iMCAwIDI0IDI0IiB3aWR0aD0iOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICAgICAgICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik04LjU5IDE2LjM0bDQuNTgtNC41OS00LjU4LTQuNTlMMTAgNS43NWw2IDYtNiA2eiI+PC9wYXRoPgogICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMC0uMjVoMjR2MjRIMHoiIGZpbGw9Im5vbmUiPjwvcGF0aD4KICAgICAgICAgICAgICAgICAgICA8L3N2Zz4=){.btn
+.btn--next}
+:::
+:::
+:::
+
+::: {#paquetes .section .section .packages}
+::: container
+## Paquetes Especiales
+
+::: {#package-list}
+:::
+:::
+:::
+
+::: {#experiencias .section .section .experiences}
+::: container
+## Experiencias
+
+-   ::: link
+    Masaje Relajante
+    :::
+
+    -   [Descripción](#)
+    -   [Beneficios](#)
+    -   [Reservar](#)
+:::
+:::
+
+::: {#explora .section .section .explora}
+::: container
+## Explora
+
+::: placeholder
+:::
+:::
+:::
+
+::: {#galeria .section .section .gallery}
+::: container
+## Galería de Imágenes
+
+::: gallery-grid
+::: gallery-item
+![Interior del
+Spa](https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/copasq.JPG){width="250"
+height="250" loading="lazy"}
+:::
+
+::: gallery-item
+![Productos de
+Spa](https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/noche1.JPG){width="250"
+height="250" loading="lazy"}
+:::
+
+::: gallery-item
+![Nuestro
+Equipo](https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/rosa.JPG){width="250"
+height="250" loading="lazy"}
+:::
+:::
+:::
+:::
+:::
+
+::: container
+::: footer-content
+![Gif
+1](https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/lista.gif){.footer-gif}
+![Gif
+2](https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/reg.gif){.footer-gif}
+![Gif
+3](https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/coment.gif){.footer-gif}
+![Gif
+4](https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/fotos.gif){.footer-gif}
+:::
+
+© 2023 Elite Massage. Todos los derechos reservados.
+
+[Política de Privacidad](/politica-privacidad) \| [Términos y
+Condiciones](/terminos-condiciones)
+
+::: social-media
+[Facebook](https://facebook.com/elitemassage){target="_blank"
+rel="noopener noreferrer"} \|
+[Instagram](https://instagram.com/elitemassage){target="_blank"
+rel="noopener noreferrer"} \|
+[Twitter](https://twitter.com/elitemassage){target="_blank"
+rel="noopener noreferrer"}
+:::
+:::
+
+::: {#popup .popup}
+::: popup-content
+[×]{.close}
+
+##  {#popup-title}
+
+![Imagen del servicio](){#popup-image}
+:::
+:::
+
+::: service-item
+###  {#section .service-title}
+
+![Icono del servicio](){.service-icon}
+
+::: service-benefits-container
+![Icono de beneficios](){.benefits-icon}
+:::
+
+::: service-duration-container
+![Icono de duración](){.duration-icon}
+:::
+
+Reservar
+
+Más info
+:::
