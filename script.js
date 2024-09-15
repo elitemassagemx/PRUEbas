@@ -1130,3 +1130,111 @@ function init() {
 
 // Llamada a la función de inicialización
 document.addEventListener('DOMContentLoaded', init);
+function showPage(page) {
+            const startIndex = (page - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            packages.forEach((pkg, index) => {
+                pkg.style.display = (index >= startIndex && index < endIndex) ? 'block' : 'none';
+            });
+        }
+
+        function setupPaginationButtons() {
+            const pageCount = Math.ceil(packages.length / itemsPerPage);
+            const paginationContainer = document.createElement('div');
+            paginationContainer.className = 'pagination-container';
+            
+            for (let i = 1; i <= pageCount; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.innerText = i;
+                pageButton.addEventListener('click', () => {
+                    currentPage = i;
+                    showPage(currentPage);
+                    updatePaginationButtons();
+                });
+                paginationContainer.appendChild(pageButton);
+            }
+            
+            packageList.after(paginationContainer);
+        }
+
+        function updatePaginationButtons() {
+            const buttons = document.querySelectorAll('.pagination-container button');
+            buttons.forEach((button, index) => {
+                button.classList.toggle('active', index + 1 === currentPage);
+            });
+        }
+
+        showPage(currentPage);
+        setupPaginationButtons();
+        updatePaginationButtons();
+    }
+
+    function setupWhatsAppButtons() {
+        const reserveButtons = document.querySelectorAll('.reserve-button');
+        reserveButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const serviceName = this.closest('.service-item, .package-item').querySelector('h3').textContent;
+                sendWhatsAppMessage('Reservar', serviceName);
+            });
+        });
+    }
+
+    function init() {
+        renderServices('individual');
+        renderPackages();
+        createVenetianBlinds();
+        updatePagination();
+        setupPackagePagination();
+        setupVenetianBlinds();
+        setupExperiencias();
+        setupWhatsAppButtons();
+        setupAccordion();
+        setupGallery();
+        setupLanguageSelector();
+        setupMobileMenu();
+
+        // Añadir barra de beneficios destacados para paquetes
+        const benefitsBar = document.createElement('div');
+        benefitsBar.className = 'benefits-bar';
+        benefitsBar.innerHTML = `
+            <h3>Beneficios Destacados de Paquetes</h3>
+            <ul>
+                <li>Experiencias premium</li>
+                <li>Ahorro en servicios combinados</li>
+                <li>Atención personalizada</li>
+            </ul>
+        `;
+        const paquetesSection = document.querySelector('#paquetes');
+        if (paquetesSection) {
+            const paginationContainer = paquetesSection.querySelector('.pagination-container');
+            if (paginationContainer) {
+                paginationContainer.after(benefitsBar);
+            } else {
+                paquetesSection.appendChild(benefitsBar);
+            }
+        }
+
+        // Event Listeners
+        document.querySelector('.btn--prev').addEventListener('click', () => changePage(-1));
+        document.querySelector('.btn--next').addEventListener('click', () => changePage(1));
+
+        document.querySelectorAll('.choice-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                document.querySelectorAll('.choice-chip').forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                renderServices(chip.dataset.category);
+            });
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                smoothScroll(this.getAttribute('href'), 1000);
+            });
+        });
+    }
+
+    // Llamada a la función de inicialización
+    init();
+});
