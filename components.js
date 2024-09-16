@@ -1,3 +1,6 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 // SugerenciasParaTi component
 const SugerenciasParaTi = () => {
   const sugerencias = [
@@ -6,7 +9,7 @@ const SugerenciasParaTi = () => {
   ];
 
   return (
-    <div className=".sugerencias-container">
+    <div className="sugerencias-container">
       <h2>Sugerencias para ti</h2>
       {sugerencias.map((sugerencia, index) => (
         <div key={index} className="sugerencia-item">
@@ -88,18 +91,21 @@ const FixedBottomBar = () => {
 };
 
 // Render all components
-ReactDOM.render(
-  <React.Fragment>
-    <SugerenciasParaTi />
-    <ServiceCard 
-      service={{
-        title: "Masaje Relajante",
-        description: "Un masaje suave para aliviar el estrés y la tensión.",
-        benefits: ["Reduce el estrés", "Mejora la circulación", "Alivia dolores musculares"],
-        duration: "60 minutos"
-      }}
-    />
-    <FixedBottomBar />
-  </React.Fragment>,
-  document.getElementById('react-root')
-);
+const App = () => {
+  return (
+    <React.Fragment>
+      <SugerenciasParaTi />
+      <ServiceCard 
+        service={{
+          title: "Masaje Relajante",
+          description: "Un masaje suave para aliviar el estrés y la tensión.",
+          benefits: ["Reduce el estrés", "Mejora la circulación", "Alivia dolores musculares"],
+          duration: "60 minutos"
+        }}
+      />
+      <FixedBottomBar />
+    </React.Fragment>
+  );
+};
+
+ReactDOM.render(<App />, document.getElementById('react-root'));
