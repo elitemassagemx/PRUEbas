@@ -6,7 +6,7 @@ const SugerenciasParaTi = () => {
   ];
 
   return (
-    <div className="sugerencias-container">
+    <div className=".sugerencias-container">
       <h2>Sugerencias para ti</h2>
       {sugerencias.map((sugerencia, index) => (
         <div key={index} className="sugerencia-item">
