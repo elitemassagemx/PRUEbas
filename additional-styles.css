@@ -1,10 +1,11 @@
-/* Estilos para SugerenciasParaTi */
+/* Styles for SugerenciasParaTi */
 .sugerencias-container {
   background-color: #1a1a1a;
   border-radius: 8px;
   padding: 16px;
   margin-top: 20px;
 }
+
 .sugerencia-item {
   display: flex;
   align-items: center;
@@ -14,23 +15,28 @@
   padding: 12px;
   margin-bottom: 12px;
 }
+
 .sugerencia-info {
   display: flex;
   align-items: center;
 }
+
 .sugerencia-avatar {
   width: 48px;
   height: 48px;
   border-radius: 50%;
   margin-right: 12px;
 }
+
 .sugerencia-nombre {
   font-weight: bold;
   color: #ffffff;
 }
+
 .sugerencia-usuario {
   color: #888888;
 }
+
 .sugerencia-seguir {
   background-color: #D4AF37;
   color: #1a1a1a;
@@ -40,56 +46,68 @@
   cursor: pointer;
   transition: background-color 0.3s;
 }
+
 .sugerencia-seguir:hover {
   background-color: #FFD700;
 }
-/* Estilos para ServiceCard */
+
+/* Styles for ServiceCard */
 .service-card {
   background-color: #2a2a2a;
   border-radius: 8px;
   overflow: hidden;
   margin-bottom: 20px;
 }
+
 .service-card-content {
   padding: 16px;
 }
+
 .service-card-title {
   font-size: 1.25rem;
   font-weight: bold;
   color: #D4AF37;
   margin-bottom: 8px;
 }
+
 .service-card-description {
   color: #ffffff;
   margin-bottom: 16px;
 }
+
 .service-card-benefits {
   background-color: #4c0026;
   padding: 16px;
 }
+
 .service-card-benefits h4 {
   color: #D4AF37;
   margin-bottom: 8px;
 }
+
 .service-card-benefits ul {
   list-style-type: none;
   padding: 0;
 }
+
 .service-card-benefits li {
   color: #ffffff;
   margin-bottom: 4px;
 }
+
 .service-card-duration {
   background-color: #D4AF37;
   color: #1a1a1a;
   padding: 8px 16px;
   font-weight: bold;
 }
+
 .service-card-buttons {
   display: flex;
   justify-content: space-between;
   padding: 16px;
 }
+
 .service-card-button {
   padding: 8px 16px;
   border: none;
@@ -97,21 +115,26 @@
   cursor: pointer;
   transition: background-color 0.3s;
 }
+
 .service-card-button-reserve {
   background-color: #4c0026;
   color: #ffffff;
 }
+
 .service-card-button-reserve:hover {
   background-color: #6b0036;
 }
+
 .service-card-button-info {
   background-color: #888888;
   color: #ffffff;
 }
+
 .service-card-button-info:hover {
   background-color: #999999;
 }
-/* Estilos para FixedBottomBar */
+
+/* Styles for FixedBottomBar */
 .fixed-bottom-bar {
   position: fixed;
   bottom: 0;
@@ -121,6 +144,7 @@
   padding: 8px 0;
   z-index: 1000;
 }
+
 .fixed-bottom-bar ul {
   display: flex;
   justify-content: space-around;
@@ -128,6 +152,7 @@
   margin: 0;
   padding: 0;
 }
+
 .fixed-bottom-bar a {
   display: flex;
   flex-direction: column;
@@ -135,39 +160,39 @@
   color: #ffffff;
   text-decoration: none;
 }
+
 .fixed-bottom-bar-icon {
   margin-bottom: 4px;
 }
+
 .fixed-bottom-bar-text {
   font-size: 0.75rem;
 }
-/* Estilos responsivos */
+
+/* Responsive styles */
 @media (max-width: 768px) {
   .service-card {
     width: 100%;
   }
+
   .fixed-bottom-bar-text {
     display: none;
   }
 }
 
-/* Estilos para el efecto Venetian Blinds */
+/* Styles for Venetian Blinds effect */
 .venetian-blinds {
   position: relative;
   width: 100%;
   height: 400px;
   overflow: hidden;
-  background-image: url('chem.JPG');
-  background-size: cover;
-  background-position: center;
 }
 
 .blind {
   position: absolute;
   top: 0;
-  height: 100%;
   width: 10%;
-  background-image: inherit;
+  height: 100%;
   background-size: 1000% 100%;
   transition: all 0.3s ease;
 }
@@ -176,88 +201,126 @@
   transform: scaleY(1.1);
 }
 
-/* Estilos para la paginación de paquetes */
-.pagination-container {
+/* Styles for Toast Notification */
+#toast {
+  visibility: hidden;
+  max-width: 50px;
+  height: 50px;
+  margin: auto;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  position: fixed;
+  z-index: 1;
+  left: 0;right:0;
+  bottom: 30px;
+  font-size: 17px;
+  white-space: nowrap;
+}
+
+#toast #img {
+  width: 50px;
+  height: 50px;
+  float: left;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  box-sizing: border-box;
+  background-color: #111;
+  color: #fff;
+}
+
+#toast #desc {
+  color: #fff;
+  padding: 16px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+#toast.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, expand 0.5s 0.5s,stay 3s 1s, shrink 0.5s 2s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, expand 0.5s 0.5s,stay 3s 1s, shrink 0.5s 4s, fadeout 0.5s 4.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes expand {
+  from {min-width: 50px} 
+  to {min-width: 350px}
+}
+
+@keyframes expand {
+  from {min-width: 50px}
+  to {min-width: 350px}
+}
+
+@-webkit-keyframes stay {
+  from {min-width: 350px} 
+  to {min-width: 350px}
+}
+
+@keyframes stay {
+  from {min-width: 350px}
+  to {min-width: 350px}
+}
+
+@-webkit-keyframes shrink {
+  from {min-width: 350px;} 
+  to {min-width: 50px;}
+}
+
+@keyframes shrink {
+  from {min-width: 350px;} 
+  to {min-width: 50px;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;} 
+  to {bottom: 60px; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 60px; opacity: 0;}
+}
+
+/* Styles for Checkbox in Experiences section */
+.checkbox-group {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  margin-top: 20px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 600px;
+  user-select: none;
 }
 
-.pagination-container button {
-  background-color: var(--primary-color);
-  color: var(--background-color);
-  border: none;
-  padding: 8px 12px;
-  margin: 0 5px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.checkbox-group > * {
+  margin: .5rem 0.5rem;
 }
 
-.pagination-container button.active {
-  background-color: var(--secondary-color);
+.checkbox-input {
+  clip: rect(0 0 0 0);
+  clip-path: inset(100%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }
 
-.pagination-container button:hover {
-  background-color: var(--gold);
-}
-
-/* Estilos para la barra de beneficios destacados */
-.benefits-bar {
-  background-color: var(--header-background);
-  color: var(--text-color);
-  padding: 15px;
-  margin-top: 20px;
-  border-radius: 8px;
-}
-
-.benefits-bar h3 {
-  color: var(--primary-color);
-  margin-bottom: 10px;
-}
-
-.benefits-bar ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.benefits-bar li {
-  margin-bottom: 5px;
-}
-
-/* Ajustes adicionales para mejorar la accesibilidad y el diseño */
-.service-item, .package-item {
-  display: grid;
-  grid-template-areas:
-    "main benefits"
-    "duration duration"
-    "buttons buttons";
-  grid-template-columns: 2fr 1fr;
-}
-
-.service-main, .package-main {
-  grid-area: main;
-}
-
-.service-benefits, .package-benefits {
-  grid-area: benefits;
-}
-
-.service-duration, .package-duration {
-  grid-area: duration;
-}
-
-.service-buttons, .package-buttons {
-  grid-area: buttons;
-}
-
-@media (max-width: 768px) {
-  .service-item, .package-item {
-    grid-template-areas:
-      "main"
-      "benefits"
-      "duration"
-      "buttons";
-    grid-template-columns: 1fr;
-  }
-}
+.checkbox-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content
