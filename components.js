@@ -58,21 +58,6 @@ function ServiceCard(service) {
 }
 
 // FixedBottomBar component
-function FixedBottomBar() {
-  const bar = document.createElement('div');
-  bar.className = 'fixed-bottom-bar';
-  bar.innerHTML = `
-    <nav>
-      <ul>
-        <li><a href="#"><span class="fixed-bottom-bar-icon">🏠</span><span class="fixed-bottom-bar-text">Inicio</span></a></li>
-        <li><a href="#"><span class="fixed-bottom-bar-icon">🔍</span><span class="fixed-bottom-bar-text">Buscar</span></a></li>
-        <li><a href="#"><span class="fixed-bottom-bar-icon">📅</span><span class="fixed-bottom-bar-text">Reservas</span></a></li>
-        <li><a href="#"><span class="fixed-bottom-bar-icon">👤</span><span class="fixed-bottom-bar-text">Perfil</span></a></li>
-      </ul>
-    </nav>
-  `;
-  return bar;
-}
 
 // Main app function
 function initApp() {
