@@ -77,7 +77,6 @@ function initApp() {
   };
   root.appendChild(ServiceCard(serviceCardData));
   
-  root.appendChild(FixedBottomBar());
 }
 
 // Initialize the app when the DOM is fully loaded
