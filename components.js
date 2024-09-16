@@ -1,4 +1,3 @@
-// Función para crear el componente SugerenciasParaTi
 function createSugerenciasParaTi() {
   const sugerencias = [
     { nombre: 'Mary Aguilar', usuario: 'maryaguilar0', imagen: 'https://via.placeholder.com/100' },
