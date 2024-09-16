@@ -1,4 +1,5 @@
-function createSugerenciasParaTi() {
+// SugerenciasParaTi component
+function SugerenciasParaTi() {
   const sugerencias = [
     { nombre: 'Mary Aguilar', usuario: 'maryaguilar0', imagen: 'https://via.placeholder.com/100' },
     { nombre: 'Vanessa Villeg...', usuario: 'vanahi19', imagen: 'https://via.placeholder.com/100' },
@@ -30,8 +31,8 @@ function createSugerenciasParaTi() {
   return container;
 }
 
-// Función para crear el componente ServiceCard
-function createServiceCard(service) {
+// ServiceCard component
+function ServiceCard(service) {
   const card = document.createElement('div');
   card.className = 'service-card';
   card.innerHTML = `
@@ -56,52 +57,32 @@ function createServiceCard(service) {
   return card;
 }
 
-// Función para crear el componente FixedBottomBar
-function createFixedBottomBar() {
+// FixedBottomBar component
+function FixedBottomBar() {
   const bar = document.createElement('div');
   bar.className = 'fixed-bottom-bar';
   bar.innerHTML = `
     <nav>
       <ul>
-        <li>
-          <a href="#">
-            <span class="fixed-bottom-bar-icon">🏠</span>
-            <span class="fixed-bottom-bar-text">Inicio</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <span class="fixed-bottom-bar-icon">🔍</span>
-            <span class="fixed-bottom-bar-text">Buscar</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <span class="fixed-bottom-bar-icon">📅</span>
-            <span class="fixed-bottom-bar-text">Reservas</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <span class="fixed-bottom-bar-icon">👤</span>
-            <span class="fixed-bottom-bar-text">Perfil</span>
-          </a>
-        </li>
+        <li><a href="#"><span class="fixed-bottom-bar-icon">🏠</span><span class="fixed-bottom-bar-text">Inicio</span></a></li>
+        <li><a href="#"><span class="fixed-bottom-bar-icon">🔍</span><span class="fixed-bottom-bar-text">Buscar</span></a></li>
+        <li><a href="#"><span class="fixed-bottom-bar-icon">📅</span><span class="fixed-bottom-bar-text">Reservas</span></a></li>
+        <li><a href="#"><span class="fixed-bottom-bar-icon">👤</span><span class="fixed-bottom-bar-text">Perfil</span></a></li>
       </ul>
     </nav>
   `;
   return bar;
 }
 
-// Función para inicializar la aplicación
+// Main app function
 function initApp() {
-  const root = document.getElementById('app-root');
+  const root = document.getElementById('react-root');
   if (!root) {
-    console.error('No se encontró el elemento raíz con id "app-root"');
+    console.error('Element with id "react-root" not found');
     return;
   }
 
-  root.appendChild(createSugerenciasParaTi());
+  root.appendChild(SugerenciasParaTi());
   
   const serviceCardData = {
     title: "Masaje Relajante",
@@ -109,10 +90,10 @@ function initApp() {
     benefits: ["Reduce el estrés", "Mejora la circulación", "Alivia dolores musculares"],
     duration: "60 minutos"
   };
-  root.appendChild(createServiceCard(serviceCardData));
+  root.appendChild(ServiceCard(serviceCardData));
   
-  root.appendChild(createFixedBottomBar());
+  root.appendChild(FixedBottomBar());
 }
 
-// Inicializar la aplicación cuando el DOM esté listo
+// Initialize the app when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', initApp);
