@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentCategory = 'individual';
     const services = {
     individual: [
-        {
+         {
             title: "Aromaterapia",
             description: "Elige de nuestra selección de aceites esenciales pensados en tu relajación. Nuestras terapeutas combinan técnicas suaves que no te puedes perder.",
             benefits: ["Bajará tu Estrés", "Cambiará tu Ánimo", "Aliviarás Tensiones"],
