@@ -14,7 +14,20 @@
     <link rel="stylesheet" href="checkbox.css">
     <link rel="stylesheet" href="especialistas.css">
     <link rel="stylesheet" href="acercade.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        // Función para cargar y mostrar el contenido del archivo JSON
+        function loadJSON() {
+            fetch('data.json')
+                .then(response => response.json())
+                .then(data => {
+                    // Aquí puedes procesar y mostrar los datos del JSON
+                    console.log(data);
+                    // Ejemplo: Mostrar los datos en un elemento del DOM
+                    document.getElementById('json-content').innerHTML = JSON.stringify(data, null, 2);
+                })
+                .catch(error => console.error('Error al cargar el JSON:', error));
+        }
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js" defer></script>
     <!-- Scripts correspondientes a los CSS -->
