@@ -264,7 +264,7 @@ const PaginationModule = {
     }
 };
 
-// Módulo de Comunicación
+// Modulo de Comunicacion
 const CommunicationModule = {
     sendWhatsAppMessage: (action, serviceTitle) => {
         const message = encodeURIComponent(`Hola! Quiero ${action} un ${serviceTitle}`);
