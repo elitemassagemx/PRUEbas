@@ -1,5 +1,3 @@
-// EliteMassage - Código JavaScript integrado
-
 const EliteMassage = {
     config: {
         BASE_URL: "https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/",
@@ -35,7 +33,16 @@ const EliteMassage = {
         loadPage: (page) => {
             // Lógica para cargar la página basada en el enrutador
             console.log(`Cargando página: ${page}`);
-            // Aquí puedes implementar la lógica para cargar la vista correspondiente.
+            // Aquí puedes implementar la lógica para cargar la vista correspondiente
+            // Ejemplo: Usar fetch para obtener el contenido de la página y actualizar el DOM
+            fetch(`${page}.html`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('content').innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error al cargar la página:', error);
+                });
         }
     }
 };
@@ -51,9 +58,11 @@ EliteMassage.modules.Utils = {
     
     showNotification: (message) => {
         const toast = document.getElementById('toast');
-        toast.querySelector('#desc').textContent = message;
-        toast.className = 'show';
-        setTimeout(() => { toast.className = toast.className.replace('show', ''); }, 5000);
+        if (toast) {
+            toast.querySelector('#desc').textContent = message;
+            toast.className = 'show';
+            setTimeout(() => { toast.className = toast.className.replace('show', ''); }, 5000);
+        }
     }
 };
 
@@ -216,66 +225,22 @@ EliteMassage.modules.UIModule = {
     setupAccordion: () => {
         const header = document.querySelector('#sticky-header .container');
         if (!header) return;
-        const accordionToggle = EliteMassage.modules.Utils.createElement('button', 'accordion-button', 'Menú <i class="fas fa-chevron-down"></i>');
-        accordionToggle.id = 'accordion-toggle';
-        
-        const accordionContent = EliteMassage.modules.Utils.createElement('div', 'accordion-content');
-        accordionContent.id = 'accordion-content';
-        const mainNav = document.querySelector('.main-nav');
-        if (mainNav) {
-            accordionContent.innerHTML = mainNav.innerHTML;
-        }
-
+        const accordionToggle = EliteMassage.modules.Utils.createElement('button', 'accordion-button',        'Accordion Button');
         header.appendChild(accordionToggle);
+
+        const accordionContent = EliteMassage.modules.Utils.createElement('div', 'accordion-content');
+        accordionContent.innerHTML = `
+            <p>Contenido del acordeón aquí...</p>
+        `;
         header.appendChild(accordionContent);
 
         accordionToggle.addEventListener('click', () => {
-            accordionContent.classList.toggle('active');
-            const icon = accordionToggle.querySelector('i');
-            icon.classList.toggle('fa-chevron-down');
-            icon.classList.toggle('fa-chevron-up');
+            if (accordionContent.style.display === 'none' || !accordionContent.style.display) {
+                accordionContent.style.display = 'block';
+            } else {
+                accordionContent.style.display = 'none';
+            }
         });
-    },
-
-    setupModal: () => {
-        const modal = document.getElementById('modal');
-        const closeModalButton = document.getElementById('close-modal');
-        const openModalButtons = document.querySelectorAll('[data-modal]');
-
-        if (modal && closeModalButton) {
-            openModalButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const modalId = button.getAttribute('data-modal');
-                    const targetModal = document.getElementById(modalId);
-                    if (targetModal) {
-                        targetModal.style.display = 'block';
-                    }
-                });
-            });
-
-            closeModalButton.addEventListener('click', () => {
-                modal.style.display = 'none';
-            });
-
-            window.addEventListener('click', (event) => {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
-        }
-    },
-
-    setupStickyHeader: () => {
-        const header = document.getElementById('sticky-header');
-        if (header) {
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    header.classList.add('sticky');
-                } else {
-                    header.classList.remove('sticky');
-                }
-            });
-        }
     }
 };
 
@@ -283,12 +248,29 @@ EliteMassage.modules.UIModule = {
 document.addEventListener('DOMContentLoaded', () => {
     EliteMassage.router.init();
     EliteMassage.modules.CommunicationModule.setupContactForm();
-    EliteMassage.modules.ServicesModule.renderServices();
-    EliteMassage.modules.PackagesModule.renderPackages();
     EliteMassage.modules.UIModule.createVenetianBlinds();
     EliteMassage.modules.UIModule.createExperienceCheckboxes();
     EliteMassage.modules.UIModule.setupAccordion();
-    EliteMassage.modules.UIModule.setupModal();
-    EliteMassage.modules.UIModule.setupStickyHeader();
+
+    // Suponiendo que tienes datos estáticos para los servicios y paquetes
+    EliteMassage.state.services = {
+        individual: [
+            { title: 'Servicio 1', description: 'Descripción del servicio 1' },
+            { title: 'Servicio 2', description: 'Descripción del servicio 2' },
+            // Más servicios...
+        ]
+    };
+    EliteMassage.state.packages = [
+        { title: 'Paquete 1', description: 'Descripción del paquete 1' },
+        { title: 'Paquete 2', description: 'Descripción del paquete 2' },
+        // Más paquetes...
+    ];
+
+    EliteMassage.modules.ServicesModule.renderServices();
+    EliteMassage.modules.PackagesModule.renderPackages();
 });
+
+// Asegúrate de que los estilos CSS estén configurados
+// Aquí se pueden agregar o ajustar estilos CSS necesarios para el diseño adecuado
+
 
