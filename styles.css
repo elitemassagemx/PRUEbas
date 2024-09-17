@@ -565,3 +565,31 @@ body {
 }
 
 
+.menu-icon {
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.menu-icon img {
+    width: 30px;
+    height: 30px;
+}
+
+.main-nav {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: #fff;
+    width: 250px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.main-nav.active {
+    display: block;
+}
+
