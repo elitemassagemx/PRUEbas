@@ -1,22 +1,25 @@
-// Configuración global
-const CONFIG = {
-    BASE_URL: "https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/",
-    ITEMS_PER_PAGE: 3,
-    WHATSAPP_NUMBER: "5215640020305"
+// EliteMassage - Código JavaScript integrado
+
+const EliteMassage = {
+    config: {
+        BASE_URL: "https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/",
+        ITEMS_PER_PAGE: 3,
+        WHATSAPP_NUMBER: "5215640020305"
+    },
+    state: {
+        currentPage: 1,
+        currentCategory: 'individual',
+        totalPages: 1,
+        language: 'es',
+        services: null,
+        packages: null
+    },
+    modules: {},
+    components: {}
 };
 
-// Estado global de la aplicación
-const state = {
-    currentPage: 1,
-    currentCategory: 'individual',
-    totalPages: 1,
-    language: 'es',
-    services: null,
-    packages: null
-};
-
-// Módulo de Utilidades
-const Utils = {
+// Módulos
+EliteMassage.modules.Utils = {
     createElement: (tag, className, innerHTML) => {
         const element = document.createElement(tag);
         if (className) element.className = className;
@@ -32,11 +35,10 @@ const Utils = {
     }
 };
 
-// Módulo de Comunicación
-const CommunicationModule = {
+EliteMassage.modules.CommunicationModule = {
     sendWhatsAppMessage: (action, serviceTitle) => {
         const message = encodeURIComponent(`Hola! Quiero ${action} un ${serviceTitle}`);
-        const url = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${message}`;
+        const url = `https://wa.me/${EliteMassage.config.WHATSAPP_NUMBER}?text=${message}`;
         window.open(url, '_blank');
     },
 
@@ -52,19 +54,32 @@ const CommunicationModule = {
             `;
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
-                // Aquí iría la lógica para enviar el formulario
-                Utils.showNotification('Mensaje enviado con éxito');
+                EliteMassage.modules.Utils.showNotification('Mensaje enviado con éxito');
                 form.reset();
             });
         }
     }
 };
 
-// Módulo de Servicios
+EliteMassage.modules.ServicesModule = {
+    renderServices: () => {
+        const servicesList = document.getElementById('services-list');
+        if (!servicesList) return;
+        servicesList.innerHTML = '';
+        const startIndex = (EliteMassage.state.currentPage - 1) * EliteMassage.config.ITEMS_PER_PAGE;
+        const endIndex = startIndex + EliteMassage.config.ITEMS_PER_PAGE;
+        const currentServices = EliteMassage.state.services[EliteMassage.state.currentCategory].slice(startIndex, endIndex);
 
+        currentServices.forEach(service => {
+            const serviceElement = EliteMassage.modules.ServicesModule.createServiceElement(service);
+            servicesList.appendChild(serviceElement);
+        });
+
+        EliteMassage.modules.PaginationModule.updatePagination();
+    },
 
     createServiceElement: (service) => {
-        const serviceElement = Utils.createElement('div', 'service-item');
+        const serviceElement = EliteMassage.modules.Utils.createElement('div', 'service-item');
         serviceElement.innerHTML = `
             <h3>${service.title}</h3>
             <p>${service.description}</p>
@@ -74,27 +89,26 @@ const CommunicationModule = {
             </div>
         `;
 
-        serviceElement.querySelector('.reserve-button').addEventListener('click', () => CommunicationModule.sendWhatsAppMessage('Reservar', service.title));
-        serviceElement.querySelector('.info-button').addEventListener('click', () => UIModule.showPopup(service));
+        serviceElement.querySelector('.reserve-button').addEventListener('click', () => EliteMassage.modules.CommunicationModule.sendWhatsAppMessage('Reservar', service.title));
+        serviceElement.querySelector('.info-button').addEventListener('click', () => EliteMassage.modules.UIModule.showPopup(service));
 
         return serviceElement;
     }
 };
 
-// Módulo de Paquetes
-const PackagesModule = {
+EliteMassage.modules.PackagesModule = {
     renderPackages: () => {
         const packageList = document.getElementById('package-list');
         if (!packageList) return;
         packageList.innerHTML = '';
-        state.packages.forEach(pkg => {
-            const packageElement = PackagesModule.createPackageElement(pkg);
+        EliteMassage.state.packages.forEach(pkg => {
+            const packageElement = EliteMassage.modules.PackagesModule.createPackageElement(pkg);
             packageList.appendChild(packageElement);
         });
     },
 
     createPackageElement: (pkg) => {
-        const packageElement = Utils.createElement('div', 'package-item');
+        const packageElement = EliteMassage.modules.Utils.createElement('div', 'package-item');
         packageElement.innerHTML = `
             <h3>${pkg.title}</h3>
             <p>${pkg.description}</p>
@@ -104,15 +118,14 @@ const PackagesModule = {
             </div>
         `;
 
-        packageElement.querySelector('.reserve-button').addEventListener('click', () => CommunicationModule.sendWhatsAppMessage('Reservar', pkg.title));
-        packageElement.querySelector('.info-button').addEventListener('click', () => UIModule.showPopup(pkg));
+        packageElement.querySelector('.reserve-button').addEventListener('click', () => EliteMassage.modules.CommunicationModule.sendWhatsAppMessage('Reservar', pkg.title));
+        packageElement.querySelector('.info-button').addEventListener('click', () => EliteMassage.modules.UIModule.showPopup(pkg));
 
         return packageElement;
     }
 };
 
-// Módulo de UI
-const UIModule = {
+EliteMassage.modules.UIModule = {
     showPopup: (data) => {
         const popup = document.getElementById('popup');
         const popupTitle = document.getElementById('popup-title');
@@ -127,16 +140,16 @@ const UIModule = {
         popupDescription.textContent = data.popupDescription || data.description;
 
         popup.style.display = 'flex';
-        setTimeout(() => Utils.showNotification('¿Te interesa este servicio? ¡Contáctanos!'), 4000);
+        setTimeout(() => EliteMassage.modules.Utils.showNotification('¿Te interesa este servicio? ¡Contáctanos!'), 4000);
     },
 
     createVenetianBlinds: () => {
         const venetianContainer = document.getElementById('venetian-container');
         if (!venetianContainer) return;
-        const image = `${CONFIG.BASE_URL}copas.JPG`;
+        const image = `${EliteMassage.config.BASE_URL}copas.JPG`;
         
         for (let i = 0; i < 10; i++) {
-            const blind = Utils.createElement('div', 'blind');
+            const blind = EliteMassage.modules.Utils.createElement('div', 'blind');
             blind.style.backgroundImage = `url(${image})`;
             blind.style.left = `${i * 10}%`;
             
@@ -164,7 +177,7 @@ const UIModule = {
         ];
 
         experiences.forEach(exp => {
-            const checkbox = Utils.createElement('div', 'checkbox');
+            const checkbox = EliteMassage.modules.Utils.createElement('div', 'checkbox');
             checkbox.innerHTML = `
                 <input type="checkbox" id="${exp.name}" class="checkbox-input">
                 <label for="${exp.name}" class="checkbox-tile">
@@ -181,10 +194,10 @@ const UIModule = {
     setupAccordion: () => {
         const header = document.querySelector('#sticky-header .container');
         if (!header) return;
-        const accordionToggle = Utils.createElement('button', 'accordion-button', 'Menú <i class="fas fa-chevron-down"></i>');
+        const accordionToggle = EliteMassage.modules.Utils.createElement('button', 'accordion-button', 'Menú <i class="fas fa-chevron-down"></i>');
         accordionToggle.id = 'accordion-toggle';
         
-        const accordionContent = Utils.createElement('div', 'accordion-content');
+        const accordionContent = EliteMassage.modules.Utils.createElement('div', 'accordion-content');
         accordionContent.id = 'accordion-content';
         const mainNav = document.querySelector('.main-nav');
         if (mainNav) {
@@ -204,7 +217,7 @@ const UIModule = {
         const galleryItems = document.querySelectorAll('.gallery-grid img');
         galleryItems.forEach(item => {
             item.addEventListener('click', () => {
-                UIModule.showPopup({
+                EliteMassage.modules.UIModule.showPopup({
                     title: item.alt,
                     image: item.src,
                     description: 'Descripción de la imagen de la galería'
@@ -214,30 +227,28 @@ const UIModule = {
     }
 };
 
-// Módulo de Paginación
-const PaginationModule = {
+EliteMassage.modules.PaginationModule = {
     updatePagination: () => {
         const paginationContainer = document.querySelector('.pagination-container');
         if (!paginationContainer) return;
         paginationContainer.innerHTML = '';
-        state.totalPages = Math.ceil(state.services[state.currentCategory].length / CONFIG.ITEMS_PER_PAGE);
+        EliteMassage.state.totalPages = Math.ceil(EliteMassage.state.services[EliteMassage.state.currentCategory].length / EliteMassage.config.ITEMS_PER_PAGE);
 
-        for (let i = 1; i <= state.totalPages; i++) {
-            const dot = Utils.createElement('div', `little-dot${i === state.currentPage ? ' active' : ''}`);
+        for (let i = 1; i <= EliteMassage.state.totalPages; i++) {
+            const dot = EliteMassage.modules.Utils.createElement('div', `little-dot${i === EliteMassage.state.currentPage ? ' active' : ''}`);
             paginationContainer.appendChild(dot);
         }
     },
 
     changePage: (direction) => {
-        state.currentPage += direction;
-        if (state.currentPage < 1) state.currentPage = state.totalPages;
-        if (state.currentPage > state.totalPages) state.currentPage = 1;
-        ServicesModule.renderServices();
+        EliteMassage.state.currentPage += direction;
+        if (EliteMassage.state.currentPage < 1) EliteMassage.state.currentPage = EliteMassage.state.totalPages;
+        if (EliteMassage.state.currentPage > EliteMassage.state.totalPages) EliteMassage.state.currentPage = 1;
+        EliteMassage.modules.ServicesModule.renderServices();
     }
 };
 
-// Módulo de Internacionalización
-const I18nModule = {
+EliteMassage.modules.I18nModule = {
     initLanguageSelector: () => {
         const translateIcon = document.getElementById('translate-icon');
         const languageOptions = document.querySelector('.language-options');
@@ -250,7 +261,7 @@ const I18nModule = {
             document.querySelectorAll('.lang-option').forEach(option => {
                 option.addEventListener('click', (e) => {
                     const lang = e.currentTarget.dataset.lang;
-                    I18nModule.changeLanguage(lang);
+                    EliteMassage.modules.I18nModule.changeLanguage(lang);
                     languageOptions.style.display = 'none';
                 });
             });
@@ -262,17 +273,16 @@ const I18nModule = {
             const response = await fetch(`/translations/${lang}.json`);
             const translations = await response.json();
             // Aplicar traducciones aquí
-            state.language = lang;
-            Utils.showNotification(`Idioma cambiado a ${lang}`);
+            EliteMassage.state.language = lang;
+            EliteMassage.modules.Utils.showNotification(`Idioma cambiado a ${lang}`);
         } catch (error) {
             console.error('Error al cambiar el idioma:', error);
-            Utils.showNotification('Error al cambiar el idioma');
+            EliteMassage.modules.Utils.showNotification('Error al cambiar el idioma');
         }
     }
 };
 
-// Módulo de Testimonios
-const TestimonialsModule = {
+EliteMassage.modules.TestimonialsModule = {
     setupTestimonialCarousel: () => {
         const testimonials = [
             { name: "Cliente 1", text: "Excelente servicio, muy relajante." },
@@ -284,10 +294,10 @@ const TestimonialsModule = {
         if (!carouselContainer) return;
         
         testimonials.forEach((testimonial, index) => {
-            const testimonialElement = Utils.createElement('div', 'slider-item');
+            const testimonialElement = EliteMassage.modules.Utils.createElement('div', 'slider-item');
             testimonialElement.innerHTML = `
                 <div class="animation-card_image">
-                    <img src="${CONFIG.BASE_URL}user-avatar.jpg" alt="${testimonial.name}">
+                    <img src="${EliteMassage.config.BASE_URL}user-avatar.jpg" alt="${testimonial.name}">
                 </div>
                 <div class="animation-card_content">
                     <h3 class="animation-card_content_title">${testimonial.name}</h3>
@@ -297,7 +307,7 @@ const TestimonialsModule = {
             carouselContainer.appendChild(testimonialElement);
         });
 
-        TestimonialsModule.startTestimonialAnimation();
+        EliteMassage.modules.TestimonialsModule.startTestimonialAnimation();
     },
 
     startTestimonialAnimation: () => {
@@ -316,31 +326,170 @@ const TestimonialsModule = {
     }
 };
 
-// Función de inicialización
-function init() {
-    ServicesModule.renderServices();
-    PackagesModule.renderPackages();
-    UIModule.createVenetianBlinds();
-    UIModule.createExperienceCheckboxes();
-    UIModule.setupAccordion();
-    UIModule.initializeGallery();
-    TestimonialsModule.setupTestimonialCarousel();
-    CommunicationModule.setupContactForm();
-    I18nModule.initLanguageSelector();
+// Componentes
+EliteMassage.components.Component = class {
+    constructor(props = {}) {
+        this.props = props;
+        this.state = {};
+    }
+
+    setState(newState) {
+        this.state = { ...this.state, ...newState };
+        this.render();
+    }
+
+    render() {
+        throw new Error('El método render debe ser implementado');
+    }
+};
+
+EliteMassage.components.SugerenciasParaTi = class extends EliteMassage.components.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            sugerencias: [
+                { nombre: 'Mary Aguilar', usuario: 'maryaguilar0', imagen: 'https://via.placeholder.com/100' },
+		{ nombre: 'Vanessa Villeg...', usuario: 'vanahi19', imagen: 'https://via.placeholder.com/100' },
+            ]
+        };
+    }
+
+    seguirUsuario(usuario) {
+        console.log(`Siguiendo a ${usuario}`);
+        // Aquí iría la lógica para seguir al usuario
+    }
+
+    render() {
+        const container = EliteMassage.modules.Utils.createElement('div', 'sugerencias-container');
+        
+        const title = EliteMassage.modules.Utils.createElement('h2');
+        title.textContent = 'Sugerencias para ti';
+        container.appendChild(title);
+
+        this.state.sugerencias.forEach(sugerencia => {
+            const item = EliteMassage.modules.Utils.createElement('div', 'sugerencia-item');
+            item.innerHTML = `
+                <div class="sugerencia-info">
+                    <img src="${sugerencia.imagen}" alt="${sugerencia.nombre}" class="sugerencia-avatar">
+                    <div>
+                        <div class="sugerencia-nombre">${sugerencia.nombre}</div>
+                        <div class="sugerencia-usuario">${sugerencia.usuario}</div>
+                    </div>
+                </div>
+                <button class="sugerencia-seguir">Seguir</button>
+            `;
+            const seguirButton = item.querySelector('.sugerencia-seguir');
+            seguirButton.addEventListener('click', () => this.seguirUsuario(sugerencia.usuario));
+            container.appendChild(item);
+        });
+
+        return container;
+    }
+};
+
+EliteMassage.components.ServiceCard = class extends EliteMassage.components.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    reservar() {
+        console.log(`Reservando ${this.props.title}`);
+        EliteMassage.modules.CommunicationModule.sendWhatsAppMessage('Reservar', this.props.title);
+    }
+
+    mostrarInfo() {
+        console.log(`Mostrando información de ${this.props.title}`);
+        EliteMassage.modules.UIModule.showPopup(this.props);
+    }
+
+    render() {
+        const card = EliteMassage.modules.Utils.createElement('div', 'service-card');
+        card.innerHTML = `
+            <div class="service-card-content">
+                <h3 class="service-card-title">${this.props.title}</h3>
+                <p class="service-card-description">${this.props.description}</p>
+            </div>
+            <div class="service-card-benefits">
+                <h4>Beneficios:</h4>
+                <ul>
+                    ${this.props.benefits.map(benefit => `<li>${benefit}</li>`).join('')}
+                </ul>
+            </div>
+            <div class="service-card-duration">
+                <p>Duración: ${this.props.duration}</p>
+            </div>
+            <div class="service-card-buttons">
+                <button class="service-card-button service-card-button-reserve">Reservar</button>
+                <button class="service-card-button service-card-button-info">Saber más</button>
+            </div>
+        `;
+
+        const reserveButton = card.querySelector('.service-card-button-reserve');
+        reserveButton.addEventListener('click', () => this.reservar());
+
+        const infoButton = card.querySelector('.service-card-button-info');
+        infoButton.addEventListener('click', () => this.mostrarInfo());
+
+        return card;
+    }
+};
+
+EliteMassage.components.FixedBottomBar = class extends EliteMassage.components.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            items: [
+                { href: '#home', icon: 'home', text: 'Inicio' },
+                { href: '#services', icon: 'spa', text: 'Servicios' },
+                { href: '#packages', icon: 'gift', text: 'Paquetes' },
+                { href: '#contact', icon: 'envelope', text: 'Contacto' }
+            ]
+        };
+    }
+
+    render() {
+        const bar = EliteMassage.modules.Utils.createElement('nav', 'fixed-bottom-bar');
+        bar.innerHTML = `
+            <ul>
+                ${this.state.items.map(item => `
+                    <li>
+                        <a href="${item.href}">
+                            <i class="fas fa-${item.icon}"></i>
+                            <span>${item.text}</span>
+                        </a>
+                    </li>
+                `).join('')}
+            </ul>
+        `;
+        return bar;
+    }
+};
+
+// Función principal para inicializar la aplicación
+EliteMassage.init = function() {
+    EliteMassage.modules.ServicesModule.renderServices();
+    EliteMassage.modules.PackagesModule.renderPackages();
+    EliteMassage.modules.UIModule.createVenetianBlinds();
+    EliteMassage.modules.UIModule.createExperienceCheckboxes();
+    EliteMassage.modules.UIModule.setupAccordion();
+    EliteMassage.modules.UIModule.initializeGallery();
+    EliteMassage.modules.TestimonialsModule.setupTestimonialCarousel();
+    EliteMassage.modules.CommunicationModule.setupContactForm();
+    EliteMassage.modules.I18nModule.initLanguageSelector();
 
     // Event Listeners
     const prevButton = document.querySelector('.btn--prev');
     const nextButton = document.querySelector('.btn--next');
-    if (prevButton) prevButton.addEventListener('click', () => PaginationModule.changePage(-1));
-    if (nextButton) nextButton.addEventListener('click', () => PaginationModule.changePage(1));
+    if (prevButton) prevButton.addEventListener('click', () => EliteMassage.modules.PaginationModule.changePage(-1));
+    if (nextButton) nextButton.addEventListener('click', () => EliteMassage.modules.PaginationModule.changePage(1));
 
     document.querySelectorAll('.choice-chip').forEach(chip => {
         chip.addEventListener('click', () => {
             document.querySelectorAll('.choice-chip').forEach(c => c.classList.remove('active'));
             chip.classList.add('active');
-            state.currentCategory = chip.dataset.category;
-            state.currentPage = 1;
-            ServicesModule.renderServices();
+            EliteMassage.state.currentCategory = chip.dataset.category;
+            EliteMassage.state.currentPage = 1;
+            EliteMassage.modules.ServicesModule.renderServices();
         });
     });
 
@@ -365,131 +514,43 @@ function init() {
         });
     });
 
-    // Inicializar el menú acordeón
-    const menuIcon = document.createElement('img');
-    menuIcon.src = `${CONFIG.BASE_URL}menui.png`;
-    menuIcon.alt = 'Menú';
-    menuIcon.className = 'menu-icon';
-    document.body.appendChild(menuIcon);
+    this.initComponents();
+};
 
-    const accordion = document.createElement('div');
-    accordion.className = 'accordion-menu';
-    accordion.innerHTML = `
-        <div class>
-	// Continuación de la función init()
-    const accordion = document.createElement('div');
-    accordion.className = 'accordion-menu';
-    accordion.innerHTML = `
-        <div class="accordion-content">
-            <a href="#servicios">Servicios</a>
-            <a href="#paquetes">Paquetes</a>
-            <a href="#experiencias">Experiencias</a>
-            <a href="#galeria">Galería</a>
-            <a href="#contacto">Contacto</a>
-        </div>
-    `;
-    document.body.appendChild(accordion);
-
-    menuIcon.addEventListener('click', () => {
-        accordion.classList.toggle('active');
-    });
-
-    // Inicializar el selector de idioma
-    const translateIcon = document.getElementById('translate-icon');
-    if (translateIcon) {
-        translateIcon.addEventListener('click', () => {
-            I18nModule.changeLanguage(state.language === 'es' ? 'en' : 'es');
-        });
+EliteMassage.initComponents = function() {
+    const root = document.getElementById('react-root');
+    if (!root) {
+        console.error('Element with id "react-root" not found');
+        return;
     }
-}
 
-// Cargar datos y llamar a init() cuando el DOM esté listo
+    const sugerencias = new EliteMassage.components.SugerenciasParaTi();
+    root.appendChild(sugerencias.render());
+
+    const serviceCardData = {
+        title: "Masaje Relajante",
+        description: "Un masaje suave para aliviar el estrés y la tensión.",
+        benefits: ["Reduce el estrés", "Mejora la circulación", "Alivia dolores musculares"],
+        duration: "60 minutos"
+    };
+    const serviceCard = new EliteMassage.components.ServiceCard(serviceCardData);
+    root.appendChild(serviceCard.render());
+
+    const bottomBar = new EliteMassage.components.FixedBottomBar();
+    document.body.appendChild(bottomBar.render());
+};
+
+// Inicializar la aplicación cuando el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', () => {
     fetch('https://raw.githubusercontent.com/elitemassagemx/Home/main/data.json')
         .then(response => response.json())
         .then(data => {
-            state.services = data.services;
-            state.packages = data.services.paquetes;
-            init();
+            EliteMassage.state.services = data.services;
+            EliteMassage.state.packages = data.services.paquetes;
+            EliteMassage.init();
         })
         .catch(error => {
             console.error('Error al cargar los datos:', error);
-            Utils.showNotification('Error al cargar los datos. Por favor, intenta de nuevo más tarde.');
+            EliteMassage.modules.Utils.showNotification('Error al cargar los datos. Por favor, intenta de nuevo más tarde.');
         });
-
-    // Configuración del menú acordeón
-    var menuToggle = document.getElementById('menu-toggle');
-    var mainNav = document.querySelector('.main-nav');
-
-    if (menuToggle) {
-        menuToggle.addEventListener('click', function() {
-            mainNav.classList.toggle('active');
-        });
-    }
-
-    var Accordion = function(el, multiple) {
-        this.el = el || {};
-        this.multiple = multiple || false;
-        var links = this.el.querySelectorAll('.link');
-        links.forEach(link => {
-            link.addEventListener('click', e => this.dropdown(e));
-        });
-    }
-
-    Accordion.prototype.dropdown = function(e) {
-        var $this = e.target;
-        var $next = $this.nextElementSibling;
-        $next.style.display = $next.style.display === 'block' ? 'none' : 'block';
-        $this.parentNode.classList.toggle('open');
-        if (!this.multiple) {
-            var $el = this.el;
-            var $submenu = $el.querySelectorAll('.submenu');
-            $submenu.forEach(sub => {
-                if (sub !== $next) {
-                    sub.style.display = 'none';
-                    sub.parentNode.classList.remove('open');
-                }
-            });
-        }
-    }
-
-    var accordion = new Accordion(document.getElementById('accordion'), false);
 });
-
-// Galería
-function styles(item_id, x, y, z, opacity, shadow) {
-    const item = document.querySelector(item_id);
-    if (item) {
-        item.style.transform = `translate3d(${x}px, ${y}px, ${z}px)`;
-        item.style.opacity = opacity;
-        item.style.boxShadow = shadow;
-    }
-}
-
-document.getElementById('one')?.addEventListener('click', function() {
-    document.getElementById('one')?.classList.add('focus');
-    document.getElementById('two')?.classList.remove('focus');
-    document.getElementById('three')?.classList.remove('focus');
-    styles('#first', 0, 0, 0, 1, '0 20px 50px rgba(0,34,45,0.5)');
-    styles('#second', 70, -80, -50, 0.6, 'none');
-    styles('#third', 110, 80, -60, 0.1, 'none');
-});
-
-document.getElementById('two')?.addEventListener('click', function() {
-    document.getElementById('one')?.classList.remove('focus');
-    document.getElementById('two')?.classList.add('focus');
-    document.getElementById('three')?.classList.remove('focus');
-    styles('#first', 110, 80, -60, 0.1, 'none');
-    styles('#second', 0, 0, 0, 1, '0 20px 50px rgba(0,34,45,0.5)');
-    styles('#third', 70, -80, -50, 0.6, 'none');
-});
-
-document.getElementById('three')?.addEventListener('click', function() {
-    document.getElementById('one')?.classList.remove('focus');
-    document.getElementById('two')?.classList.remove('focus');
-    document.getElementById('three')?.classList.add('focus');
-    styles('#first', 70, -80, -50, 0.6, 'none');
-    styles('#second', 110, 80, -60, 0.1, 'none');
-    styles('#third', 0, 0, 0, 1, '0 20px 50px rgba(0,34,45,0.5)');
-});
-	
