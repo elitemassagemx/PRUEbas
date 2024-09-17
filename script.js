@@ -388,4 +388,36 @@ function init() {
 
     // Inicializar el menú acordeón
     const menuIcon = document.createElement('img');
-    menuIcon.src = `${CONFIG.BASE_URL}
+    // Inicializar el menú acordeón (continuación)
+    menuIcon.src = `${CONFIG.BASE_URL}menui.png`;
+    menuIcon.alt = 'Menú';
+    menuIcon.className = 'menu-icon';
+    document.body.appendChild(menuIcon);
+
+    const accordion = document.createElement('div');
+    accordion.className = 'accordion-menu';
+    accordion.innerHTML = `
+        <div class="accordion-content">
+            <a href="#servicios">Servicios</a>
+            <a href="#paquetes">Paquetes</a>
+            <a href="#experiencias">Experiencias</a>
+            <a href="#galeria">Galería</a>
+            <a href="#contacto">Contacto</a>
+        </div>
+    `;
+    document.body.appendChild(accordion);
+
+    menuIcon.addEventListener('click', () => {
+        accordion.classList.toggle('active');
+    });
+
+    // Inicializar el selector de idioma
+    const translateIcon = document.getElementById('translate-icon');
+    if (translateIcon) {
+        translateIcon.addEventListener('click', () => {
+            I18nModule.changeLanguage(state.language === 'es' ? 'en' : 'es');
+        });
+    }
+}
+
+// No necesitamos el evento DOMContentLoaded aquí, ya que init() se llama después de cargar los datos
