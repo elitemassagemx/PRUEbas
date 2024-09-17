@@ -472,3 +472,41 @@ document.addEventListener('DOMContentLoaded', () => {
             Utils.showNotification('Error al cargar los datos. Por favor, intenta de nuevo más tarde.');
         });
 });
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    var menuToggle = document.getElementById('menu-toggle');
+    var mainNav = document.querySelector('.main-nav');
+
+    menuToggle.addEventListener('click', function() {
+        mainNav.classList.toggle('active');
+    });
+
+    var Accordion = function(el, multiple) {
+        this.el = el || {};
+        this.multiple = multiple || false;
+        var links = this.el.querySelectorAll('.link');
+        links.forEach(link => {
+            link.addEventListener('click', e => this.dropdown(e));
+        });
+    }
+
+    Accordion.prototype.dropdown = function(e) {
+        var $this = e.target;
+        var $next = $this.nextElementSibling;
+        $next.style.display = $next.style.display === 'block' ? 'none' : 'block';
+        $this.parentNode.classList.toggle('open');
+        if (!this.multiple) {
+            var $el = this.el;
+            var $submenu = $el.querySelectorAll('.submenu');
+            $submenu.forEach(sub => {
+                if (sub !== $next) {
+                    sub.style.display = 'none';
+                    sub.parentNode.classList.remove('open');
+                }
+            });
+        }
+    }
+
+    var accordion = new Accordion(document.getElementById('accordion'), false);
+});
