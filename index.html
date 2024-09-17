@@ -1,4 +1,4 @@
-Ç<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -8,9 +8,38 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    <!-- Estilos adicionales -->
+    <link rel="stylesheet" href="cdevator.css">
+    <link rel="stylesheet" href="acordeon.css">
+    <link rel="stylesheet" href="checkbox.css">
+    <link rel="stylesheet" href="especialistas.css">
+    <link rel="stylesheet" href="acercade.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js" defer></script>
     <script src="script.js" defer></script>
+    <!-- Script para cargar componentes dinámicamente -->
+    <script>
+        function loadComponent(url, targetId) {
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById(targetId).innerHTML = data;
+                    // Ejecutar scripts si los hay
+                    const scripts = document.getElementById(targetId).getElementsByTagName('script');
+                    for (let script of scripts) {
+                        eval(script.innerHTML);
+                    }
+                })
+                .catch(error => console.error('Error loading component:', error));
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadComponent('cdevator.html', 'cdevator-container');
+            loadComponent('checkbox.html', 'checkbox-container');
+            loadComponent('acercade.html', 'acercade-container');
+            loadComponent('acordeon.html', 'acordeon-container');
+        });
+    </script>
 </head>
 <body>
     <header id="sticky-header">
@@ -258,6 +287,11 @@
                 </div>
             </div>
         </section>
+
+	<div id="cdevator-container"></div>
+        <div id="checkbox-container"></div>
+        <div id="acercade-container"></div>
+        <div id="acordeon-container"></div>
 
         <section id="contacto" class="section contact">
             <div class="container">
