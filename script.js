@@ -1,5 +1,3 @@
-
-
 // Configuración global
 const CONFIG = {
     BASE_URL: "https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/",
@@ -7,6 +5,34 @@ const CONFIG = {
     WHATSAPP_NUMBER: "5215640020305"
 };
 
+// Estado global de la aplicación
+const state = {
+    currentPage: 1,
+    currentCategory: 'individual',
+    totalPages: 1,
+    language: 'es',
+    services: null,
+    packages: null
+};
+
+// Módulo de Utilidades
+const Utils = {
+    createElement: (tag, className, innerHTML) => {
+        const element = document.createElement(tag);
+        if (className) element.className = className;
+        if (innerHTML) element.innerHTML = innerHTML;
+        return element;
+    },
+    
+    showNotification: (message) => {
+        const toast = document.getElementById('toast');
+        toast.querySelector('#desc').textContent = message;
+        toast.className = 'show';
+        setTimeout(() => { toast.className = toast.className.replace('show', ''); }, 5000);
+    }
+};
+
+// Módulo de Comunicación
 const CommunicationModule = {
     sendWhatsAppMessage: (action, serviceTitle) => {
         const message = encodeURIComponent(`Hola! Quiero ${action} un ${serviceTitle}`);
@@ -31,45 +57,6 @@ const CommunicationModule = {
                 form.reset();
             });
         }
-    }
-};
-// Estado global de la aplicación
-const state = {
-    currentPage: 1,
-    currentCategory: 'individual',
-    totalPages: 1,
-    language: 'es',
-    services: null,
-    packages: null
-};
-
-// Cargar datos al inicio
-fetch('https://raw.githubusercontent.com/elitemassagemx/Home/main/data.json')
-    .then(response => response.json())
-    .then(data => {
-        state.services = data.services;
-        state.packages = data.services.paquetes;  // Asumiendo que 'paquetes' está dentro de 'services'
-        init();  // Inicializar la aplicación después de cargar los datos
-    })
-    .catch(error => {
-        console.error('Error al cargar los datos:', error);
-        // Aquí puedes agregar alguna lógica para mostrar un mensaje de error al usuario
-    });
-
-// Módulo de Utilidades
-const Utils = {
-    createElement: (tag, className, innerHTML) => {
-        const element = document.createElement(tag);
-        if (className) element.className = className;
-        if (innerHTML) element.innerHTML = innerHTML;
-        return element;
-    },
-    
-    showNotification: (message) => {
-        const toast = document.getElementById('toast');
-        toast.querySelector('#desc').textContent = message;
-        toast.className = 'show';
-        setTimeout(() => { toast.className = toast.className.replace('show', ''); }, 5000);
     }
 };
 
@@ -264,27 +251,6 @@ const PaginationModule = {
     }
 };
 
-// Modulo de Comunicacion
-const CommunicationModule = {
-    sendWhatsAppMessage: (action, serviceTitle) => {
-        const message = encodeURIComponent(`Hola! Quiero ${action} un ${serviceTitle}`);
-        const url = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${message}`;
-        window.open(url, '_blank');
-    },
-
-    setupContactForm: () => {
-        const form = document.getElementById('contact-form');
-        if (form) {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                // Aquí iría la lógica para enviar el formulario
-                Utils.showNotification('Mensaje enviado con éxito');
-                form.reset();
-            });
-        }
-    }
-};
-
 // Módulo de Internacionalización
 const I18nModule = {
     initLanguageSelector: () => {
@@ -393,9 +359,6 @@ function init() {
         });
     });
 
-    // ... (rest of your init function)
-
-
     const closeButton = document.querySelector('.close');
     if (closeButton) {
         closeButton.addEventListener('click', () => {
@@ -417,53 +380,18 @@ function init() {
         });
     });
 
-    //GALERIA
-var shadow = '0 20px 50px rgba(0,34,45,0.5)';
-
-function styles(item_id, x, y, z , opacity, shadow){
-	$(item_id).css({
-		transform: 'translate3d('+ x +'px, ' + y + 'px, ' + z +'px) ',
-		opacity: opacity,
-		'box-shadow': shadow
-	});
-}
-
-$('#one').click(function(){
-	$('#one').addClass('focus');
-	$('#two').removeClass('focus');
-	$('#three').removeClass('focus');
-	styles('#first', 0, 0, 0, 1, shadow);
-	styles('#second', 70, -80, -50, 0.6, 'none');
-	styles('#third', 110, 80, -60, 0.1, 'none');
-}); 
-
-
-$('#two').click(function(){
-	$('#one').removeClass('focus');
-	$('#two').addClass('focus');
-	$('#three').removeClass('focus');
-	styles('#first', 110, 80, -60, 0.1, 'none');
-	styles('#second', 0, 0, 0, 1, shadow);
-	styles('#third', 70, -80, -50, 0.6, 'none');
-});
-$('#three').click(function(){
-	$('#one').removeClass('focus');
-	$('#two').removeClass('focus');
-	$('#three').addClass('focus');
-	styles('#first', 70, -80, -50, 0.6, 'none');
-	styles('#second', 110, 80, -60, 0.1, 'none');
-	styles('#third', 0, 0, 0, 1, shadow);
-});
-    
-    
     // Inicializar el menú acordeón
     const menuIcon = document.createElement('img');
-    // Inicializar el menú acordeón (continuación)
     menuIcon.src = `${CONFIG.BASE_URL}menui.png`;
     menuIcon.alt = 'Menú';
     menuIcon.className = 'menu-icon';
     document.body.appendChild(menuIcon);
 
+    const accordion = document.createElement('div');
+    accordion.className = 'accordion-menu';
+    accordion.innerHTML = `
+        <div class>
+	// Continuación de la función init()
     const accordion = document.createElement('div');
     accordion.className = 'accordion-menu';
     accordion.innerHTML = `
@@ -489,7 +417,8 @@ $('#three').click(function(){
         });
     }
 }
-// Llama a init() cuando el DOM esté listo
+
+// Cargar datos y llamar a init() cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
     fetch('https://raw.githubusercontent.com/elitemassagemx/Home/main/data.json')
         .then(response => response.json())
@@ -502,16 +431,16 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error al cargar los datos:', error);
             Utils.showNotification('Error al cargar los datos. Por favor, intenta de nuevo más tarde.');
         });
-});
 
-
-document.addEventListener('DOMContentLoaded', function() {
+    // Configuración del menú acordeón
     var menuToggle = document.getElementById('menu-toggle');
     var mainNav = document.querySelector('.main-nav');
 
-    menuToggle.addEventListener('click', function() {
-        mainNav.classList.toggle('active');
-    });
+    if (menuToggle) {
+        menuToggle.addEventListener('click', function() {
+            mainNav.classList.toggle('active');
+        });
+    }
 
     var Accordion = function(el, multiple) {
         this.el = el || {};
@@ -541,3 +470,41 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var accordion = new Accordion(document.getElementById('accordion'), false);
 });
+
+// Galería
+function styles(item_id, x, y, z, opacity, shadow) {
+    const item = document.querySelector(item_id);
+    if (item) {
+        item.style.transform = `translate3d(${x}px, ${y}px, ${z}px)`;
+        item.style.opacity = opacity;
+        item.style.boxShadow = shadow;
+    }
+}
+
+document.getElementById('one')?.addEventListener('click', function() {
+    document.getElementById('one')?.classList.add('focus');
+    document.getElementById('two')?.classList.remove('focus');
+    document.getElementById('three')?.classList.remove('focus');
+    styles('#first', 0, 0, 0, 1, '0 20px 50px rgba(0,34,45,0.5)');
+    styles('#second', 70, -80, -50, 0.6, 'none');
+    styles('#third', 110, 80, -60, 0.1, 'none');
+});
+
+document.getElementById('two')?.addEventListener('click', function() {
+    document.getElementById('one')?.classList.remove('focus');
+    document.getElementById('two')?.classList.add('focus');
+    document.getElementById('three')?.classList.remove('focus');
+    styles('#first', 110, 80, -60, 0.1, 'none');
+    styles('#second', 0, 0, 0, 1, '0 20px 50px rgba(0,34,45,0.5)');
+    styles('#third', 70, -80, -50, 0.6, 'none');
+});
+
+document.getElementById('three')?.addEventListener('click', function() {
+    document.getElementById('one')?.classList.remove('focus');
+    document.getElementById('two')?.classList.remove('focus');
+    document.getElementById('three')?.classList.add('focus');
+    styles('#first', 70, -80, -50, 0.6, 'none');
+    styles('#second', 110, 80, -60, 0.1, 'none');
+    styles('#third', 0, 0, 0, 1, '0 20px 50px rgba(0,34,45,0.5)');
+});
+	
