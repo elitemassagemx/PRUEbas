@@ -393,6 +393,35 @@ function init() {
         });
     });
 
+    // ... (rest of your init function)
+}
+function init() {
+    ServicesModule.renderServices();
+    PackagesModule.renderPackages();
+    UIModule.createVenetianBlinds();
+    UIModule.createExperienceCheckboxes();
+    UIModule.setupAccordion();
+    UIModule.initializeGallery();
+    TestimonialsModule.setupTestimonialCarousel();
+    CommunicationModule.setupContactForm();
+    I18nModule.initLanguageSelector();
+
+    // Event Listeners
+    const prevButton = document.querySelector('.btn--prev');
+    const nextButton = document.querySelector('.btn--next');
+    if (prevButton) prevButton.addEventListener('click', () => PaginationModule.changePage(-1));
+    if (nextButton) nextButton.addEventListener('click', () => PaginationModule.changePage(1));
+
+    document.querySelectorAll('.choice-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+            document.querySelectorAll('.choice-chip').forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            state.currentCategory = chip.dataset.category;
+            state.currentPage = 1;
+            ServicesModule.renderServices();
+        });
+    });
+
     const closeButton = document.querySelector('.close');
     if (closeButton) {
         closeButton.addEventListener('click', () => {
