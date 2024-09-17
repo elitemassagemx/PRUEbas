@@ -61,22 +61,7 @@ const CommunicationModule = {
 };
 
 // Módulo de Servicios
-const ServicesModule = {
-    renderServices: () => {
-        const servicesList = document.getElementById('services-list');
-        if (!servicesList) return;
-        servicesList.innerHTML = '';
-        const startIndex = (state.currentPage - 1) * CONFIG.ITEMS_PER_PAGE;
-        const endIndex = startIndex + CONFIG.ITEMS_PER_PAGE;
-        const currentServices = state.services[state.currentCategory].slice(startIndex, endIndex);
 
-        currentServices.forEach(service => {
-            const serviceElement = ServicesModule.createServiceElement(service);
-            servicesList.appendChild(serviceElement);
-        });
-
-        PaginationModule.updatePagination();
-    },
 
     createServiceElement: (service) => {
         const serviceElement = Utils.createElement('div', 'service-item');
