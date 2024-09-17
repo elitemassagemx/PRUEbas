@@ -15,6 +15,19 @@ const state = {
     packages: null
 };
 
+// Cargar datos al inicio
+fetch('https://raw.githubusercontent.com/elitemassagemx/Home/main/data.json')
+    .then(response => response.json())
+    .then(data => {
+        state.services = data.services;
+        state.packages = data.services.paquetes;  // Asumiendo que 'paquetes' está dentro de 'services'
+        init();  // Inicializar la aplicación después de cargar los datos
+    })
+    .catch(error => {
+        console.error('Error al cargar los datos:', error);
+        // Aquí puedes agregar alguna lógica para mostrar un mensaje de error al usuario
+    });
+
 // Módulo de Utilidades
 const Utils = {
     createElement: (tag, className, innerHTML) => {
@@ -324,21 +337,7 @@ const TestimonialsModule = {
     }
 };
 
-// Función para cargar datos
-async function loadData() {
-    try {
-        const response = await fetch('data.json');
-        const data = await response.json();
-        state.services = data.services;
-        state.packages = data.packages;
-        init(); // Llama a init después de cargar los datos
-    } catch (error) {
-        console.error('Error al cargar los datos:', error);
-        Utils.showNotification('Error al cargar los datos');
-    }
-}
-
-// Inicialización
+// Función de inicialización
 function init() {
     ServicesModule.renderServices();
     PackagesModule.renderPackages();
@@ -389,36 +388,4 @@ function init() {
 
     // Inicializar el menú acordeón
     const menuIcon = document.createElement('img');
-    menuIcon.src = `${CONFIG.BASE_URL}menui.png`;
-    menuIcon.alt = 'Menú';
-    menuIcon.className = 'menu-icon';
-document.body.appendChild(menuIcon);
-
-    const accordion = document.createElement('div');
-    accordion.className = 'accordion-menu';
-    accordion.innerHTML = `
-        <div class="accordion-content">
-            <a href="#servicios">Servicios</a>
-            <a href="#paquetes">Paquetes</a>
-            <a href="#experiencias">Experiencias</a>
-            <a href="#galeria">Galería</a>
-            <a href="#contacto">Contacto</a>
-        </div>
-    `;
-    document.body.appendChild(accordion);
-
-    menuIcon.addEventListener('click', () => {
-        accordion.classList.toggle('active');
-    });
-
-    // Inicializar el selector de idioma
-    const translateIcon = document.getElementById('translate-icon');
-    if (translateIcon) {
-        translateIcon.addEventListener('click', () => {
-            I18nModule.changeLanguage(state.language === 'es' ? 'en' : 'es');
-        });
-    }
-}
-
-// Llamada a la función de carga de datos cuando el DOM esté cargado
-document.addEventListener('DOMContentLoaded', loadData);
+    menuIcon.src = `${CONFIG.BASE_URL}
