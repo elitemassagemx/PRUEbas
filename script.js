@@ -1,3 +1,5 @@
+
+
 // Configuración global
 const CONFIG = {
     BASE_URL: "https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/",
@@ -5,6 +7,32 @@ const CONFIG = {
     WHATSAPP_NUMBER: "5215640020305"
 };
 
+const CommunicationModule = {
+    sendWhatsAppMessage: (action, serviceTitle) => {
+        const message = encodeURIComponent(`Hola! Quiero ${action} un ${serviceTitle}`);
+        const url = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${message}`;
+        window.open(url, '_blank');
+    },
+
+    setupContactForm: () => {
+        const form = document.getElementById('contact-form');
+        if (form) {
+            form.innerHTML = `
+                <h2>Contáctanos</h2>
+                <input type="text" id="name" name="name" placeholder="Tu nombre" required>
+                <input type="email" id="email" name="email" placeholder="Tu email" required>
+                <textarea id="message" name="message" placeholder="Tu mensaje aquí" required></textarea>
+                <button type="submit">Enviar</button>
+            `;
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Aquí iría la lógica para enviar el formulario
+                Utils.showNotification('Mensaje enviado con éxito');
+                form.reset();
+            });
+        }
+    }
+};
 // Estado global de la aplicación
 const state = {
     currentPage: 1,
