@@ -1,6 +1,3 @@
-// Importar servicios y paquetes desde un archivo JSON
-import { services, packages } from './data.json';
-
 // Configuración global
 const CONFIG = {
     BASE_URL: "https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/",
@@ -13,7 +10,9 @@ const state = {
     currentPage: 1,
     currentCategory: 'individual',
     totalPages: 1,
-    language: 'es'
+    language: 'es',
+    services: null,
+    packages: null
 };
 
 // Módulo de Utilidades
@@ -37,10 +36,11 @@ const Utils = {
 const ServicesModule = {
     renderServices: () => {
         const servicesList = document.getElementById('services-list');
+        if (!servicesList) return;
         servicesList.innerHTML = '';
         const startIndex = (state.currentPage - 1) * CONFIG.ITEMS_PER_PAGE;
         const endIndex = startIndex + CONFIG.ITEMS_PER_PAGE;
-        const currentServices = services[state.currentCategory].slice(startIndex, endIndex);
+        const currentServices = state.services[state.currentCategory].slice(startIndex, endIndex);
 
         currentServices.forEach(service => {
             const serviceElement = ServicesModule.createServiceElement(service);
@@ -72,8 +72,9 @@ const ServicesModule = {
 const PackagesModule = {
     renderPackages: () => {
         const packageList = document.getElementById('package-list');
+        if (!packageList) return;
         packageList.innerHTML = '';
-        packages.forEach(pkg => {
+        state.packages.forEach(pkg => {
             const packageElement = PackagesModule.createPackageElement(pkg);
             packageList.appendChild(packageElement);
         });
@@ -105,6 +106,8 @@ const UIModule = {
         const popupImage = document.getElementById('popup-image');
         const popupDescription = document.getElementById('popup-description');
 
+        if (!popup || !popupTitle || !popupImage || !popupDescription) return;
+
         popupTitle.textContent = data.title;
         popupImage.src = data.image || '';
         popupImage.alt = data.title;
@@ -116,6 +119,7 @@ const UIModule = {
 
     createVenetianBlinds: () => {
         const venetianContainer = document.getElementById('venetian-container');
+        if (!venetianContainer) return;
         const image = `${CONFIG.BASE_URL}copas.JPG`;
         
         for (let i = 0; i < 10; i++) {
@@ -137,6 +141,7 @@ const UIModule = {
 
     createExperienceCheckboxes: () => {
         const checkboxGroup = document.querySelector('.checkbox-group');
+        if (!checkboxGroup) return;
         const experiences = [
             { name: 'Masaje Relajante', icon: 'massage' },
             { name: 'Aromaterapia', icon: 'spa' },
@@ -162,12 +167,16 @@ const UIModule = {
 
     setupAccordion: () => {
         const header = document.querySelector('#sticky-header .container');
+        if (!header) return;
         const accordionToggle = Utils.createElement('button', 'accordion-button', 'Menú <i class="fas fa-chevron-down"></i>');
         accordionToggle.id = 'accordion-toggle';
         
         const accordionContent = Utils.createElement('div', 'accordion-content');
         accordionContent.id = 'accordion-content';
-        accordionContent.innerHTML = document.querySelector('.main-nav').innerHTML;
+        const mainNav = document.querySelector('.main-nav');
+        if (mainNav) {
+            accordionContent.innerHTML = mainNav.innerHTML;
+        }
 
         header.appendChild(accordionToggle);
         header.appendChild(accordionContent);
@@ -196,8 +205,9 @@ const UIModule = {
 const PaginationModule = {
     updatePagination: () => {
         const paginationContainer = document.querySelector('.pagination-container');
+        if (!paginationContainer) return;
         paginationContainer.innerHTML = '';
-        state.totalPages = Math.ceil(services[state.currentCategory].length / CONFIG.ITEMS_PER_PAGE);
+        state.totalPages = Math.ceil(state.services[state.currentCategory].length / CONFIG.ITEMS_PER_PAGE);
 
         for (let i = 1; i <= state.totalPages; i++) {
             const dot = Utils.createElement('div', `little-dot${i === state.currentPage ? ' active' : ''}`);
@@ -279,6 +289,7 @@ const TestimonialsModule = {
         ];
 
         const carouselContainer = document.getElementById('card-slider');
+        if (!carouselContainer) return;
         
         testimonials.forEach((testimonial, index) => {
             const testimonialElement = Utils.createElement('div', 'slider-item');
@@ -298,34 +309,34 @@ const TestimonialsModule = {
     },
 
     startTestimonialAnimation: () => {
-        const cards = $('#card-slider .slider-item').toArray();
+        const cards = document.querySelectorAll('#card-slider .slider-item');
+        if (cards.length < 4) {
+            console.error('Se necesitan al menos 4 testimonios para la animación');
+            return;
+        }
         
-        function startAnim(array) {
-            if(array.length >= 4 ) {
-                TweenMax.fromTo(array[0], 0.5, {x:0, y: 0, opacity:0.75}, {x:0, y: -120, opacity:0, zIndex: 0, delay:0.03, ease: Cubic.easeInOut, onComplete: sortArray(array)});
-
-                TweenMax.fromTo(array[1], 0.5, {x:79, y: 125, opacity:1, zIndex: 1}, {x:0, y: 0, opacity:0.75, zIndex: 0, boxShadow: '-5px 8px 8px 0 rgba(82,89,129,0.05)', ease: Cubic.easeInOut});
-
-                TweenMax.to(array[2], 0.5, {bezier:[{x:0, y:250}, {x:65, y:200}, {x:79, y:125}], boxShadow: '-5px 8px 8px 0 rgba(82,89,129,0.05)', zIndex: 1, opacity: 1, ease: Cubic.easeInOut});
-
-                TweenMax.fromTo(array[3], 0.5, {x:0, y:400, opacity: 0, zIndex: 0}, {x:0, y:250, opacity: 0.75, zIndex: 0, ease: Cubic.easeInOut}, );
-            } else {
-                $('#card-slider').append('<p>Sorry, carousel should contain more than 3 slides</p>')
-            }
-        }
-
-        function sortArray(array) {
-            clearTimeout(delay);
-            var delay = setTimeout(function(){
-                var firstElem = array.shift();
-                array.push(firstElem);
-                return startAnim(array); 
-            },3000)
-        }
-
-        startAnim(cards);
+        let currentIndex = 0;
+        setInterval(() => {
+            cards[currentIndex].style.opacity = '0';
+            currentIndex = (currentIndex + 1) % cards.length;
+            cards[currentIndex].style.opacity = '1';
+        }, 3000);
     }
 };
+
+// Función para cargar datos
+async function loadData() {
+    try {
+        const response = await fetch('data.json');
+        const data = await response.json();
+        state.services = data.services;
+        state.packages = data.packages;
+        init(); // Llama a init después de cargar los datos
+    } catch (error) {
+        console.error('Error al cargar los datos:', error);
+        Utils.showNotification('Error al cargar los datos');
+    }
+}
 
 // Inicialización
 function init() {
@@ -340,8 +351,10 @@ function init() {
     I18nModule.initLanguageSelector();
 
     // Event Listeners
-    document.querySelector('.btn--prev').addEventListener('click', () => PaginationModule.changePage(-1));
-    document.querySelector('.btn--next').addEventListener('click', () => PaginationModule.changePage(1));
+    const prevButton = document.querySelector('.btn--prev');
+    const nextButton = document.querySelector('.btn--next');
+    if (prevButton) prevButton.addEventListener('click', () => PaginationModule.changePage(-1));
+    if (nextButton) nextButton.addEventListener('click', () => PaginationModule.changePage(1));
 
     document.querySelectorAll('.choice-chip').forEach(chip => {
         chip.addEventListener('click', () => {
@@ -353,17 +366,24 @@ function init() {
         });
     });
 
-    document.querySelector('.close').addEventListener('click', () => {
-        document.getElementById('popup').style.display = 'none';
-    });
+    const closeButton = document.querySelector('.close');
+    if (closeButton) {
+        closeButton.addEventListener('click', () => {
+            const popup = document.getElementById('popup');
+            if (popup) popup.style.display = 'none';
+        });
+    }
 
     // Smooth Scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
         });
     });
 
@@ -372,7 +392,7 @@ function init() {
     menuIcon.src = `${CONFIG.BASE_URL}menui.png`;
     menuIcon.alt = 'Menú';
     menuIcon.className = 'menu-icon';
-    document.body.appendChild(menuIcon);
+document.body.appendChild(menuIcon);
 
     const accordion = document.createElement('div');
     accordion.className = 'accordion-menu';
@@ -400,5 +420,5 @@ function init() {
     }
 }
 
-// Llamada a la función de inicialización cuando el DOM esté cargado
-document.addEventListener('DOMContentLoaded', init);
+// Llamada a la función de carga de datos cuando el DOM esté cargado
+document.addEventListener('DOMContentLoaded', loadData);
