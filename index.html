@@ -44,34 +44,49 @@
     </script>
 </head>
 <body>
-    <header id="sticky-header">
-        <div class="container">
-            <div class="header-top">
-                <div class="logo-container">
-                    <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/logo.png" alt="Elite Massage Logo" class="logo">
-                    <h1 id="elite-massage" class="btn-shine">Elite Massage</h1>
-                </div>
-                <div class="language-selector">
-                    <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/trad.png" id="translate-icon" alt="Traducir">
-                    <div class="language-options">
-                        <button data-lang="es">Español</button>
-                        <button data-lang="en">English</button>
-                    </div>
+<header id="sticky-header">
+    <div class="container">
+        <div class="header-top">
+            <div class="logo-container">
+                <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/logo.png" alt="Elite Massage Logo" class="logo">
+                <h1 id="elite-massage" class="btn-shine">Elite Massage</h1>
+            </div>
+            <div class="menu-icon">
+                <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/menu.png" alt="Menu" id="menu-toggle">
+            </div>
+            <div class="language-selector">
+                <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/trad.png" id="translate-icon" alt="Traducir">
+                <div class="language-options">
+                    <button data-lang="es">Español</button>
+                    <button data-lang="en">English</button>
                 </div>
             </div>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="#inicio">Inicio</a></li>
-                    <li><a href="#servicios">Servicios</a></li>
-                    <li><a href="#paquetes">Paquetes</a></li>
-                    <li><a href="#experiencias">Experiencias</a></li>
-                    <li><a href="#galeria">Galería</a></li>
-                    <li><a href="#testimonios">Testimonios</a></li>
-                    <li><a href="#contacto">Contacto</a></li>
-                </ul>
-            </nav>
         </div>
-    </header>
+        <nav class="main-nav">
+            <ul id="accordion" class="accordion">
+                <li>
+                    <div class="link"><i class="fa fa-home"></i>Inicio<i class="fa fa-chevron-down"></i></div>
+                </li>
+                <li>
+                    <div class="link"><i class="fa fa-spa"></i>Servicios<i class="fa fa-chevron-down"></i></div>
+                    <ul class="submenu">
+                        <li><a href="#servicios">Masajes</a></li>
+                        <li><a href="#paquetes">Paquetes</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="link"><i class="fa fa-image"></i>Galería<i class="fa fa-chevron-down"></i></div>
+                </li>
+                <li>
+                    <div class="link"><i class="fa fa-comments"></i>Testimonios<i class="fa fa-chevron-down"></i></div>
+                </li>
+                <li>
+                    <div class="link"><i class="fa fa-envelope"></i>Contacto<i class="fa fa-chevron-down"></i></div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
 
     <main>
         <section id="inicio" class="section hero">
