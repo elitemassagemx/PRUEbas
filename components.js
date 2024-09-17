@@ -114,17 +114,7 @@ class ServiceCard extends Component {
 
 // Componente FixedBottomBar
 class FixedBottomBar extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            items: [
-                { icon: 'home', text: 'Inicio', href: '#' },
-                { icon: 'search', text: 'Buscar', href: '#servicios' },
-                { icon: 'heart', text: 'Favoritos', href: '#paquetes' },
-                { icon: 'user', text: 'Perfil', href: '#contacto' }
-            ]
-        };
-    }
+
 
     render() {
         const bar = document.createElement('nav');
