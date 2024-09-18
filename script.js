@@ -60,6 +60,31 @@ const CommunicationModule = {
     }
 };
 
+// Módulo de Beneficios Destacados
+const BeneficiosModule = {
+    renderBeneficiosDestacados: () => {
+        const beneficiosGrid = document.getElementById('beneficios-grid');
+        if (!beneficiosGrid) return;
+
+        const beneficios = [
+            { name: "Reducción de estrés", icon: "benefits-icon1.png" },
+            { name: "Mejora circulación", icon: "ccirculacion.png" },
+            { name: "Alivio dolor muscular", icon: "sqpierna.png" },
+            { name: "Hidratación de la piel", icon: "chidratacion.png" },
+            { name: "Mejora energía vital", icon: "benefits-icon3.png" }
+        ];
+
+        beneficios.forEach(beneficio => {
+            const beneficioElement = Utils.createElement('div', 'benefit-item');
+            beneficioElement.innerHTML = `
+                <img src="${CONFIG.BASE_URL}${beneficio.icon}" alt="${beneficio.name}">
+                <p>${beneficio.name}</p>
+            `;
+            beneficiosGrid.appendChild(beneficioElement);
+        });
+    }
+};
+
 // Módulo de Servicios
 const ServicesModule = {
     renderServices: () => {
@@ -79,13 +104,24 @@ const ServicesModule = {
     },
 
     createServiceElement: (service) => {
-        const serviceElement = Utils.createElement('div', 'service-item');
+        const serviceElement = Utils.createElement('div', 'service-card');
         serviceElement.innerHTML = `
-            <h3>${service.title}</h3>
-            <p>${service.description}</p>
-            <div class="service-buttons">
-                <button class="reserve-button">Reservar</button>
-                <button class="info-button">Saber más</button>
+            <div class="service-card-content">
+                <h3 class="service-card-title">${service.title}</h3>
+                <p class="service-card-description">${service.description}</p>
+                <div class="service-card-benefits">
+                    ${service.benefits.map((benefit, index) => `
+                        <div class="service-card-benefit">
+                            <img src="${CONFIG.BASE_URL}${service.benefitsIcons[index]}" alt="${benefit}">
+                            <p>${benefit}</p>
+                        </div>
+                    `).join('')}
+                </div>
+                <p class="service-card-duration">${service.duration}</p>
+            </div>
+            <div class="service-card-buttons">
+                <button class="service-card-button reserve-button">Reservar</button>
+                <button class="service-card-button info-button">Saber más</button>
             </div>
         `;
 
@@ -331,8 +367,9 @@ const TestimonialsModule = {
     }
 };
 
-// Función de inicialización
+// Continuación de la función init()
 function init() {
+    BeneficiosModule.renderBeneficiosDestacados();
     ServicesModule.renderServices();
     PackagesModule.renderPackages();
     UIModule.createVenetianBlinds();
@@ -349,11 +386,11 @@ function init() {
     if (prevButton) prevButton.addEventListener('click', () => PaginationModule.changePage(-1));
     if (nextButton) nextButton.addEventListener('click', () => PaginationModule.changePage(1));
 
-    document.querySelectorAll('.choice-chip').forEach(chip => {
-        chip.addEventListener('click', () => {
-            document.querySelectorAll('.choice-chip').forEach(c => c.classList.remove('active'));
-            chip.classList.add('active');
-            state.currentCategory = chip.dataset.category;
+    document.querySelectorAll('.service-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.service-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            state.currentCategory = tab.dataset.category;
             state.currentPage = 1;
             ServicesModule.renderServices();
         });
@@ -379,43 +416,6 @@ function init() {
             }
         });
     });
-
-    // Inicializar el menú acordeón
-    const menuIcon = document.createElement('img');
-    menuIcon.src = `${CONFIG.BASE_URL}menui.png`;
-    menuIcon.alt = 'Menú';
-    menuIcon.className = 'menu-icon';
-    document.body.appendChild(menuIcon);
-
-    const accordion = document.createElement('div');
-    accordion.className = 'accordion-menu';
-    accordion.innerHTML = `
-        <div class>
-	// Continuación de la función init()
-    const accordion = document.createElement('div');
-    accordion.className = 'accordion-menu';
-    accordion.innerHTML = `
-        <div class="accordion-content">
-            <a href="#servicios">Servicios</a>
-            <a href="#paquetes">Paquetes</a>
-            <a href="#experiencias">Experiencias</a>
-            <a href="#galeria">Galería</a>
-            <a href="#contacto">Contacto</a>
-        </div>
-    `;
-    document.body.appendChild(accordion);
-
-    menuIcon.addEventListener('click', () => {
-        accordion.classList.toggle('active');
-    });
-
-    // Inicializar el selector de idioma
-    const translateIcon = document.getElementById('translate-icon');
-    if (translateIcon) {
-        translateIcon.addEventListener('click', () => {
-            I18nModule.changeLanguage(state.language === 'es' ? 'en' : 'es');
-        });
-    }
 }
 
 // Cargar datos y llamar a init() cuando el DOM esté listo
@@ -431,47 +431,41 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error al cargar los datos:', error);
             Utils.showNotification('Error al cargar los datos. Por favor, intenta de nuevo más tarde.');
         });
+});
 
-    // Configuración del menú acordeón
-    var menuToggle = document.getElementById('menu-toggle');
-    var mainNav = document.querySelector('.main-nav');
+// Configuración del menú acordeón
+var Accordion = function(el, multiple) {
+    this.el = el || {};
+    this.multiple = multiple || false;
+    var links = this.el.querySelectorAll('.link');
+    links.forEach(link => {
+        link.addEventListener('click', e => this.dropdown(e));
+    });
+}
 
-    if (menuToggle) {
-        menuToggle.addEventListener('click', function() {
-            mainNav.classList.toggle('active');
+Accordion.prototype.dropdown = function(e) {
+    var $this = e.target;
+    var $next = $this.nextElementSibling;
+    $next.style.display = $next.style.display === 'block' ? 'none' : 'block';
+    $this.parentNode.classList.toggle('open');
+    if (!this.multiple) {
+        var $el = this.el;
+        var $submenu = $el.querySelectorAll('.submenu');
+        $submenu.forEach(sub => {
+            if (sub !== $next) {
+                sub.style.display = 'none';
+                sub.parentNode.classList.remove('open');
+            }
         });
     }
+}
 
-    var Accordion = function(el, multiple) {
-        this.el = el || {};
-        this.multiple = multiple || false;
-        var links = this.el.querySelectorAll('.link');
-        links.forEach(link => {
-            link.addEventListener('click', e => this.dropdown(e));
-        });
-    }
-
-    Accordion.prototype.dropdown = function(e) {
-        var $this = e.target;
-        var $next = $this.nextElementSibling;
-        $next.style.display = $next.style.display === 'block' ? 'none' : 'block';
-        $this.parentNode.classList.toggle('open');
-        if (!this.multiple) {
-            var $el = this.el;
-            var $submenu = $el.querySelectorAll('.submenu');
-            $submenu.forEach(sub => {
-                if (sub !== $next) {
-                    sub.style.display = 'none';
-                    sub.parentNode.classList.remove('open');
-                }
-            });
-        }
-    }
-
+// Inicializar el acordeón cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
     var accordion = new Accordion(document.getElementById('accordion'), false);
 });
 
-// Galería
+// Función para manejar el efecto de galería
 function styles(item_id, x, y, z, opacity, shadow) {
     const item = document.querySelector(item_id);
     if (item) {
@@ -481,6 +475,7 @@ function styles(item_id, x, y, z, opacity, shadow) {
     }
 }
 
+// Event listeners para la galería
 document.getElementById('one')?.addEventListener('click', function() {
     document.getElementById('one')?.classList.add('focus');
     document.getElementById('two')?.classList.remove('focus');
@@ -507,4 +502,3 @@ document.getElementById('three')?.addEventListener('click', function() {
     styles('#second', 110, 80, -60, 0.1, 'none');
     styles('#third', 0, 0, 0, 1, '0 20px 50px rgba(0,34,45,0.5)');
 });
-	
