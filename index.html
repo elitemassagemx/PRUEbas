@@ -2,11 +2,22 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://www.gstatic.com; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://translate.google.com https://translate.googleapis.com; img-src 'self' data: https://raw.githubusercontent.com https://via.placeholder.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://raw.githubusercontent.com https://translate.googleapis.com;">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elite Massage - Tu Oasis de Tranquilidad</title>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    <!-- Estilos adicionales -->
+    <link rel="stylesheet" href="cdevalor.css">
+    <link rel="stylesheet" href="acordeon.css">
+    <link rel="stylesheet" href="checkbox.css">
+    <link rel="stylesheet" href="especialistas.css">
+    <link rel="stylesheet" href="acercade.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js" defer></script>
 </head>
 <body>
     <header id="sticky-header">
@@ -19,11 +30,11 @@
                 <div class="language-selector">
                     <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/trad.png" alt="Traducir" id="translate-icon">
                     <div class="language-options">
-                        <button class="lang-option" data-lang="es"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/omx.png" alt="Bandera de México"> Español</button>
-                        <button class="lang-option" data-lang="en"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ous.png" alt="Bandera de Estados Unidos"> English</button>
-                        <button class="lang-option" data-lang="iw"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ois.png" alt="Bandera de Israel"> עברית</button>
-                        <button class="lang-option" data-lang="fr"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ofr.png" alt="Bandera de Francia"> Français</button>
-                        <button class="lang-option" data-lang="zh-CN"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/och.png" alt="Bandera de China"> 中文</button>
+                        <button class="lang-option" onclick="translatePage('es')" data-lang="es"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/omx.png" alt="Bandera de México"> Español</button>
+                        <button class="lang-option" onclick="translatePage('en')" data-lang="en"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ous.png" alt="Bandera de Estados Unidos"> English</button>
+                        <button class="lang-option" onclick="translatePage('iw')" data-lang="iw"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ois.png" alt="Bandera de Israel"> עברית</button>
+                        <button class="lang-option" onclick="translatePage('fr')" data-lang="fr"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ofr.png" alt="Bandera de Francia"> Français</button>
+                        <button class="lang-option" onclick="translatePage('zh-CN')" data-lang="zh-CN"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/och.png" alt="Bandera de China"> 中文</button>
                     </div>
                 </div>
             </div>
@@ -37,6 +48,11 @@
                 <p>Descubre el poder de la relajación y el bienestar en nuestro exclusivo spa de masajes.</p>
             </div>
         </section>
+
+        <!-- Nuevo contenedor para los componentes -->
+        <div id="react-root"></div>
+
+        <div id="checkbox-container"></div>
 
         <section id="servicios" class="section services">
             <div class="container">
@@ -61,12 +77,7 @@
             </div>
         </section>
 
-        <section id="experiencias" class="section experiences">
-            <div class="container">
-                <h2>Nuestras Experiencias</h2>
-                <div class="checkbox-group" id="experiencias-checkboxes"></div>
-            </div>
-        </section>
+        <div id="cdevalor-container"></div>
 
         <section id="galeria" class="section gallery">
             <div class="container">
@@ -85,11 +96,27 @@
             </div>
         </section>
 
+        <div id="acercade-container"></div>
+
+        <div id="acordeon-container"></div>
+
         <section id="contacto" class="section contact">
             <div class="container">
                 <h2>Contáctanos</h2>
                 <form id="contact-form" action="#" method="POST">
-                    <!-- El contenido del formulario se generará dinámicamente con JavaScript -->
+                    <div class="form-group">
+                        <label for="name">Tu nombre:</label>
+                        <input type="text" id="name" name="name" placeholder="Ej. Juan Pérez" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Tu email:</label>
+                        <input type="email" id="email" name="email" placeholder="Ej. juan@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Tu mensaje:</label>
+                        <textarea id="message" name="message" placeholder="Escribe tu mensaje aquí" required></textarea>
+                    </div>
+                    <button type="submit">Enviar</button>
                 </form>
             </div>
         </section>
@@ -141,7 +168,45 @@
         <div id="desc">A notification message..</div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="script.js"></script>
+    <div id="google_translate_element" style="display:none;"></div>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <!-- Scripts correspondientes a los CSS -->
+    <script src="cdevalor.js" defer></script>
+    <script src="acordeon.js" defer></script>
+    <script src="checkbox.js" defer></script>
+    <script src="especialistas.js" defer></script>
+    <script src="acercade.js" defer></script>
+    <script src="script.js" defer></script>
+    <!-- Nuevo script para los componentes -->
+    <script src="components.js" defer></script>
+
+    <script>
+        function loadComponent(url, targetId) {
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById(targetId).innerHTML = data;
+                    // Ejecutar scripts si los hay
+                    const scripts = document.getElementById(targetId).getElementsByTagName('script');
+                    Array.from(scripts).forEach(script => {
+                        const newScript = document.createElement('script');
+                        newScript.textContent = script.textContent;
+                        script.parentNode.replaceChild(newScript, script);
+                    });
+                })
+                .catch(error => console.error('Error loading component:', error));
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadComponent('cdevalor.html', 'cdevalor-container');
+            loadComponent('checkbox.html', 'checkbox-container');
+            loadComponent('acercade.html', 'acercade-container');
+            loadComponent('acordeon.html', 'acordeon-container');
+
+            // Inicializar nuevos componentes
+            initComponents();
+        });
+    </script>
 </body>
 </html>
