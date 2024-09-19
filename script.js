@@ -129,6 +129,17 @@ const ServicesModule = {
         serviceElement.querySelector('.info-button').addEventListener('click', () => UIModule.showPopup(service));
 
         return serviceElement;
+    },
+
+    renderServicesFromData: (services) => {
+        const servicesContainer = document.getElementById('services');
+        if (servicesContainer) {
+            services.forEach(service => {
+                const div = Utils.createElement('div');
+                div.textContent = `${service.name}: ${service.description}`;
+                servicesContainer.appendChild(div);
+            });
+        }
     }
 };
 
@@ -159,6 +170,25 @@ const PackagesModule = {
         packageElement.querySelector('.info-button').addEventListener('click', () => UIModule.showPopup(pkg));
 
         return packageElement;
+    },
+
+    renderPackagesFromData: (packages) => {
+        const packagesContainer = document.getElementById('packages');
+        const packageBenefitsContainer = document.getElementById('package-benefits');
+        
+        if (packagesContainer && packageBenefitsContainer) {
+            packages.forEach(pkg => {
+                const div = Utils.createElement('div');
+                div.textContent = pkg.name;
+                packagesContainer.appendChild(div);
+
+                pkg.benefits.forEach(benefit => {
+                    const benefitDiv = Utils.createElement('div');
+                    benefitDiv.textContent = benefit;
+                    packageBenefitsContainer.appendChild(benefitDiv);
+                });
+            });
+        }
     }
 };
 
@@ -262,6 +292,29 @@ const UIModule = {
                 });
             });
         });
+    },
+
+    setupWelcomeMessage: () => {
+        const welcomeContainer = document.getElementById('welcome');
+        if (welcomeContainer) {
+            welcomeContainer.textContent = 'Bienvenido a tu oasis';
+        }
+    },
+
+    setupBenefitsTitle: () => {
+        const benefitsContainer = document.getElementById('benefits');
+        if (benefitsContainer) {
+            benefitsContainer.textContent = 'Beneficios destacados';
+        }
+    },
+
+    setupVenetianBlind: () => {
+        const venetianContainer = document.getElementById('venetian');
+        if (venetianContainer) {
+            const venetianDiv = Utils.createElement('div');
+            venetianDiv.textContent = 'Venetian';
+            venetianContainer.appendChild(venetianDiv);
+        }
     }
 };
 
@@ -284,6 +337,15 @@ const PaginationModule = {
         if (state.currentPage < 1) state.currentPage = state.totalPages;
         if (state.currentPage > state.totalPages) state.currentPage = 1;
         ServicesModule.renderServices();
+    },
+
+    setupPagination: () => {
+        const paginationContainer = document.getElementById('pagination');
+        if (paginationContainer) {
+            const paginationDiv = Utils.createElement('div');
+            paginationDiv.textContent = 'Paginación';
+            paginationContainer.appendChild(paginationDiv);
+        }
     }
 };
 
@@ -322,7 +384,7 @@ const I18nModule = {
     }
 };
 
-// Módulo de Testimonios
+// Módulo de Testimonios (continuación)
 const TestimonialsModule = {
     setupTestimonialCarousel: () => {
         const testimonials = [
@@ -367,8 +429,20 @@ const TestimonialsModule = {
     }
 };
 
-// Continuación de la función init()
-function init() {
+// Nuevo módulo para checkboxes
+const CheckboxModule = {
+    setupCheckbox: () => {
+        const checkboxContainer = document.getElementById('checkbox');
+        if (checkboxContainer) {
+            const checkboxDiv = Utils.createElement('div');
+            checkboxDiv.textContent = 'Checkbox';
+            checkboxContainer.appendChild(checkboxDiv);
+        }
+    }
+};
+
+// Función init modificada
+function init(data) {
     BeneficiosModule.renderBeneficiosDestacados();
     ServicesModule.renderServices();
     PackagesModule.renderPackages();
@@ -379,6 +453,20 @@ function init() {
     TestimonialsModule.setupTestimonialCarousel();
     CommunicationModule.setupContactForm();
     I18nModule.initLanguageSelector();
+
+    UIModule.setupWelcomeMessage();
+    UIModule.setupBenefitsTitle();
+    UIModule.setupVenetianBlind();
+    ServicesModule.renderServicesFromData(data.services);
+    PackagesModule.renderPackagesFromData(data.packages);
+    PaginationModule.setupPagination();
+    CheckboxModule.setupCheckbox();
+
+    // Habilitar el contenedor sticky
+    const stickyContainer = document.getElementById('sticky');
+    if (stickyContainer) {
+        stickyContainer.style.display = 'block';
+    }
 
     // Event Listeners
     const prevButton = document.querySelector('.btn--prev');
@@ -418,14 +506,14 @@ function init() {
     });
 }
 
-// Cargar datos y llamar a init() cuando el DOM esté listo
+// Event listener para DOMContentLoaded modificado
 document.addEventListener('DOMContentLoaded', () => {
     fetch('https://raw.githubusercontent.com/elitemassagemx/Home/main/data.json')
         .then(response => response.json())
         .then(data => {
             state.services = data.services;
             state.packages = data.services.paquetes;
-            init();
+            init(data);
         })
         .catch(error => {
             console.error('Error al cargar los datos:', error);
