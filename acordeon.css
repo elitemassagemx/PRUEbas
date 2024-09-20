@@ -1,3 +1,24 @@
+/* Ejemplo para acordeon.css */
+
+.acordeon- {
+  /* Usa variables CSS globales */
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+.acordeon-item {
+  /* Estilos específicos del componente */
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .acordeon-item {
+    /* Ajustes para pantallas más pequeñas */
+  }
+}
+
+/* Puedes incluir más breakpoints según sea necesario */
+
 {
   margin: 0;
   padding: 0;
