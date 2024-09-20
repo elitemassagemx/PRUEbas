@@ -328,73 +328,143 @@ footer {
   transition: all 0.5s ease;
 }
 
-/* Estilos para el carrusel de testimonios */
+/* ... (código anterior) ... */
+
+/* Estilos para el Carrusel de Testimonios */
 .slider-wrap {
-  position: relative;
-  overflow: hidden;
-  padding: 20px 0;
+  height: 100%;
+  width: 100%;
 }
 
 .slider {
-  display: flex;
-  transition: transform 0.5s ease;
+  position: relative;
+  width: 100%;
+  left: 50px;
+  top: 50px;
 }
 
 .slider-item {
-  flex: 0 0 100%;
-  padding: 20px;
-  background-color: var(--item-background);
+  width: 530px;
+  padding: 20px 0 25px 30px;
   border-radius: 10px;
-  margin: 0 10px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  background-color: #ffffff;
+  display: flex;
+  justify-content: flex-start;
+  position: absolute;
+  opacity: 0;
+  z-index: 0;
+  box-shadow: 0 4px 9px #f1f1f4;
+  left: 0;
+  top: 0;
+}
+
+.animation-card_image {
+  max-width: 60px;
+  max-height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  box-shadow: 0 4px 9px rgba(241, 241, 244, 0.72);
+  background-color: #ffffff;
 }
 
 .animation-card_image img {
-  width: 60px;
-  height: 60px;
+  width: 53px;
+  height: 53px;
   border-radius: 50%;
   object-fit: cover;
 }
 
 .animation-card_content {
-  margin-top: 15px;
+  width: 100%;
+  max-width: 374px;
+  margin-left: 26px;
+  font-family: "Open Sans", sans-serif;
 }
 
 .animation-card_content_title {
-  font-weight: bold;
-  margin-bottom: 5px;
+  color: #4a4545;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -.18px;
+  line-height: 24px;
+  margin: 0;
 }
 
-/* Estilos para el formulario de contacto */
-#contact-form {
-  display: flex;
-  flex-direction: column;
-  max-width: 500px;
-  margin: 0 auto;
+.animation-card_content_description {
+  color: #696d74;
+  font-size: 15px;
+  font-weight: 300;
+  letter-spacing: normal;
+  line-height: 24px;
+  margin: 10px 0 0 0;
 }
 
-#contact-form input,
-#contact-form textarea {
-  margin-bottom: 15px;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid var(--primary-color);
-  background-color: var(--item-background);
-  color: var(--text-color);
+.animation-card_content_city {
+  font-size: 12px;
+  margin: 10px 0 0 0;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: #696d74;
 }
 
-#contact-form button {
-  background-color: var(--primary-color);
-  color: var(--background-color);
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
+/* Estilos para Acordeón */
+.accordion {
+  width: 100%;
+  max-width: 360px;
+  margin: 30px auto;
+  background: var(--item-background);
+  border-radius: 4px;
+}
+
+.accordion .link {
   cursor: pointer;
-  transition: background-color 0.3s;
+  display: block;
+  padding: 15px;
+  color: var(--text-color);
+  font-size: 14px;
+  position: relative;
+  transition: all 0.4s ease;
 }
 
-#contact-form button:hover {
-  background-color: var(--gold);
+.accordion li i {
+  position: absolute;
+  top: 16px;
+  left: 12px;
+  font-size: 18px;
+  color: var(--text-color);
+  transition: all 0.4s ease;
+}
+
+.accordion li i.fa-chevron-down {
+  right: 12px;
+  left: auto;
+  font-size: 16px;
+}
+
+.accordion li.open .link { color: var(--primary-color); }
+
+.accordion li.open i { color: var(--primary-color); }
+
+.submenu {
+  display: none;
+  background: #444359;
+  font-size: 14px;
+}
+
+.submenu a {
+  display: block;
+  text-decoration: none;
+  color: #d9d9d9;
+  padding: 12px;
+  padding-left: 42px;
+  transition: all 0.25s ease;
+}
+
+.submenu a:hover {
+  background: var(--primary-color);
+  color: #FFF;
 }
 
 /* Estilos para el popup */
