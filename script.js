@@ -14,7 +14,66 @@ const state = {
     services: null,
     packages: null
 };
+// Aplicar tema oscuro con gradiente
+document.addEventListener('DOMContentLoaded', () => {
+    document.body.style.background = 'linear-gradient(135deg, #1e1e1e, #2c2c2c)';
+    document.body.style.color = '#ffffff';
+    document.body.style.fontFamily = 'Arial, sans-serif';
 
+    const style = document.createElement('style');
+    style.innerHTML = `
+        .dark-theme {
+            background-color: #2c2c2c;
+            color: #ffffff;
+        }
+        .dark-theme .service-card, .dark-theme .package-item, .dark-theme .benefit-item, .dark-theme .slider-item {
+            background-color: #3a3a3a;
+            border: 1px solid #444;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .dark-theme .service-card-buttons button, .dark-theme .package-buttons button {
+            background-color: #444;
+            color: #ffffff;
+            border: 1px solid #555;
+        }
+        .dark-theme .service-card-buttons button:hover, .dark-theme .package-buttons button:hover {
+            background-color: #555;
+        }
+        .dark-theme .accordion-button {
+            background-color: #444;
+            color: #ffffff;
+            border: none;
+        }
+        .dark-theme .accordion-content {
+            background-color: #3a3a3a;
+            border-top: 1px solid #444;
+        }
+        .dark-theme .checkbox-tile {
+            background-color: #3a3a3a;
+            border: 1px solid #444;
+        }
+        .dark-theme .checkbox-tile:hover {
+            background-color: #444;
+        }
+        .dark-theme .pagination-container .little-dot {
+            background-color: #555;
+        }
+        .dark-theme .pagination-container .little-dot.active {
+            background-color: #ffffff;
+        }
+        .dark-theme .toast {
+            background-color: #444;
+            color: #ffffff;
+        }
+        .dark-theme .popup {
+            background-color: #2c2c2c;
+            color: #ffffff;
+        }
+    `;
+    document.head.appendChild(style);
+
+    document.body.classList.add('dark-theme');
+});
 // Módulo de Utilidades
 const Utils = {
     createElement: (tag, className, innerHTML) => {
