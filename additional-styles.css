@@ -1,4 +1,4 @@
-/* Styles for SugerenciasParaTi */
+/* Estilos para SugerenciasParaTi */
 .sugerencias-container {
   background-color: #1a1a1a;
   border-radius: 8px;
@@ -51,7 +51,7 @@
   background-color: #FFD700;
 }
 
-/* Styles for ServiceCard */
+/* Estilos para ServiceCard */
 .service-card {
   background-color: #2a2a2a;
   border-radius: 8px;
@@ -134,7 +134,7 @@
   background-color: #999999;
 }
 
-/* Styles for FixedBottomBar */
+/* Estilos para FixedBottomBar */
 .fixed-bottom-bar {
   position: fixed;
   bottom: 0;
@@ -169,47 +169,39 @@
   font-size: 0.75rem;
 }
 
-/* Responsive styles */
-@media (max-width: 768px) {
-  .service-card {
-    width: 100%;
-  }
-
-  .fixed-bottom-bar-text {
-    display: none;
-  }
+/* Estilos para Venetian Blinds effect */
+body {
+  margin: 0;
+  text-align: center;
+  background-color: #1A1919;
 }
 
-/* Styles for Venetian Blinds effect */
-body{margin:0;text-align:center;background-color:#1A1919;}
-
-.placeholder{
-  display:inline-block;
-  width:800px;
-  height:600px;
-  box-sizing:border-box;
-  margin-top:40px;
-  position:relative;
+.placeholder {
+  display: inline-block;
+  width: 800px;
+  height: 600px;
+  box-sizing: border-box;
+  margin-top: 40px;
+  position: relative;
 }
 
-.column, .blind, .blindImg{
-  position:absolute;
-  top:0;
-  height:100%;
-  box-sizing:border-box;
+.column, .blind, .blindImg {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  box-sizing: border-box;
 }
 
-.blind{
-  overflow:hidden;
+.blind {
+  overflow: hidden;
 }
 
-.blindImg{
-  width:100%;
-  background-size:cover;
+.blindImg {
+  width: 100%;
+  background-size: cover;
 }
 
-
-/* Styles for Toast Notification */
+/* Estilos para Toast Notification */
 #toast {
   visibility: hidden;
   max-width: 50px;
@@ -221,7 +213,8 @@ body{margin:0;text-align:center;background-color:#1A1919;}
   border-radius: 2px;
   position: fixed;
   z-index: 1;
-  left: 0;right:0;
+  left: 0;
+  right: 0;
   bottom: 30px;
   font-size: 17px;
   white-space: nowrap;
@@ -247,8 +240,8 @@ body{margin:0;text-align:center;background-color:#1A1919;}
 
 #toast.show {
   visibility: visible;
-  -webkit-animation: fadein 0.5s, expand 0.5s 0.5s,stay 3s 1s, shrink 0.5s 2s, fadeout 0.5s 2.5s;
-  animation: fadein 0.5s, expand 0.5s 0.5s,stay 3s 1s, shrink 0.5s 4s, fadeout 0.5s 4.5s;
+  -webkit-animation: fadein 0.5s, expand 0.5s 0.5s, stay 3s 1s, shrink 0.5s 2s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, expand 0.5s 0.5s, stay 3s 1s, shrink 0.5s 4s, fadeout 0.5s 4.5s;
 }
 
 @-webkit-keyframes fadein {
@@ -301,7 +294,7 @@ body{margin:0;text-align:center;background-color:#1A1919;}
   to {bottom: 60px; opacity: 0;}
 }
 
-/* Styles for Checkbox in Experiences section */
+/* Estilos para Checkbox en la sección de Experiencias */
 .checkbox-group {
   display: flex;
   flex-wrap: wrap;
@@ -372,7 +365,7 @@ body{margin:0;text-align:center;background-color:#1A1919;}
   color: #2260ff;
 }
 
-/* Styles for Testimonial Carousel */
+/* Estilos para el Carrusel de Testimonios */
 .slider-wrap {
   height: 100%;
   width: 100%;
@@ -451,7 +444,7 @@ body{margin:0;text-align:center;background-color:#1A1919;}
   color: #696d74;
 }
 
-/* Styles for Accordion */
+/* Estilos para Acordeón */
 .accordion {
   width: 100%;
   max-width: 360px;
@@ -509,7 +502,7 @@ body{margin:0;text-align:center;background-color:#1A1919;}
   color: #FFF;
 }
 
-/* Styles for Popup */
+/* Estilos para Popup */
 .popup {
   display: none;
   position: fixed;
@@ -558,7 +551,7 @@ body{margin:0;text-align:center;background-color:#1A1919;}
   cursor: pointer;
 }
 
-/* Responsive styles */
+/* Estilos responsivos */
 @media (max-width: 768px) {
   .slider-item {
     width: 90%;
