@@ -2,22 +2,12 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://www.gstatic.com; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://translate.google.com https://translate.googleapis.com; img-src 'self' data: https://raw.githubusercontent.com https://via.placeholder.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://raw.githubusercontent.com https://translate.googleapis.com;">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Massage - Tu Oasis de Tranquilidad</title>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Elite Massage</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Estilos adicionales -->
-    <link rel="stylesheet" href="cdevalor.css">
-    <link rel="stylesheet" href="acordeon.css">
-    <link rel="stylesheet" href="checkbox.css">
-    <link rel="stylesheet" href="especialistas.css">
-    <link rel="stylesheet" href="acercade.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js" defer></script>
+    <link rel="stylesheet" href="additional-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header id="sticky-header">
@@ -25,34 +15,65 @@
             <div class="header-top">
                 <div class="logo-container">
                     <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/logo.png" alt="Elite Massage Logo" class="logo">
-                    <h1 id="elite-massage" class="btn-shine">Elite Massage</h1>
+                    <h1 class="btn-shine">Elite Massage</h1>
                 </div>
                 <div class="language-selector">
                     <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/trad.png" alt="Traducir" id="translate-icon">
                     <div class="language-options">
-                        <button class="lang-option" onclick="translatePage('es')" data-lang="es"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/omx.png" alt="Bandera de México"> Español</button>
-                        <button class="lang-option" onclick="translatePage('en')" data-lang="en"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ous.png" alt="Bandera de Estados Unidos"> English</button>
-                        <button class="lang-option" onclick="translatePage('iw')" data-lang="iw"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ois.png" alt="Bandera de Israel"> עברית</button>
-                        <button class="lang-option" onclick="translatePage('fr')" data-lang="fr"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ofr.png" alt="Bandera de Francia"> Français</button>
-                        <button class="lang-option" onclick="translatePage('zh-CN')" data-lang="zh-CN"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/och.png" alt="Bandera de China"> 中文</button>
+                        <button class="lang-option" data-lang="es"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/omx.png" alt="Bandera de México"> Español</button>
+                        <button class="lang-option" data-lang="en"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ous.png" alt="Bandera de Estados Unidos"> English</button>
+                        <button class="lang-option" data-lang="fr"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ofr.png" alt="Bandera de Francia"> Français</button>
+                        <button class="lang-option" data-lang="iw"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ois.png" alt="Bandera de Israel"> עברית</button>
+                        <button class="lang-option" data-lang="zh-CN"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/och.png" alt="Bandera de China"> 中文</button>
                     </div>
                 </div>
+                <nav class="main-nav">
+                    <button id="menu-toggle" aria-label="Abrir menú">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <ul id="accordion" class="accordion">
+                        <li>
+                            <div class="link"><i class="fa fa-spa"></i>Servicios<i class="fa fa-chevron-down"></i></div>
+                            <ul class="submenu">
+                                <li><a href="#servicios">Masajes</a></li>
+                                <li><a href="#paquetes">Paquetes</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <div class="link"><i class="fa fa-star"></i>Experiencias<i class="fa fa-chevron-down"></i></div>
+                            <ul class="submenu">
+                                <li><a href="#experiencias">Nuestras Experiencias</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <div class="link"><i class="fa fa-image"></i>Galería<i class="fa fa-chevron-down"></i></div>
+                            <ul class="submenu">
+                                <li><a href="#galeria">Ver Galería</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <div class="link"><i class="fa fa-envelope"></i>Contacto<i class="fa fa-chevron-down"></i></div>
+                            <ul class="submenu">
+                                <li><a href="#contacto">Contactar</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
             </div>
+            <a href="#" class="btn-shine">Masajes y experiencias premium para ti y tu invitado</a>
         </div>
     </header>
 
     <main role="main">
-        <section id="inicio" class="section hero">
+        <section id="inicio" class="hero">
             <div class="container">
                 <h2 class="btn-shine">Bienvenido a tu Oasis de Tranquilidad</h2>
                 <p>Descubre el poder de la relajación y el bienestar en nuestro exclusivo spa de masajes.</p>
             </div>
         </section>
 
-        <!-- Nuevo contenedor para los componentes -->
-        <div id="react-root"></div>
-
-      
         <section id="sugerencias" class="sugerencias-section">
             <div class="container">
                 <h2>Beneficios destacados</h2>
@@ -80,7 +101,7 @@
                 </div>
             </div>
         </section>
-        
+
         <section id="servicios" class="section services">
             <div class="container">
                 <h2>Nuestros Servicios</h2>
@@ -90,9 +111,25 @@
                 </div>
                 <div id="services-list" class="services-grid"></div>
                 <div class="pagination-wrapper">
-                    <button class="btn btn--prev">&#10094;</button>
-                    <div class="pagination-container"></div>
-                    <button class="btn btn--next">&#10095;</button>
+                    <button class="btn btn--prev" aria-label="Página anterior">
+                        <svg height="96" viewBox="0 0 24 24" width="96" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"/>
+                        </svg>
+                    </button>
+                    <div class="pagination-container">
+                        <div class="little-dot little-dot--first"></div>
+                        <div class="little-dot">
+                            <div class="big-dot-container">
+                                <div class="big-dot"></div>
+                            </div>
+                        </div>
+                        <div class="little-dot little-dot--last"></div>
+                    </div>
+                    <button class="btn btn--next" aria-label="Página siguiente">
+                        <svg height="96" viewBox="0 0 24 24" width="96" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"/>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </section>
@@ -104,82 +141,54 @@
             </div>
         </section>
 
-        <section id="sugerencias" class="sugerencias-section">
+        <section id="experiencias" class="section experiences">
             <div class="container">
-                <h2>Beneficios destacados</h2>
-                <div class="sugerencias-container">
-                    <div class="sugerencia-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/benefits-icon1.png" alt="Beneficio 1" class="sugerencia-icon">
-                        <p>Reducción de estrés</p>
-                    </div>
-                    <div class="sugerencia-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/benefits-icon2.png" alt="Beneficio 2" class="sugerencia-icon">
-                        <p>Mejora circulación</p>
-                    </div>
-                    <div class="sugerencia-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/benefits-icon3.png" alt="Beneficio 3" class="sugerencia-icon">
-                        <p>Alivio dolor muscular</p>
-                    </div>
-                    <div class="sugerencia-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/chidratacion.png" alt="Beneficio 4" class="sugerencia-icon">
-                        <p>Hidratación de la piel</p>
-                    </div>
-                    <div class="sugerencia-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ccirculacion.png" alt="Beneficio 5" class="sugerencia-icon">
-                        <p>Mejora energía vital</p>
-                    </div>
-                </div>
+                <h2>Experiencias</h2>
+                <fieldset class="checkbox-group">
+                    <legend class="checkbox-group-legend">Elige tus experiencias favoritas</legend>
+                    <!-- Las experiencias se cargarán dinámicamente aquí -->
+                </fieldset>
             </div>
         </section>
-        
 
-
-        
-        <div id="cdevalor-container"></div>
-
-
-
-
-
-          <div id="checkbox-container"></div>
         <section id="galeria" class="section gallery">
             <div class="container">
                 <h2>Galería de Imágenes</h2>
-                <div class="venetian-blinds" id="venetian-container"></div>
-                <div class="gallery-grid"></div>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/copasq.JPG" alt="Interior del Spa" width="250" height="250" loading="lazy">
+                        <button class="gallery-icon" aria-label="Ver detalles">
+                            <i class="fa fa-search-plus"></i>
+                        </button>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/noche1.JPG" alt="Productos de Spa" width="250" height="250" loading="lazy">
+                        <button class="gallery-icon" aria-label="Ver detalles">
+                            <i class="fa fa-search-plus"></i>
+                        </button>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/rosa.JPG" alt="Nuestro Equipo" width="250" height="250" loading="lazy">
+                        <button class="gallery-icon" aria-label="Ver detalles">
+                            <i class="fa fa-search-plus"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </section>
 
         <section id="testimonios" class="section testimonials">
             <div class="container">
                 <h2>Lo que dicen nuestros clientes</h2>
-                <div class="slider-wrap">
-                    <div id="card-slider" class="slider"></div>
-                </div>
+                <div id="card-slider" class="slider-wrap"></div>
             </div>
         </section>
-
-        <div id="acercade-container"></div>
-
-        <div id="acordeon-container"></div>
 
         <section id="contacto" class="section contact">
             <div class="container">
                 <h2>Contáctanos</h2>
-                <form id="contact-form" action="#" method="POST">
-                    <div class="form-group">
-                        <label for="name">Tu nombre:</label>
-                        <input type="text" id="name" name="name" placeholder="Ej. Juan Pérez" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Tu email:</label>
-                        <input type="email" id="email" name="email" placeholder="Ej. juan@example.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Tu mensaje:</label>
-                        <textarea id="message" name="message" placeholder="Escribe tu mensaje aquí" required></textarea>
-                    </div>
-                    <button type="submit">Enviar</button>
+                <form id="contact-form">
+                    <!-- El formulario se cargará dinámicamente aquí -->
                 </form>
             </div>
         </section>
@@ -188,20 +197,14 @@
     <footer>
         <div class="container">
             <p>&copy; 2023 Elite Massage. Todos los derechos reservados.</p>
-            <p><a href="/politica-privacidad">Política de Privacidad</a> | <a href="/terminos-condiciones">Términos y Condiciones</a></p>
+            <nav>
+                <a href="/politica-privacidad">Política de Privacidad</a> | 
+                <a href="/terminos-condiciones">Términos y Condiciones</a>
+            </nav>
             <div class="social-media">
-                <a href="https://facebook.com/elitemassage" target="_blank" rel="noopener noreferrer">
-                    <i class="fab fa-facebook-f" aria-hidden="true"></i>
-                    <span class="sr-only">Facebook</span>
-                </a>
-                <a href="https://instagram.com/elitemassage" target="_blank" rel="noopener noreferrer">
-                    <i class="fab fa-instagram" aria-hidden="true"></i>
-                    <span class="sr-only">Instagram</span>
-                </a>
-                <a href="https://twitter.com/elitemassage" target="_blank" rel="noopener noreferrer">
-                    <i class="fab fa-twitter" aria-hidden="true"></i>
-                    <span class="sr-only">Twitter</span>
-                </a>
+                <a href="https://facebook.com/elitemassage" target="_blank" rel="noopener noreferrer">Facebook</a> |
+                <a href="https://instagram.com/elitemassage" target="_blank" rel="noopener noreferrer">Instagram</a> |
+                <a href="https://twitter.com/elitemassage" target="_blank" rel="noopener noreferrer">Twitter</a>
             </div>
         </div>
     </footer>
@@ -209,67 +212,283 @@
     <div class="fixed-bar">
         <nav class="main-nav">
             <ul>
-                <li><a href="#servicios"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/lista-de-regalos.gif" alt="Icono Servicios" class="nav-icon"><span class="nav-text">Servicios</span></a></li>
-                <li><a href="#paquetes"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/regalo.gif" alt="Icono Paquetes" class="nav-icon"><span class="nav-text">Paquetes</span></a></li>
-                <li><a href="#testimonios"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/comentario.gif" alt="Icono Testimonios" class="nav-icon"><span class="nav-text">Testimonios</span></a></li>
-                <li><a href="#galeria"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/galeria-de-fotos.gif" alt="Icono Galería" class="nav-icon"><span class="nav-text">Galería</span></a></li>
+                <li><a href="#servicios"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/lista.gif" alt="Icono Servicios" class="nav-icon"><span class="nav-text">Masajes</span></a></li>
+                <li><a href="#paquetes"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/reg.gif" alt="Icono Paquetes" class="nav-icon"><span class="nav-text">Paquetes</span></a></li>
+                <li><a href="#testimonios"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/coment.gif" alt="Icono Testimonios" class="nav-icon"><span class="nav-text">Testimonios</span></a></li>
+                <li><a href="#galeria"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/fotos.gif" alt="Icono Galería" class="nav-icon"><span class="nav-text">Galería</span></a></li>
             </ul>
         </nav>
     </div>
 
     <div id="popup" class="popup">
         <div class="popup-content">
-            <span class="close">&times;</span>
+            <button class="close" aria-label="Cerrar">&times;</button>
             <h2 id="popup-title"></h2>
-            <img id="popup-image" src="" alt="Imagen del servicio">
+            <img id="popup-image" src="" alt="">
             <p id="popup-description"></p>
         </div>
     </div>
 
-    <div id="toast">
-        <div id="img">Icon</div>
-        <div id="desc">A notification message..</div>
+    <div id="toast" class="toast">
+        <div id="img">Info</div>
+        <div id="desc"></div>
     </div>
 
-    <div id="google_translate_element" style="display:none;"></div>
-    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-    <!-- Scripts correspondientes a los CSS -->
-    <script src="cdevalor.js" defer></script>
-    <script src="acordeon.js" defer></script>
-    <script src="checkbox.js" defer></script>
-    <script src="especialistas.js" defer></script>
-    <script src="acercade.js" defer></script>
-    <script src="script.js" defer></script>
-    <!-- Nuevo script para los componentes -->
-    <script src="components.js" defer></script>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        function loadComponent(url, targetId) {
-            fetch(url)
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById(targetId).innerHTML = data;
-                    // Ejecutar scripts si los hay
-                    const scripts = document.getElementById(targetId).getElementsByTagName('script');
-                    Array.from(scripts).forEach(script => {
-                        const newScript = document.createElement('script');
-                        newScript.textContent = script.textContent;
-                        script.parentNode.replaceChild(newScript, script);
+        // Configuración global
+        const CONFIG = {
+            BASE_URL: "https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/",
+            ITEMS_PER_PAGE: 3,
+            WHATSAPP_NUMBER: "5215640020305"
+        };
+
+<script>
+        // ... (código anterior)
+
+        // Estado global de la aplicación
+        const state = {
+            currentPage: 1,
+            currentCategory: 'individual',
+            totalPages: 1,
+            language: 'es',
+            services: null,
+            packages: null
+        };
+
+        // Módulo de Utilidades
+        const Utils = {
+            createElement: (tag, className, innerHTML) => {
+                const element = document.createElement(tag);
+                if (className) element.className = className;
+                if (innerHTML) element.innerHTML = innerHTML;
+                return element;
+            },
+            
+            showNotification: (message) => {
+                const toast = document.getElementById('toast');
+                toast.querySelector('#desc').textContent = message;
+                toast.className = 'show';
+                setTimeout(() => { toast.className = toast.className.replace('show', ''); }, 5000);
+            }
+        };
+
+        // Módulo de Comunicación
+        const CommunicationModule = {
+            sendWhatsAppMessage: (action, serviceTitle) => {
+                const message = encodeURIComponent(`Hola! Quiero ${action} un ${serviceTitle}`);
+                const url = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${message}`;
+                window.open(url, '_blank');
+            },
+
+            setupContactForm: () => {
+                const form = document.getElementById('contact-form');
+                if (form) {
+                    form.innerHTML = `
+                        <input type="text" id="name" name="name" placeholder="Tu nombre" required>
+                        <input type="email" id="email" name="email" placeholder="Tu email" required>
+                        <textarea id="message" name="message" placeholder="Tu mensaje aquí" required></textarea>
+                        <button type="submit">Enviar</button>
+                    `;
+                    form.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        // Aquí iría la lógica para enviar el formulario
+                        Utils.showNotification('Mensaje enviado con éxito');
+                        form.reset();
                     });
-                })
-                .catch(error => console.error('Error loading component:', error));
+                }
+            }
+        };
+
+        // Módulo de Servicios
+        const ServicesModule = {
+            renderServices: () => {
+                const servicesList = document.getElementById('services-list');
+                if (!servicesList) return;
+                servicesList.innerHTML = '';
+                const startIndex = (state.currentPage - 1) * CONFIG.ITEMS_PER_PAGE;
+                const endIndex = startIndex + CONFIG.ITEMS_PER_PAGE;
+                const currentServices = state.services[state.currentCategory].slice(startIndex, endIndex);
+
+                currentServices.forEach(service => {
+                    const serviceElement = ServicesModule.createServiceElement(service);
+                    servicesList.appendChild(serviceElement);
+                });
+
+                PaginationModule.updatePagination();
+            },
+
+            createServiceElement: (service) => {
+                const serviceElement = Utils.createElement('div', 'service-card');
+                serviceElement.innerHTML = `
+                    <div class="service-card-content">
+                        <h3 class="service-card-title">${service.title}</h3>
+                        <p class="service-card-description">${service.description}</p>
+                        <div class="service-card-benefits">
+                            ${service.benefits.map((benefit, index) => `
+                                <div class="service-card-benefit">
+                                    <img src="${service.benefitsIcons[index]}" alt="${benefit}">
+                                    <p>${benefit}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <p class="service-card-duration">${service.duration}</p>
+                    </div>
+                    <div class="service-card-buttons">
+                        <button class="service-card-button reserve-button">Reservar</button>
+                        <button class="service-card-button info-button">Saber más</button>
+                    </div>
+                `;
+
+                serviceElement.querySelector('.reserve-button').addEventListener('click', () => CommunicationModule.sendWhatsAppMessage('Reservar', service.title));
+                serviceElement.querySelector('.info-button').addEventListener('click', () => UIModule.showPopup(service));
+
+                return serviceElement;
+            }
+        };
+
+        // Módulo de Paquetes
+        const PackagesModule = {
+            renderPackages: () => {
+                const packageList = document.getElementById('package-list');
+                if (!packageList) return;
+                packageList.innerHTML = '';
+                state.packages.forEach(pkg => {
+                    const packageElement = PackagesModule.createPackageElement(pkg);
+                    packageList.appendChild(packageElement);
+                });
+            },
+
+            createPackageElement: (pkg) => {
+                const packageElement = Utils.createElement('div', 'package-item');
+                packageElement.innerHTML = `
+                    <h3>${pkg.title}</h3>
+                    <p>${pkg.description}</p>
+                    <ul>
+                        ${pkg.includes.map(item => `<li>${item}</li>`).join('')}
+                    </ul>
+                    <p>Duración: ${pkg.duration}</p>
+                    <div class="package-buttons">
+                        <button class="reserve-button">Reservar</button>
+                        <button class="info-button">Saber más</button>
+                    </div>
+                `;
+
+                packageElement.querySelector('.reserve-button').addEventListener('click', () => CommunicationModule.sendWhatsAppMessage('Reservar', pkg.title));
+                packageElement.querySelector('.info-button').addEventListener('click', () => UIModule.showPopup(pkg));
+
+                return packageElement;
+            }
+        };
+
+        // Módulo de UI
+        const UIModule = {
+            showPopup: (data) => {
+                const popup = document.getElementById('popup');
+                const popupTitle = document.getElementById('popup-title');
+                const popupImage = document.getElementById('popup-image');
+                const popupDescription = document.getElementById('popup-description');
+
+                if (!popup || !popupTitle || !popupImage || !popupDescription) return;
+
+                popupTitle.textContent = data.title;
+                popupImage.src = data.image || '';
+                popupImage.alt = data.title;
+                popupDescription.textContent = data.popupDescription || data.description;
+
+                popup.style.display = 'flex';
+            },
+
+            createExperienceCheckboxes: () => {
+                const checkboxGroup = document.querySelector('.checkbox-group');
+                if (!checkboxGroup) return;
+                const experiences = state.services.individual.map(service => ({
+                    name: service.title,
+                    icon: service.icon
+                }));
+
+                experiences.forEach(exp => {
+                    const checkbox = Utils.createElement('div', 'checkbox');
+                    checkbox.innerHTML = `
+                        <input type="checkbox" id="${exp.name}" class="checkbox-input">
+                        <label for="${exp.name}" class="checkbox-tile">
+                            <span class="checkbox-icon">
+                                <img src="${exp.icon}" alt="${exp.name}">
+                            </span>
+                            <span class="checkbox-label">${exp.name}</span>
+                        </label>
+                    `;
+                    checkboxGroup.appendChild(checkbox);
+                });
+            }
+        };
+
+        // Módulo de Paginación
+        const PaginationModule = {
+            updatePagination: () => {
+                const paginationContainer = document.querySelector('.pagination-container');
+                if (!paginationContainer) return;
+                paginationContainer.innerHTML = '';
+                state.totalPages = Math.ceil(state.services[state.currentCategory].length / CONFIG.ITEMS_PER_PAGE);
+
+                for (let i = 1; i <= state.totalPages; i++) {
+                    const dot = Utils.createElement('div', `little-dot${i === state.currentPage ? ' active' : ''}`);
+                    paginationContainer.appendChild(dot);
+                }
+            },
+
+            changePage: (direction) => {
+                state.currentPage += direction;
+                if (state.currentPage < 1) state.currentPage = state.totalPages;
+                if (state.currentPage > state.totalPages) state.currentPage = 1;
+                ServicesModule.renderServices();
+            }
+        };
+
+        // Inicialización
+        function init() {
+            ServicesModule.renderServices();
+            PackagesModule.renderPackages();
+            UIModule.createExperienceCheckboxes();
+            CommunicationModule.setupContactForm();
+
+            // Event Listeners
+            const prevButton = document.querySelector('.btn--prev');
+            const nextButton = document.querySelector('.btn--next');
+            if (prevButton) prevButton.addEventListener('click', () => PaginationModule.changePage(-1));
+            if (nextButton) nextButton.addEventListener('click', () => PaginationModule.changePage(1));
+
+            document.querySelectorAll('.choice-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    document.querySelectorAll('.choice-chip').forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                    state.currentCategory = chip.dataset.category;
+                    state.currentPage = 1;
+                    ServicesModule.renderServices();
+                });
+            });
+
+            const closeButton = document.querySelector('.close');
+            if (closeButton) {
+                closeButton.addEventListener('click', () => {
+                    const popup = document.getElementById('popup');
+                    if (popup) popup.style.display = 'none';
+                });
+            }
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            loadComponent('cdevalor.html', 'cdevalor-container');
-            loadComponent('checkbox.html', 'checkbox-container');
-            loadComponent('acercade.html', 'acercade-container');
-            loadComponent('acordeon.html', 'acordeon-container');
-
-            // Inicializar nuevos componentes
-            initComponents();
-        });
+        // Cargar datos y inicializar
+        fetch('https://raw.githubusercontent.com/elitemassagemx/Home/main/data.json')
+            .then(response => response.json())
+            .then(data => {
+                state.services = data.services;
+                state.packages = data.services.paquetes;
+                init();
+            })
+            .catch(error => {
+                console.error('Error al cargar los datos:', error);
+                Utils.showNotification('Error al cargar los datos. Por favor, intenta de nuevo más tarde.');
+            });
     </script>
 </body>
 </html>
