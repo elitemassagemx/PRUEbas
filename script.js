@@ -14,68 +14,10 @@ const state = {
     services: null,
     packages: null
 };
-// Aplicar tema oscuro con gradiente
-document.addEventListener('DOMContentLoaded', () => {
-    document.body.style.background = 'linear-gradient(135deg, #1e1e1e, #2c2c2c)';
-    document.body.style.color = '#ffffff';
-    document.body.style.fontFamily = 'Arial, sans-serif';
 
-    const style = document.createElement('style');
-    style.innerHTML = `
-        .dark-theme {
-            background-color: #2c2c2c;
-            color: #ffffff;
-        }
-        .dark-theme .service-card, .dark-theme .package-item, .dark-theme .benefit-item, .dark-theme .slider-item {
-            background-color: #3a3a3a;
-            border: 1px solid #444;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .dark-theme .service-card-buttons button, .dark-theme .package-buttons button {
-            background-color: #444;
-            color: #ffffff;
-            border: 1px solid #555;
-        }
-        .dark-theme .service-card-buttons button:hover, .dark-theme .package-buttons button:hover {
-            background-color: #555;
-        }
-        .dark-theme .accordion-button {
-            background-color: #444;
-            color: #ffffff;
-            border: none;
-        }
-        .dark-theme .accordion-content {
-            background-color: #3a3a3a;
-            border-top: 1px solid #444;
-        }
-        .dark-theme .checkbox-tile {
-            background-color: #3a3a3a;
-            border: 1px solid #444;
-        }
-        .dark-theme .checkbox-tile:hover {
-            background-color: #444;
-        }
-        .dark-theme .pagination-container .little-dot {
-            background-color: #555;
-        }
-        .dark-theme .pagination-container .little-dot.active {
-            background-color: #ffffff;
-        }
-        .dark-theme .toast {
-            background-color: #444;
-            color: #ffffff;
-        }
-        .dark-theme .popup {
-            background-color: #2c2c2c;
-            color: #ffffff;
-        }
-    `;
-    document.head.appendChild(style);
-
-    document.body.classList.add('dark-theme');
-});
 // Módulo de Utilidades
 const Utils = {
+    // Crea un elemento HTML con clase y contenido opcionales
     createElement: (tag, className, innerHTML) => {
         const element = document.createElement(tag);
         if (className) element.className = className;
@@ -83,6 +25,7 @@ const Utils = {
         return element;
     },
     
+    // Muestra una notificación temporal
     showNotification: (message) => {
         const toast = document.getElementById('toast');
         toast.querySelector('#desc').textContent = message;
@@ -93,12 +36,14 @@ const Utils = {
 
 // Módulo de Comunicación
 const CommunicationModule = {
+    // Envía un mensaje de WhatsApp predefinido
     sendWhatsAppMessage: (action, serviceTitle) => {
         const message = encodeURIComponent(`Hola! Quiero ${action} un ${serviceTitle}`);
         const url = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${message}`;
         window.open(url, '_blank');
     },
 
+    // Configura el formulario de contacto
     setupContactForm: () => {
         const form = document.getElementById('contact-form');
         if (form) {
@@ -121,6 +66,7 @@ const CommunicationModule = {
 
 // Módulo de Beneficios Destacados
 const BeneficiosModule = {
+    // Renderiza los beneficios destacados
     renderBeneficiosDestacados: () => {
         const beneficiosGrid = document.getElementById('beneficios-grid');
         if (!beneficiosGrid) return;
@@ -146,6 +92,7 @@ const BeneficiosModule = {
 
 // Módulo de Servicios
 const ServicesModule = {
+    // Renderiza los servicios en la página actual
     renderServices: () => {
         const servicesList = document.getElementById('services-list');
         if (!servicesList) return;
@@ -162,6 +109,7 @@ const ServicesModule = {
         PaginationModule.updatePagination();
     },
 
+    // Crea un elemento HTML para un servicio individual
     createServiceElement: (service) => {
         const serviceElement = Utils.createElement('div', 'service-card');
         serviceElement.innerHTML = `
@@ -190,6 +138,7 @@ const ServicesModule = {
         return serviceElement;
     },
 
+    // Renderiza servicios desde datos crudos
     renderServicesFromData: (services) => {
         const servicesContainer = document.getElementById('services');
         if (servicesContainer) {
@@ -204,6 +153,7 @@ const ServicesModule = {
 
 // Módulo de Paquetes
 const PackagesModule = {
+    // Renderiza los paquetes
     renderPackages: () => {
         const packageList = document.getElementById('package-list');
         if (!packageList) return;
@@ -214,6 +164,7 @@ const PackagesModule = {
         });
     },
 
+    // Crea un elemento HTML para un paquete individual
     createPackageElement: (pkg) => {
         const packageElement = Utils.createElement('div', 'package-item');
         packageElement.innerHTML = `
@@ -231,6 +182,7 @@ const PackagesModule = {
         return packageElement;
     },
 
+    // Renderiza paquetes desde datos crudos
     renderPackagesFromData: (packages) => {
         const packagesContainer = document.getElementById('packages');
         const packageBenefitsContainer = document.getElementById('package-benefits');
@@ -253,6 +205,7 @@ const PackagesModule = {
 
 // Módulo de UI
 const UIModule = {
+    // Muestra un popup con información detallada
     showPopup: (data) => {
         const popup = document.getElementById('popup');
         const popupTitle = document.getElementById('popup-title');
@@ -270,6 +223,7 @@ const UIModule = {
         setTimeout(() => Utils.showNotification('¿Te interesa este servicio? ¡Contáctanos!'), 4000);
     },
 
+    // Crea el efecto de persianas venecianas
     createVenetianBlinds: () => {
         const venetianContainer = document.getElementById('venetian-container');
         if (!venetianContainer) return;
@@ -292,6 +246,7 @@ const UIModule = {
         }
     },
 
+    // Crea los checkboxes para las experiencias
     createExperienceCheckboxes: () => {
         const checkboxGroup = document.querySelector('.checkbox-group');
         if (!checkboxGroup) return;
@@ -318,6 +273,7 @@ const UIModule = {
         });
     },
 
+    // Configura el acordeón del menú
     setupAccordion: () => {
         const header = document.querySelector('#sticky-header .container');
         if (!header) return;
@@ -340,6 +296,7 @@ const UIModule = {
         });
     },
 
+    // Inicializa la galería
     initializeGallery: () => {
         const galleryItems = document.querySelectorAll('.gallery-grid img');
         galleryItems.forEach(item => {
@@ -353,6 +310,7 @@ const UIModule = {
         });
     },
 
+    // Configura el mensaje de bienvenida
     setupWelcomeMessage: () => {
         const welcomeContainer = document.getElementById('welcome');
         if (welcomeContainer) {
@@ -360,6 +318,7 @@ const UIModule = {
         }
     },
 
+    // Configura el título de beneficios
     setupBenefitsTitle: () => {
         const benefitsContainer = document.getElementById('benefits');
         if (benefitsContainer) {
@@ -367,6 +326,7 @@ const UIModule = {
         }
     },
 
+    // Configura las persianas venecianas
     setupVenetianBlind: () => {
         const venetianContainer = document.getElementById('venetian');
         if (venetianContainer) {
@@ -379,6 +339,7 @@ const UIModule = {
 
 // Módulo de Paginación
 const PaginationModule = {
+    // Actualiza los indicadores de paginación
     updatePagination: () => {
         const paginationContainer = document.querySelector('.pagination-container');
         if (!paginationContainer) return;
@@ -391,6 +352,7 @@ const PaginationModule = {
         }
     },
 
+    // Cambia la página actual
     changePage: (direction) => {
         state.currentPage += direction;
         if (state.currentPage < 1) state.currentPage = state.totalPages;
@@ -398,6 +360,7 @@ const PaginationModule = {
         ServicesModule.renderServices();
     },
 
+    // Configura la paginación
     setupPagination: () => {
         const paginationContainer = document.getElementById('pagination');
         if (paginationContainer) {
@@ -407,9 +370,9 @@ const PaginationModule = {
         }
     }
 };
-
-// Módulo de Internacionalización
+// Módulo de Internacionalización (continuación)
 const I18nModule = {
+    // Inicializa el selector de idioma
     initLanguageSelector: () => {
         const translateIcon = document.getElementById('translate-icon');
         const languageOptions = document.querySelector('.language-options');
@@ -429,6 +392,7 @@ const I18nModule = {
         }
     },
 
+    // Cambia el idioma de la aplicación
     changeLanguage: async (lang) => {
         try {
             const response = await fetch(`/translations/${lang}.json`);
@@ -443,8 +407,9 @@ const I18nModule = {
     }
 };
 
-// Módulo de Testimonios (continuación)
+// Módulo de Testimonios
 const TestimonialsModule = {
+    // Configura el carrusel de testimonios
     setupTestimonialCarousel: () => {
         const testimonials = [
             { name: "Cliente 1", text: "Excelente servicio, muy relajante." },
@@ -472,6 +437,7 @@ const TestimonialsModule = {
         TestimonialsModule.startTestimonialAnimation();
     },
 
+    // Inicia la animación del carrusel de testimonios
     startTestimonialAnimation: () => {
         const cards = document.querySelectorAll('#card-slider .slider-item');
         if (cards.length < 4) {
@@ -490,6 +456,7 @@ const TestimonialsModule = {
 
 // Nuevo módulo para checkboxes
 const CheckboxModule = {
+    // Configura los checkboxes
     setupCheckbox: () => {
         const checkboxContainer = document.getElementById('checkbox');
         if (checkboxContainer) {
@@ -500,7 +467,17 @@ const CheckboxModule = {
     }
 };
 
-// Función init modificada
+// Función para manejar el efecto de galería
+function styles(item_id, x, y, z, opacity, shadow) {
+    const item = document.querySelector(item_id);
+    if (item) {
+        item.style.transform = `translate3d(${x}px, ${y}px, ${z}px)`;
+        item.style.opacity = opacity;
+        item.style.boxShadow = shadow;
+    }
+}
+
+// Función de inicialización
 function init(data) {
     BeneficiosModule.renderBeneficiosDestacados();
     ServicesModule.renderServices();
@@ -565,7 +542,7 @@ function init(data) {
     });
 }
 
-// Event listener para DOMContentLoaded modificado
+// Event listener para DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
     fetch('https://raw.githubusercontent.com/elitemassagemx/Home/main/data.json')
         .then(response => response.json())
@@ -611,16 +588,6 @@ Accordion.prototype.dropdown = function(e) {
 document.addEventListener('DOMContentLoaded', () => {
     var accordion = new Accordion(document.getElementById('accordion'), false);
 });
-
-// Función para manejar el efecto de galería
-function styles(item_id, x, y, z, opacity, shadow) {
-    const item = document.querySelector(item_id);
-    if (item) {
-        item.style.transform = `translate3d(${x}px, ${y}px, ${z}px)`;
-        item.style.opacity = opacity;
-        item.style.boxShadow = shadow;
-    }
-}
 
 // Event listeners para la galería
 document.getElementById('one')?.addEventListener('click', function() {
