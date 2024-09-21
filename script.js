@@ -68,8 +68,8 @@ const CommunicationModule = {
 const BeneficiosModule = {
     // Renderiza los beneficios destacados
     renderBeneficiosDestacados: () => {
-        const beneficiosGrid = document.getElementById('beneficios-grid');
-        if (!beneficiosGrid) return;
+        const beneficiosContainer = document.querySelector('.sugerencias-container');
+        if (!beneficiosContainer) return;
 
         const beneficios = [
             { name: "Reducción de estrés", icon: "benefits-icon1.png" },
@@ -79,13 +79,14 @@ const BeneficiosModule = {
             { name: "Mejora energía vital", icon: "benefits-icon3.png" }
         ];
 
+        beneficiosContainer.innerHTML = '';
         beneficios.forEach(beneficio => {
-            const beneficioElement = Utils.createElement('div', 'benefit-item');
+            const beneficioElement = Utils.createElement('div', 'sugerencia-item');
             beneficioElement.innerHTML = `
-                <img src="${CONFIG.BASE_URL}${beneficio.icon}" alt="${beneficio.name}">
+                <img src="${CONFIG.BASE_URL}${beneficio.icon}" alt="${beneficio.name}" class="sugerencia-icon">
                 <p>${beneficio.name}</p>
             `;
-            beneficiosGrid.appendChild(beneficioElement);
+            beneficiosContainer.appendChild(beneficioElement);
         });
     }
 };
@@ -101,11 +102,13 @@ const ServicesModule = {
             }
             const data = await response.json();
             state.services = data.services || {};
+            state.packages = data.services.paquetes || [];
             state.currentCategory = Object.keys(state.services)[0] || '';
             ServicesModule.renderServices();
+            PackagesModule.renderPackages();
         } catch (error) {
             console.error('Error al cargar los servicios:', error);
-            // Aquí podrías añadir código para manejar el error, como mostrar un mensaje al usuario
+            Utils.showNotification('Error al cargar los servicios. Por favor, intenta de nuevo más tarde.');
         }
     },
 
@@ -124,36 +127,24 @@ const ServicesModule = {
         PaginationModule.updatePagination();
     },
 
-    // ... otros métodos del módulo ...
-
-    // Método para inicializar el módulo
-    init: () => {
-        ServicesModule.loadServices();
-    }
-};
-
-// Asegúrate de llamar a ServicesModule.init() cuando la aplicación se inicie
-
     // Crea un elemento HTML para un servicio individual
     createServiceElement: (service) => {
-        const serviceElement = Utils.createElement('div', 'service-card');
+        const serviceElement = Utils.createElement('div', 'service-item');
         serviceElement.innerHTML = `
-            <div class="service-card-content">
-                <h3 class="service-card-title">${service.title}</h3>
-                <p class="service-card-description">${service.description}</p>
-                <div class="service-card-benefits">
-                    ${service.benefits.map((benefit, index) => `
-                        <div class="service-card-benefit">
-                            <img src="${CONFIG.BASE_URL}${service.benefitsIcons[index]}" alt="${benefit}">
-                            <p>${benefit}</p>
-                        </div>
-                    `).join('')}
-                </div>
-                <p class="service-card-duration">${service.duration}</p>
+            <h3>${service.title}</h3>
+            <p>${service.description}</p>
+            <div class="service-benefits">
+                ${service.benefits.map((benefit, index) => `
+                    <div class="service-benefit">
+                        <img src="${CONFIG.BASE_URL}${service.benefitsIcons[index]}" alt="${benefit}">
+                        <span>${benefit}</span>
+                    </div>
+                `).join('')}
             </div>
-            <div class="service-card-buttons">
-                <button class="service-card-button reserve-button">Reservar</button>
-                <button class="service-card-button info-button">Saber más</button>
+            <p class="service-duration">${service.duration}</p>
+            <div class="service-buttons">
+                <button class="reserve-button">Reservar</button>
+                <button class="info-button">Saber más</button>
             </div>
         `;
 
@@ -173,6 +164,23 @@ const ServicesModule = {
                 servicesContainer.appendChild(div);
             });
         }
+    },
+
+    // Método para inicializar el módulo
+    init: () => {
+        ServicesModule.loadServices();
+        const categorySelector = document.querySelector('.category-selector');
+        if (categorySelector) {
+            categorySelector.addEventListener('click', (e) => {
+                if (e.target.classList.contains('choice-chip')) {
+                    state.currentCategory = e.target.dataset.category;
+                    state.currentPage = 1;
+                    document.querySelectorAll('.choice-chip').forEach(chip => chip.classList.remove('active'));
+                    e.target.classList.add('active');
+                    ServicesModule.renderServices();
+                }
+            });
+        }
     }
 };
 
@@ -187,6 +195,7 @@ const PackagesModule = {
             const packageElement = PackagesModule.createPackageElement(pkg);
             packageList.appendChild(packageElement);
         });
+        PackagesModule.renderPackageBenefits();
     },
 
     // Crea un elemento HTML para un paquete individual
@@ -195,6 +204,15 @@ const PackagesModule = {
         packageElement.innerHTML = `
             <h3>${pkg.title}</h3>
             <p>${pkg.description}</p>
+            <div class="package-benefits">
+                ${pkg.benefits.map((benefit, index) => `
+                    <div class="package-benefit">
+                        <img src="${CONFIG.BASE_URL}${pkg.benefitsIcons[index]}" alt="${benefit}">
+                        <span>${benefit}</span>
+                    </div>
+                `).join('')}
+            </div>
+            <p class="package-duration">${pkg.duration}</p>
             <div class="package-buttons">
                 <button class="reserve-button">Reservar</button>
                 <button class="info-button">Saber más</button>
@@ -205,6 +223,31 @@ const PackagesModule = {
         packageElement.querySelector('.info-button').addEventListener('click', () => UIModule.showPopup(pkg));
 
         return packageElement;
+    },
+
+    // Renderiza los beneficios de los paquetes
+    renderPackageBenefits: () => {
+        const packageBenefitsContainer = document.querySelector('.package-benefits');
+        if (!packageBenefitsContainer) return;
+
+        const allBenefits = state.packages.reduce((acc, pkg) => {
+            pkg.benefits.forEach((benefit, index) => {
+                if (!acc.some(b => b.name === benefit)) {
+                    acc.push({ name: benefit, icon: pkg.benefitsIcons[index] });
+                }
+            });
+            return acc;
+        }, []);
+
+        packageBenefitsContainer.innerHTML = '';
+        allBenefits.forEach(benefit => {
+            const benefitElement = Utils.createElement('div', 'package-benefit-item');
+            benefitElement.innerHTML = `
+                <img src="${CONFIG.BASE_URL}${benefit.icon}" alt="${benefit.name}" class="package-benefit-icon">
+                <p>${benefit.name}</p>
+            `;
+            packageBenefitsContainer.appendChild(benefitElement);
+        });
     },
 
     // Renderiza paquetes desde datos crudos
@@ -225,6 +268,11 @@ const PackagesModule = {
                 });
             });
         }
+    },
+
+    // Inicializa el módulo de paquetes
+    init: () => {
+        PackagesModule.renderPackages();
     }
 };
 
@@ -315,7 +363,7 @@ const UIModule = {
         header.appendChild(accordionToggle);
         header.appendChild(accordionContent);
 
-        accordionToggle.addEventListener('click', function() {
+accordionToggle.addEventListener('click', function() {
             this.classList.toggle('active');
             accordionContent.style.display = accordionContent.style.display === 'block' ? 'none' : 'block';
         });
@@ -335,19 +383,19 @@ const UIModule = {
         });
     },
 
-    // Configura el mensaje de bienvenida
-    setupWelcomeMessage: () => {
-        const welcomeContainer = document.getElementById('welcome');
-        if (welcomeContainer) {
-            welcomeContainer.textContent = 'Bienvenido a tu oasis';
-        }
-    },
-
     // Configura el título de beneficios
     setupBenefitsTitle: () => {
         const benefitsContainer = document.getElementById('benefits');
         if (benefitsContainer) {
             benefitsContainer.textContent = 'Beneficios destacados';
+        }
+    },
+
+    // Configura el mensaje de bienvenida
+    setupWelcomeMessage: () => {
+        const welcomeContainer = document.getElementById('welcome');
+        if (welcomeContainer) {
+            welcomeContainer.textContent = 'Bienvenido a tu oasis';
         }
     },
 
@@ -358,6 +406,24 @@ const UIModule = {
             const venetianDiv = Utils.createElement('div');
             venetianDiv.textContent = 'Venetian';
             venetianContainer.appendChild(venetianDiv);
+        }
+    },
+
+    // Inicializa el módulo UI
+    init: () => {
+        UIModule.createVenetianBlinds();
+        UIModule.createExperienceCheckboxes();
+        UIModule.setupAccordion();
+        UIModule.initializeGallery();
+        UIModule.setupBenefitsTitle();
+        UIModule.setupWelcomeMessage();
+        UIModule.setupVenetianBlind();
+        const closeButton = document.querySelector('.close');
+        if (closeButton) {
+            closeButton.addEventListener('click', () => {
+                const popup = document.getElementById('popup');
+                if (popup) popup.style.display = 'none';
+            });
         }
     }
 };
@@ -385,17 +451,16 @@ const PaginationModule = {
         ServicesModule.renderServices();
     },
 
-    // Configura la paginación
-    setupPagination: () => {
-        const paginationContainer = document.getElementById('pagination');
-        if (paginationContainer) {
-            const paginationDiv = Utils.createElement('div');
-            paginationDiv.textContent = 'Paginación';
-            paginationContainer.appendChild(paginationDiv);
-        }
+    // Inicializa el módulo de paginación
+    init: () => {
+        const prevButton = document.querySelector('.btn--prev');
+        const nextButton = document.querySelector('.btn--next');
+        if (prevButton) prevButton.addEventListener('click', () => PaginationModule.changePage(-1));
+        if (nextButton) nextButton.addEventListener('click', () => PaginationModule.changePage(1));
     }
 };
-// Módulo de Internacionalización (continuación)
+
+// Módulo de Internacionalización
 const I18nModule = {
     // Inicializa el selector de idioma
     initLanguageSelector: () => {
@@ -479,19 +544,6 @@ const TestimonialsModule = {
     }
 };
 
-// Nuevo módulo para checkboxes
-const CheckboxModule = {
-    // Configura los checkboxes
-    setupCheckbox: () => {
-        const checkboxContainer = document.getElementById('checkbox');
-        if (checkboxContainer) {
-            const checkboxDiv = Utils.createElement('div');
-            checkboxDiv.textContent = 'Checkbox';
-            checkboxContainer.appendChild(checkboxDiv);
-        }
-    }
-};
-
 // Función para manejar el efecto de galería
 function styles(item_id, x, y, z, opacity, shadow) {
     const item = document.querySelector(item_id);
@@ -502,55 +554,21 @@ function styles(item_id, x, y, z, opacity, shadow) {
     }
 }
 
-// Función de inicialización
-function init(data) {
+// Función de inicialización principal
+function init() {
     BeneficiosModule.renderBeneficiosDestacados();
-    ServicesModule.renderServices();
-    PackagesModule.renderPackages();
-    UIModule.createVenetianBlinds();
-    UIModule.createExperienceCheckboxes();
-    UIModule.setupAccordion();
-    UIModule.initializeGallery();
-    TestimonialsModule.setupTestimonialCarousel();
+    ServicesModule.init();
+    PackagesModule.init();
+    UIModule.init();
+    PaginationModule.init();
     CommunicationModule.setupContactForm();
     I18nModule.initLanguageSelector();
-
-    UIModule.setupWelcomeMessage();
-    UIModule.setupBenefitsTitle();
-    UIModule.setupVenetianBlind();
-    ServicesModule.renderServicesFromData(data.services);
-    PackagesModule.renderPackagesFromData(data.packages);
-    PaginationModule.setupPagination();
-    CheckboxModule.setupCheckbox();
+    TestimonialsModule.setupTestimonialCarousel();
 
     // Habilitar el contenedor sticky
     const stickyContainer = document.getElementById('sticky');
     if (stickyContainer) {
         stickyContainer.style.display = 'block';
-    }
-
-    // Event Listeners
-    const prevButton = document.querySelector('.btn--prev');
-    const nextButton = document.querySelector('.btn--next');
-    if (prevButton) prevButton.addEventListener('click', () => PaginationModule.changePage(-1));
-    if (nextButton) nextButton.addEventListener('click', () => PaginationModule.changePage(1));
-
-    document.querySelectorAll('.service-tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-            document.querySelectorAll('.service-tab').forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            state.currentCategory = tab.dataset.category;
-            state.currentPage = 1;
-            ServicesModule.renderServices();
-        });
-    });
-
-    const closeButton = document.querySelector('.close');
-    if (closeButton) {
-        closeButton.addEventListener('click', () => {
-            const popup = document.getElementById('popup');
-            if (popup) popup.style.display = 'none';
-        });
     }
 
     // Smooth Scroll
@@ -568,19 +586,7 @@ function init(data) {
 }
 
 // Event listener para DOMContentLoaded
-document.addEventListener('DOMContentLoaded', () => {
-    fetch('https://raw.githubusercontent.com/elitemassagemx/Home/main/data.json')
-        .then(response => response.json())
-        .then(data => {
-            state.services = data.services;
-            state.packages = data.services.paquetes;
-            init(data);
-        })
-        .catch(error => {
-            console.error('Error al cargar los datos:', error);
-            Utils.showNotification('Error al cargar los datos. Por favor, intenta de nuevo más tarde.');
-        });
-});
+document.addEventListener('DOMContentLoaded', init);
 
 // Configuración del menú acordeón
 var Accordion = function(el, multiple) {
