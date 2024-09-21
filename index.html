@@ -1,25 +1,42 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Metadatos y configuración básica del documento -->
     <meta charset="UTF-8">
+    <!-- Asegura que los caracteres especiales se muestren correctamente -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Configura la visualización para dispositivos móviles, haciendo el sitio responsive -->
     <title>Elite Massage</title>
+    <!-- Título que aparece en la pestaña del navegador -->
+
+    <!-- Enlaces a hojas de estilo externas -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="additional-styles.css">
+    <!-- Estas hojas de estilo contienen todos los estilos CSS para el sitio -->
+
+    <!-- Carga de fuentes de Google -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Carga las fuentes 'Open Sans' y 'Playfair Display' con varios pesos -->
+
+    <!-- Carga de la biblioteca de iconos Font Awesome -->
     <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+    <!-- Permite usar iconos de Font Awesome en el sitio -->
 </head>
 <body>
+    <!-- Encabezado principal del sitio -->
     <header id="sticky-header">
         <div class="container">
             <div class="header-top">
+                <!-- Contenedor del logo y título -->
                 <div class="logo-container">
                     <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/logo.png" alt="Elite Massage Logo" class="logo">
                     <h1 class="btn-shine">Elite Massage</h1>
                 </div>
+                <!-- Selector de idioma -->
                 <div class="language-selector">
                     <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/trad.png" alt="Traducir" id="translate-icon">
                     <div class="language-options">
+                        <!-- Opciones de idioma, cada una con una bandera y texto -->
                         <button class="lang-option" data-lang="es"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/omx.png" alt="Bandera de México"> Español</button>
                         <button class="lang-option" data-lang="en"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ous.png" alt="Bandera de Estados Unidos"> English</button>
                         <button class="lang-option" data-lang="fr"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/ofr.png" alt="Bandera de Francia"> Français</button>
@@ -27,12 +44,15 @@
                         <button class="lang-option" data-lang="zh-CN"><img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/och.png" alt="Bandera de China"> 中文</button>
                     </div>
                 </div>
+                <!-- Navegación principal -->
                 <nav class="main-nav">
+                    <!-- Botón para abrir/cerrar el menú en dispositivos móviles -->
                     <button id="menu-toggle" aria-label="Abrir menú">
                         <span></span>
                         <span></span>
                         <span></span>
                     </button>
+                    <!-- Menú de navegación con estructura de acordeón -->
                     <ul id="accordion" class="accordion">
                         <li>
                             <div class="link"><i class="fa fa-spa"></i>Servicios<i class="fa fa-chevron-down"></i></div>
@@ -62,11 +82,14 @@
                     </ul>
                 </nav>
             </div>
+            <!-- Eslogan principal con efecto de brillo -->
             <a href="#" class="btn-shine">Masajes y experiencias premium para ti y tu invitado</a>
         </div>
     </header>
 
+    <!-- Contenido principal del sitio -->
     <main role="main">
+        <!-- Sección de inicio/hero -->
         <section id="inicio" class="hero">
             <div class="container">
                 <h2 class="btn-shine">Bienvenido a tu Oasis de Tranquilidad</h2>
@@ -74,10 +97,12 @@
             </div>
         </section>
 
+        <!-- Sección de sugerencias/beneficios -->
         <section id="sugerencias" class="sugerencias-section">
             <div class="container">
                 <h2>Beneficios destacados</h2>
                 <div class="sugerencias-container">
+                    <!-- Cada div representa un beneficio con su icono y descripción -->
                     <div class="sugerencia-item">
                         <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/benefits-icon1.png" alt="Beneficio 1" class="sugerencia-icon">
                         <p>Reducción de estrés</p>
@@ -102,14 +127,18 @@
             </div>
         </section>
 
+        <!-- Sección de servicios -->
         <section id="servicios" class="section services">
             <div class="container">
                 <h2>Nuestros Servicios</h2>
+                <!-- Selector de categoría de servicios -->
                 <div class="category-selector">
                     <button class="choice-chip active" data-category="individual">Individual</button>
                     <button class="choice-chip" data-category="pareja">En Pareja</button>
                 </div>
+                <!-- Contenedor donde se cargarán dinámicamente los servicios -->
                 <div id="services-list" class="services-grid"></div>
+                <!-- Controles de paginación -->
                 <div class="pagination-wrapper">
                     <button class="btn btn--prev" aria-label="Página anterior">
                         <svg height="96" viewBox="0 0 24 24" width="96" xmlns="http://www.w3.org/2000/svg">
@@ -134,13 +163,16 @@
             </div>
         </section>
 
+        <!-- Sección de paquetes -->
         <section id="paquetes" class="section packages">
             <div class="container">
                 <h2>Paquetes Especiales</h2>
+                <!-- Contenedor donde se cargarán dinámicamente los paquetes -->
                 <div id="package-list" class="package-grid"></div>
             </div>
         </section>
 
+        <!-- Sección de experiencias -->
         <section id="experiencias" class="section experiences">
             <div class="container">
                 <h2>Experiencias</h2>
@@ -151,10 +183,12 @@
             </div>
         </section>
 
+        <!-- Sección de galería -->
         <section id="galeria" class="section gallery">
             <div class="container">
                 <h2>Galería de Imágenes</h2>
                 <div class="gallery-grid">
+                    <!-- Cada div.gallery-item representa una imagen en la galería -->
                     <div class="gallery-item">
                         <img src="https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/copasq.JPG" alt="Interior del Spa" width="250" height="250" loading="lazy">
                         <button class="gallery-icon" aria-label="Ver detalles">
@@ -177,23 +211,26 @@
             </div>
         </section>
 
+        <!-- Sección de testimonios -->
         <section id="testimonios" class="section testimonials">
             <div class="container">
                 <h2>Lo que dicen nuestros clientes</h2>
+                <!-- Contenedor para el carrusel de testimonios -->
                 <div id="card-slider" class="slider-wrap"></div>
             </div>
         </section>
 
+        <!-- Sección de contacto -->
         <section id="contacto" class="section contact">
             <div class="container">
                 <h2>Contáctanos</h2>
-                <form id="contact-form">
-                    <!-- El formulario se cargará dinámicamente aquí -->
-                </form>
+                <!-- El formulario se cargará dinámicamente aquí -->
+                <form id="contact-form"></form>
             </div>
         </section>
     </main>
 
+    <!-- Pie de página -->
     <footer>
         <div class="container">
             <p>&copy; 2023 Elite Massage. Todos los derechos reservados.</p>
@@ -209,6 +246,7 @@
         </div>
     </footer>
 
+<!-- Barra de navegación fija en la parte inferior (continuación) -->
     <div class="fixed-bar">
         <nav class="main-nav">
             <ul>
@@ -220,6 +258,7 @@
         </nav>
     </div>
 
+    <!-- Popup para mostrar información adicional -->
     <div id="popup" class="popup">
         <div class="popup-content">
             <button class="close" aria-label="Cerrar">&times;</button>
@@ -229,264 +268,18 @@
         </div>
     </div>
 
+    <!-- Elemento toast para mostrar notificaciones -->
     <div id="toast" class="toast">
         <div id="img">Info</div>
         <div id="desc"></div>
     </div>
 
+    <!-- Carga de la biblioteca jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Script JavaScript inline -->
     <script>
-        // Configuración global
-        const CONFIG = {
-            BASE_URL: "https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/",
-            ITEMS_PER_PAGE: 3,
-            WHATSAPP_NUMBER: "5215640020305"
-        };
-
-        // Estado global de la aplicación
-        const state = {
-            currentPage: 1,
-            currentCategory: 'individual',
-            totalPages: 1,
-            language: 'es',
-            services: null,
-            packages: null
-        };
-
-
-        // Módulo de Utilidades
-        const Utils = {
-            createElement: (tag, className, innerHTML) => {
-                const element = document.createElement(tag);
-                if (className) element.className = className;
-                if (innerHTML) element.innerHTML = innerHTML;
-                return element;
-            },
-            
-            showNotification: (message) => {
-                const toast = document.getElementById('toast');
-                toast.querySelector('#desc').textContent = message;
-                toast.className = 'show';
-                setTimeout(() => { toast.className = toast.className.replace('show', ''); }, 5000);
-            }
-        };
-
-        // Módulo de Comunicación
-        const CommunicationModule = {
-            sendWhatsAppMessage: (action, serviceTitle) => {
-                const message = encodeURIComponent(`Hola! Quiero ${action} un ${serviceTitle}`);
-                const url = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${message}`;
-                window.open(url, '_blank');
-            },
-
-            setupContactForm: () => {
-                const form = document.getElementById('contact-form');
-                if (form) {
-                    form.innerHTML = `
-                        <input type="text" id="name" name="name" placeholder="Tu nombre" required>
-                        <input type="email" id="email" name="email" placeholder="Tu email" required>
-                        <textarea id="message" name="message" placeholder="Tu mensaje aquí" required></textarea>
-                        <button type="submit">Enviar</button>
-                    `;
-                    form.addEventListener('submit', function(e) {
-                        e.preventDefault();
-                        // Aquí iría la lógica para enviar el formulario
-                        Utils.showNotification('Mensaje enviado con éxito');
-                        form.reset();
-                    });
-                }
-            }
-        };
-
-        // Módulo de Servicios
-        const ServicesModule = {
-            renderServices: () => {
-                const servicesList = document.getElementById('services-list');
-                if (!servicesList) return;
-                servicesList.innerHTML = '';
-                const startIndex = (state.currentPage - 1) * CONFIG.ITEMS_PER_PAGE;
-                const endIndex = startIndex + CONFIG.ITEMS_PER_PAGE;
-                const currentServices = state.services[state.currentCategory].slice(startIndex, endIndex);
-
-                currentServices.forEach(service => {
-                    const serviceElement = ServicesModule.createServiceElement(service);
-                    servicesList.appendChild(serviceElement);
-                });
-
-                PaginationModule.updatePagination();
-            },
-
-            createServiceElement: (service) => {
-                const serviceElement = Utils.createElement('div', 'service-card');
-                serviceElement.innerHTML = `
-                    <div class="service-card-content">
-                        <h3 class="service-card-title">${service.title}</h3>
-                        <p class="service-card-description">${service.description}</p>
-                        <div class="service-card-benefits">
-                            ${service.benefits.map((benefit, index) => `
-                                <div class="service-card-benefit">
-                                    <img src="${service.benefitsIcons[index]}" alt="${benefit}">
-                                    <p>${benefit}</p>
-                                </div>
-                            `).join('')}
-                        </div>
-                        <p class="service-card-duration">${service.duration}</p>
-                    </div>
-                    <div class="service-card-buttons">
-                        <button class="service-card-button reserve-button">Reservar</button>
-                        <button class="service-card-button info-button">Saber más</button>
-                    </div>
-                `;
-
-                serviceElement.querySelector('.reserve-button').addEventListener('click', () => CommunicationModule.sendWhatsAppMessage('Reservar', service.title));
-                serviceElement.querySelector('.info-button').addEventListener('click', () => UIModule.showPopup(service));
-
-                return serviceElement;
-            }
-        };
-
-        // Módulo de Paquetes
-        const PackagesModule = {
-            renderPackages: () => {
-                const packageList = document.getElementById('package-list');
-                if (!packageList) return;
-                packageList.innerHTML = '';
-                state.packages.forEach(pkg => {
-                    const packageElement = PackagesModule.createPackageElement(pkg);
-                    packageList.appendChild(packageElement);
-                });
-            },
-
-            createPackageElement: (pkg) => {
-                const packageElement = Utils.createElement('div', 'package-item');
-                packageElement.innerHTML = `
-                    <h3>${pkg.title}</h3>
-                    <p>${pkg.description}</p>
-                    <ul>
-                        ${pkg.includes.map(item => `<li>${item}</li>`).join('')}
-                    </ul>
-                    <p>Duración: ${pkg.duration}</p>
-                    <div class="package-buttons">
-                        <button class="reserve-button">Reservar</button>
-                        <button class="info-button">Saber más</button>
-                    </div>
-                `;
-
-                packageElement.querySelector('.reserve-button').addEventListener('click', () => CommunicationModule.sendWhatsAppMessage('Reservar', pkg.title));
-                packageElement.querySelector('.info-button').addEventListener('click', () => UIModule.showPopup(pkg));
-
-                return packageElement;
-            }
-        };
-
-        // Módulo de UI
-        const UIModule = {
-            showPopup: (data) => {
-                const popup = document.getElementById('popup');
-                const popupTitle = document.getElementById('popup-title');
-                const popupImage = document.getElementById('popup-image');
-                const popupDescription = document.getElementById('popup-description');
-
-                if (!popup || !popupTitle || !popupImage || !popupDescription) return;
-
-                popupTitle.textContent = data.title;
-                popupImage.src = data.image || '';
-                popupImage.alt = data.title;
-                popupDescription.textContent = data.popupDescription || data.description;
-
-                popup.style.display = 'flex';
-            },
-
-            createExperienceCheckboxes: () => {
-                const checkboxGroup = document.querySelector('.checkbox-group');
-                if (!checkboxGroup) return;
-                const experiences = state.services.individual.map(service => ({
-                    name: service.title,
-                    icon: service.icon
-                }));
-
-                experiences.forEach(exp => {
-                    const checkbox = Utils.createElement('div', 'checkbox');
-                    checkbox.innerHTML = `
-                        <input type="checkbox" id="${exp.name}" class="checkbox-input">
-                        <label for="${exp.name}" class="checkbox-tile">
-                            <span class="checkbox-icon">
-                                <img src="${exp.icon}" alt="${exp.name}">
-                            </span>
-                            <span class="checkbox-label">${exp.name}</span>
-                        </label>
-                    `;
-                    checkboxGroup.appendChild(checkbox);
-                });
-            }
-        };
-
-        // Módulo de Paginación
-        const PaginationModule = {
-            updatePagination: () => {
-                const paginationContainer = document.querySelector('.pagination-container');
-                if (!paginationContainer) return;
-                paginationContainer.innerHTML = '';
-                state.totalPages = Math.ceil(state.services[state.currentCategory].length / CONFIG.ITEMS_PER_PAGE);
-
-                for (let i = 1; i <= state.totalPages; i++) {
-                    const dot = Utils.createElement('div', `little-dot${i === state.currentPage ? ' active' : ''}`);
-                    paginationContainer.appendChild(dot);
-                }
-            },
-
-            changePage: (direction) => {
-                state.currentPage += direction;
-                if (state.currentPage < 1) state.currentPage = state.totalPages;
-                if (state.currentPage > state.totalPages) state.currentPage = 1;
-                ServicesModule.renderServices();
-            }
-        };
-
-        // Inicialización
-        function init() {
-            ServicesModule.renderServices();
-            PackagesModule.renderPackages();
-            UIModule.createExperienceCheckboxes();
-            CommunicationModule.setupContactForm();
-
-            // Event Listeners
-            const prevButton = document.querySelector('.btn--prev');
-            const nextButton = document.querySelector('.btn--next');
-            if (prevButton) prevButton.addEventListener('click', () => PaginationModule.changePage(-1));
-            if (nextButton) nextButton.addEventListener('click', () => PaginationModule.changePage(1));
-
-            document.querySelectorAll('.choice-chip').forEach(chip => {
-                chip.addEventListener('click', () => {
-                    document.querySelectorAll('.choice-chip').forEach(c => c.classList.remove('active'));
-                    chip.classList.add('active');
-                    state.currentCategory = chip.dataset.category;
-                    state.currentPage = 1;
-                    ServicesModule.renderServices();
-                });
-            });
-
-            const closeButton = document.querySelector('.close');
-            if (closeButton) {
-                closeButton.addEventListener('click', () => {
-                    const popup = document.getElementById('popup');
-                    if (popup) popup.style.display = 'none';
-                });
-            }
-        }
-
-        // Cargar datos y inicializar
-        fetch('https://raw.githubusercontent.com/elitemassagemx/Home/main/data.json')
-            .then(response => response.json())
-            .then(data => {
-                state.services = data.services;
-                state.packages = data.services.paquetes;
-                init();
-            })
-            .catch(error => {
-                console.error('Error al cargar los datos:', error);
-                Utils.showNotification('Error al cargar los datos. Por favor, intenta de nuevo más tarde.');
-            });
+        // El código JavaScript se incluirá aquí
     </script>
 </body>
 </html>
