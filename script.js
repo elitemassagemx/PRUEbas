@@ -99,10 +99,12 @@ const ServicesModule = {
         const servicesList = document.getElementById('services-list');
         if (!servicesList) return;
         servicesList.innerHTML = '';
+        const currentServices = state.services[state.currentCategory] || [];
         const startIndex = (state.currentPage - 1) * CONFIG.ITEMS_PER_PAGE;
         const endIndex = startIndex + CONFIG.ITEMS_PER_PAGE;
-        const currentServices = state.services[state.currentCategory].slice(startIndex, endIndex);
-        currentServices.forEach(service => {
+        const servicesToRender = currentServices.slice(startIndex, endIndex);
+        
+        servicesToRender.forEach(service => {
             const serviceElement = ServicesModule.createServiceElement(service);
             servicesList.appendChild(serviceElement);
         });
@@ -118,7 +120,7 @@ const ServicesModule = {
             <div class="service-benefits">
                 ${service.benefits.map((benefit, index) => `
                     <div class="service-benefit">
-                        <img src="${CONFIG.BASE_URL}${service.benefitsIcons[index]}" alt="${benefit}">
+                        <img src="${service.benefitsIcons[index].replace('${BASE_URL}', CONFIG.BASE_URL)}" alt="${benefit}">
                         <span>${benefit}</span>
                     </div>
                 `).join('')}
@@ -140,10 +142,14 @@ const ServicesModule = {
     renderServicesFromData: (services) => {
         const servicesContainer = document.getElementById('services');
         if (servicesContainer) {
-            services.forEach(service => {
-                const div = Utils.createElement('div');
-                div.textContent = `${service.name}: ${service.description}`;
-                servicesContainer.appendChild(div);
+            Object.entries(services).forEach(([category, categoryServices]) => {
+                if (category !== 'paquetes') {
+                    categoryServices.forEach(service => {
+                        const div = Utils.createElement('div');
+                        div.textContent = `${service.title}: ${service.description}`;
+                        servicesContainer.appendChild(div);
+                    });
+                }
             });
         }
     },
@@ -176,7 +182,6 @@ const PackagesModule = {
             const packageElement = PackagesModule.createPackageElement(pkg);
             packageList.appendChild(packageElement);
         });
-        PackagesModule.renderPackageBenefits();
     },
 
     // Crea un elemento HTML para un paquete individual
@@ -185,10 +190,16 @@ const PackagesModule = {
         packageElement.innerHTML = `
             <h3>${pkg.title}</h3>
             <p>${pkg.description}</p>
+            <div class="package-includes">
+                <h4>Incluye:</h4>
+                <ul>
+                    ${pkg.includes.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+            </div>
             <div class="package-benefits">
                 ${pkg.benefits.map((benefit, index) => `
                     <div class="package-benefit">
-                        <img src="${CONFIG.BASE_URL}${pkg.benefitsIcons[index]}" alt="${benefit}">
+                        <img src="${pkg.benefitsIcons[index].replace('${BASE_URL}', CONFIG.BASE_URL)}" alt="${benefit}">
                         <span>${benefit}</span>
                     </div>
                 `).join('')}
@@ -206,31 +217,6 @@ const PackagesModule = {
         return packageElement;
     },
 
-    // Renderiza los beneficios de los paquetes
-    renderPackageBenefits: () => {
-        const packageBenefitsContainer = document.querySelector('.package-benefits');
-        if (!packageBenefitsContainer) return;
-
-        const allBenefits = state.packages.reduce((acc, pkg) => {
-            pkg.benefits.forEach((benefit, index) => {
-                if (!acc.some(b => b.name === benefit)) {
-                    acc.push({ name: benefit, icon: pkg.benefitsIcons[index] });
-                }
-            });
-            return acc;
-        }, []);
-
-        packageBenefitsContainer.innerHTML = '';
-        allBenefits.forEach(benefit => {
-            const benefitElement = Utils.createElement('div', 'package-benefit-item');
-            benefitElement.innerHTML = `
-                <img src="${CONFIG.BASE_URL}${benefit.icon}" alt="${benefit.name}" class="package-benefit-icon">
-                <p>${benefit.name}</p>
-            `;
-            packageBenefitsContainer.appendChild(benefitElement);
-        });
-    },
-
     // Renderiza paquetes desde datos crudos
     renderPackagesFromData: (packages) => {
         const packagesContainer = document.getElementById('packages');
@@ -239,7 +225,7 @@ const PackagesModule = {
         if (packagesContainer && packageBenefitsContainer) {
             packages.forEach(pkg => {
                 const div = Utils.createElement('div');
-                div.textContent = pkg.name;
+                div.textContent = pkg.title;
                 packagesContainer.appendChild(div);
 
                 pkg.benefits.forEach(benefit => {
@@ -269,7 +255,7 @@ const UIModule = {
         if (!popup || !popupTitle || !popupImage || !popupDescription) return;
 
         popupTitle.textContent = data.title;
-        popupImage.src = data.image || '';
+        popupImage.src = data.image.replace('${BASE_URL}', CONFIG.BASE_URL);
         popupImage.alt = data.title;
         popupDescription.textContent = data.popupDescription || data.description;
 
@@ -372,7 +358,7 @@ const UIModule = {
         }
     },
 
-// Configura el mensaje de bienvenida
+    // Configura el mensaje de bienvenida
     setupWelcomeMessage: () => {
         const welcomeContainer = document.getElementById('welcome');
         if (welcomeContainer) {
@@ -385,7 +371,7 @@ const UIModule = {
         const venetianContainer = document.getElementById('venetian');
         if (venetianContainer) {
             const venetianDiv = Utils.createElement('div');
-            venetianDiv.textContent = 'Venetian';
+venetianDiv.textContent = 'Venetian';
             venetianContainer.appendChild(venetianDiv);
         }
     },
@@ -416,7 +402,8 @@ const PaginationModule = {
         const paginationContainer = document.querySelector('.pagination-container');
         if (!paginationContainer) return;
         paginationContainer.innerHTML = '';
-        state.totalPages = Math.ceil(state.services[state.currentCategory].length / CONFIG.ITEMS_PER_PAGE);
+        const currentServices = state.services[state.currentCategory] || [];
+        state.totalPages = Math.ceil(currentServices.length / CONFIG.ITEMS_PER_PAGE);
 
         for (let i = 1; i <= state.totalPages; i++) {
             const dot = Utils.createElement('div', `little-dot${i === state.currentPage ? ' active' : ''}`);
@@ -540,10 +527,11 @@ function init(data) {
     try {
         state.services = data.services || {};
         state.packages = data.services.paquetes || [];
+        state.currentCategory = Object.keys(state.services)[0] || 'individual';
         
         BeneficiosModule.renderBeneficiosDestacados();
         ServicesModule.init();
-        ServicesModule.renderServices(); // Llamamos directamente a renderServices
+        ServicesModule.renderServices();
         PackagesModule.init();
         UIModule.init();
         PaginationModule.init();
@@ -553,7 +541,7 @@ function init(data) {
 
         // Renderizar servicios y paquetes desde datos crudos
         ServicesModule.renderServicesFromData(data.services);
-        PackagesModule.renderPackagesFromData(data.packages);
+        PackagesModule.renderPackagesFromData(data.services.paquetes);
 
         // Habilitar el contenedor sticky
         const stickyContainer = document.getElementById('sticky');
