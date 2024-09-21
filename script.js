@@ -92,6 +92,23 @@ const BeneficiosModule = {
 
 // Módulo de Servicios
 const ServicesModule = {
+    // Carga los servicios desde data.json
+    loadServices: async () => {
+        try {
+            const response = await fetch('data.json');
+            if (!response.ok) {
+                throw new Error('No se pudo cargar el archivo data.json');
+            }
+            const data = await response.json();
+            state.services = data.services || {};
+            state.currentCategory = Object.keys(state.services)[0] || '';
+            ServicesModule.renderServices();
+        } catch (error) {
+            console.error('Error al cargar los servicios:', error);
+            // Aquí podrías añadir código para manejar el error, como mostrar un mensaje al usuario
+        }
+    },
+
     // Renderiza los servicios en la página actual
     renderServices: () => {
         const servicesList = document.getElementById('services-list');
@@ -100,14 +117,22 @@ const ServicesModule = {
         const startIndex = (state.currentPage - 1) * CONFIG.ITEMS_PER_PAGE;
         const endIndex = startIndex + CONFIG.ITEMS_PER_PAGE;
         const currentServices = state.services[state.currentCategory].slice(startIndex, endIndex);
-
         currentServices.forEach(service => {
             const serviceElement = ServicesModule.createServiceElement(service);
             servicesList.appendChild(serviceElement);
         });
-
         PaginationModule.updatePagination();
     },
+
+    // ... otros métodos del módulo ...
+
+    // Método para inicializar el módulo
+    init: () => {
+        ServicesModule.loadServices();
+    }
+};
+
+// Asegúrate de llamar a ServicesModule.init() cuando la aplicación se inicie
 
     // Crea un elemento HTML para un servicio individual
     createServiceElement: (service) => {
