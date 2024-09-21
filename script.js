@@ -1,3 +1,4 @@
+
 // Configuración global
 const CONFIG = {
     BASE_URL: "https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/",
@@ -7,18 +8,52 @@ const CONFIG = {
 };
 
 // Estado global de la aplicación
-const state = {
-    currentPage: 1,
-    currentCategory: 'individual',
-    totalPages: 1,
-    language: 'es',
-    services: null,
-    packages: null
-};
+class AppState {
+    constructor() {
+        this.currentPage = 1;
+        this.currentCategory = 'individual';
+        this.totalPages = 1;
+        this.language = 'es';
+        this.services = null;
+        this.packages = null;
+        this.listeners = [];
+    }
+
+    setState(newState) {
+        Object.assign(this, newState);
+        this.notifyListeners();
+    }
+
+    addListener(listener) {
+        this.listeners.push(listener);
+    }
+
+    notifyListeners() {
+        this.listeners.forEach(listener => listener());
+    }
+}
+
+const state = new AppState();
+
+// Clase base para componentes
+class Component {
+    constructor(props = {}) {
+        this.props = props;
+        this.state = {};
+    }
+
+    setState(newState) {
+        this.state = { ...this.state, ...newState };
+        this.render();
+    }
+
+    render() {
+        throw new Error('El método render debe ser implementado');
+    }
+}
 
 // Módulo de Utilidades
 const Utils = {
-    // Crea un elemento HTML con clase y contenido opcionales
     createElement: (tag, className, innerHTML) => {
         const element = document.createElement(tag);
         if (className) element.className = className;
@@ -26,7 +61,6 @@ const Utils = {
         return element;
     },
     
-    // Muestra una notificación temporal
     showNotification: (message) => {
         const toast = document.getElementById('toast');
         toast.querySelector('#desc').textContent = message;
@@ -37,14 +71,12 @@ const Utils = {
 
 // Módulo de Comunicación
 const CommunicationModule = {
-    // Envía un mensaje de WhatsApp predefinido
     sendWhatsAppMessage: (action, serviceTitle) => {
         const message = encodeURIComponent(`Hola! Quiero ${action} un ${serviceTitle}`);
         const url = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${message}`;
         window.open(url, '_blank');
     },
 
-    // Configura el formulario de contacto
     setupContactForm: () => {
         const form = document.getElementById('contact-form');
         if (form) {
@@ -57,7 +89,6 @@ const CommunicationModule = {
             `;
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
-                // Aquí iría la lógica para enviar el formulario
                 Utils.showNotification('Mensaje enviado con éxito');
                 form.reset();
             });
@@ -67,7 +98,6 @@ const CommunicationModule = {
 
 // Módulo de Beneficios Destacados
 const BeneficiosModule = {
-    // Renderiza los beneficios destacados
     renderBeneficiosDestacados: () => {
         const beneficiosContainer = document.querySelector('.sugerencias-container');
         if (!beneficiosContainer) return;
@@ -92,9 +122,98 @@ const BeneficiosModule = {
     }
 };
 
+// Componente SugerenciasParaTi
+class SugerenciasParaTi extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            sugerencias: [
+                { nombre: 'Mary Aguilar', usuario: 'maryaguilar0', imagen: 'https://via.placeholder.com/100' },
+                { nombre: 'Vanessa Villeg...', usuario: 'vanahi19', imagen: 'https://via.placeholder.com/100' },
+            ]
+        };
+    }
+
+    seguirUsuario(usuario) {
+        console.log(`Siguiendo a ${usuario}`);
+        // Aquí iría la lógica para seguir al usuario
+    }
+
+    render() {
+        const container = Utils.createElement('div', 'sugerencias-container');
+        
+        const title = Utils.createElement('h2', '', 'Sugerencias para ti');
+        container.appendChild(title);
+
+        this.state.sugerencias.forEach(sugerencia => {
+            const item = Utils.createElement('div', 'sugerencia-item');
+            item.innerHTML = `
+                <div class="sugerencia-info">
+                    <img src="${sugerencia.imagen}" alt="${sugerencia.nombre}" class="sugerencia-avatar">
+                    <div>
+                        <div class="sugerencia-nombre">${sugerencia.nombre}</div>
+                        <div class="sugerencia-usuario">${sugerencia.usuario}</div>
+                    </div>
+                </div>
+                <button class="sugerencia-seguir">Seguir</button>
+            `;
+            const seguirButton = item.querySelector('.sugerencia-seguir');
+            seguirButton.addEventListener('click', () => this.seguirUsuario(sugerencia.usuario));
+            container.appendChild(item);
+        });
+
+        return container;
+    }
+}
+
+// Componente ServiceCard
+class ServiceCard extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    reservar() {
+        CommunicationModule.sendWhatsAppMessage('Reservar', this.props.title);
+    }
+
+    mostrarInfo() {
+        UIModule.showPopup(this.props);
+    }
+
+    render() {
+        const card = Utils.createElement('div', 'service-card');
+        card.innerHTML = `
+            <div class="service-card-content">
+                <h3 class="service-card-title">${this.props.title}</h3>
+                <p class="service-card-description">${this.props.description}</p>
+            </div>
+            <div class="service-card-benefits">
+                <h4>Beneficios:</h4>
+                <ul>
+                    ${this.props.benefits.map(benefit => `<li>${benefit}</li>`).join('')}
+                </ul>
+            </div>
+            <div class="service-card-duration">
+                <p>Duración: ${this.props.duration}</p>
+            </div>
+            <div class="service-card-buttons">
+                <button class="service-card-button service-card-button-reserve">Reservar</button>
+                <button class="service-card-button service-card-button-info">Saber más</button>
+            </div>
+        `;
+
+        const reserveButton = card.querySelector('.service-card-button-reserve');
+        reserveButton.addEventListener('click', () => this.reservar());
+
+        const infoButton = card.querySelector('.service-card-button-info');
+        infoButton.addEventListener('click', () => this.mostrarInfo());
+
+        return card;
+    }
+}
+
 // Módulo de Servicios
 const ServicesModule = {
-    // Renderiza los servicios en la página actual
     renderServices: () => {
         const servicesList = document.getElementById('services-list');
         if (!servicesList) return;
@@ -105,40 +224,12 @@ const ServicesModule = {
         const servicesToRender = currentServices.slice(startIndex, endIndex);
         
         servicesToRender.forEach(service => {
-            const serviceElement = ServicesModule.createServiceElement(service);
-            servicesList.appendChild(serviceElement);
+            const serviceCard = new ServiceCard(service);
+            servicesList.appendChild(serviceCard.render());
         });
         PaginationModule.updatePagination();
     },
 
-    // Crea un elemento HTML para un servicio individual
-    createServiceElement: (service) => {
-        const serviceElement = Utils.createElement('div', 'service-item');
-        serviceElement.innerHTML = `
-            <h3>${service.title}</h3>
-            <p>${service.description}</p>
-            <div class="service-benefits">
-                ${service.benefits.map((benefit, index) => `
-                    <div class="service-benefit">
-                        <img src="${service.benefitsIcons[index].replace('${BASE_URL}', CONFIG.BASE_URL)}" alt="${benefit}">
-                        <span>${benefit}</span>
-                    </div>
-                `).join('')}
-            </div>
-            <p class="service-duration">${service.duration}</p>
-            <div class="service-buttons">
-                <button class="reserve-button">Reservar</button>
-                <button class="info-button">Saber más</button>
-            </div>
-        `;
-
-        serviceElement.querySelector('.reserve-button').addEventListener('click', () => CommunicationModule.sendWhatsAppMessage('Reservar', service.title));
-        serviceElement.querySelector('.info-button').addEventListener('click', () => UIModule.showPopup(service));
-
-        return serviceElement;
-    },
-
-    // Renderiza servicios desde datos crudos
     renderServicesFromData: (services) => {
         const servicesContainer = document.getElementById('services');
         if (servicesContainer) {
@@ -154,14 +245,15 @@ const ServicesModule = {
         }
     },
 
-    // Método para inicializar el módulo
     init: () => {
         const categorySelector = document.querySelector('.category-selector');
         if (categorySelector) {
             categorySelector.addEventListener('click', (e) => {
                 if (e.target.classList.contains('choice-chip')) {
-                    state.currentCategory = e.target.dataset.category;
-                    state.currentPage = 1;
+                    state.setState({
+                        currentCategory: e.target.dataset.category,
+                        currentPage: 1
+                    });
                     document.querySelectorAll('.choice-chip').forEach(chip => chip.classList.remove('active'));
                     e.target.classList.add('active');
                     ServicesModule.renderServices();
@@ -173,51 +265,16 @@ const ServicesModule = {
 
 // Módulo de Paquetes
 const PackagesModule = {
-    // Renderiza los paquetes
     renderPackages: () => {
         const packageList = document.getElementById('package-list');
         if (!packageList) return;
         packageList.innerHTML = '';
         state.packages.forEach(pkg => {
-            const packageElement = PackagesModule.createPackageElement(pkg);
-            packageList.appendChild(packageElement);
+            const packageCard = new ServiceCard(pkg);
+            packageList.appendChild(packageCard.render());
         });
     },
 
-    // Crea un elemento HTML para un paquete individual
-    createPackageElement: (pkg) => {
-        const packageElement = Utils.createElement('div', 'package-item');
-        packageElement.innerHTML = `
-            <h3>${pkg.title}</h3>
-            <p>${pkg.description}</p>
-            <div class="package-includes">
-                <h4>Incluye:</h4>
-                <ul>
-                    ${pkg.includes.map(item => `<li>${item}</li>`).join('')}
-                </ul>
-            </div>
-            <div class="package-benefits">
-                ${pkg.benefits.map((benefit, index) => `
-                    <div class="package-benefit">
-                        <img src="${pkg.benefitsIcons[index].replace('${BASE_URL}', CONFIG.BASE_URL)}" alt="${benefit}">
-                        <span>${benefit}</span>
-                    </div>
-                `).join('')}
-            </div>
-            <p class="package-duration">${pkg.duration}</p>
-            <div class="package-buttons">
-                <button class="reserve-button">Reservar</button>
-                <button class="info-button">Saber más</button>
-            </div>
-        `;
-
-        packageElement.querySelector('.reserve-button').addEventListener('click', () => CommunicationModule.sendWhatsAppMessage('Reservar', pkg.title));
-        packageElement.querySelector('.info-button').addEventListener('click', () => UIModule.showPopup(pkg));
-
-        return packageElement;
-    },
-
-    // Renderiza paquetes desde datos crudos
     renderPackagesFromData: (packages) => {
         const packagesContainer = document.getElementById('packages');
         const packageBenefitsContainer = document.getElementById('package-benefits');
@@ -237,7 +294,6 @@ const PackagesModule = {
         }
     },
 
-    // Inicializa el módulo de paquetes
     init: () => {
         PackagesModule.renderPackages();
     }
@@ -245,7 +301,6 @@ const PackagesModule = {
 
 // Módulo de UI
 const UIModule = {
-    // Muestra un popup con información detallada
     showPopup: (data) => {
         const popup = document.getElementById('popup');
         const popupTitle = document.getElementById('popup-title');
@@ -263,7 +318,6 @@ const UIModule = {
         setTimeout(() => Utils.showNotification('¿Te interesa este servicio? ¡Contáctanos!'), 4000);
     },
 
-    // Crea el efecto de persianas venecianas
     createVenetianBlinds: () => {
         const venetianContainer = document.getElementById('venetian-container');
         if (!venetianContainer) return;
@@ -286,7 +340,6 @@ const UIModule = {
         }
     },
 
-    // Crea los checkboxes para las experiencias
     createExperienceCheckboxes: () => {
         const checkboxGroup = document.querySelector('.checkbox-group');
         if (!checkboxGroup) return;
@@ -313,7 +366,6 @@ const UIModule = {
         });
     },
 
-    // Configura el acordeón del menú
     setupAccordion: () => {
         const header = document.querySelector('#sticky-header .container');
         if (!header) return;
@@ -336,8 +388,15 @@ const UIModule = {
         });
     },
 
-    // Inicializa la galería
     initializeGallery: () => {
+        const galleryItems = document.querySelectorAll('.gallery-grid img');
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                UIModule.showPopup({
+                    title: item.alt,
+                    image: item.src,
+                    description: 'Descripción de la imagen
+                        initializeGallery: () => {
         const galleryItems = document.querySelectorAll('.gallery-grid img');
         galleryItems.forEach(item => {
             item.addEventListener('click', () => {
@@ -350,7 +409,6 @@ const UIModule = {
         });
     },
 
-    // Configura el título de beneficios
     setupBenefitsTitle: () => {
         const benefitsContainer = document.getElementById('benefits');
         if (benefitsContainer) {
@@ -358,7 +416,6 @@ const UIModule = {
         }
     },
 
-    // Configura el mensaje de bienvenida
     setupWelcomeMessage: () => {
         const welcomeContainer = document.getElementById('welcome');
         if (welcomeContainer) {
@@ -366,17 +423,15 @@ const UIModule = {
         }
     },
 
-    // Configura las persianas venecianas
     setupVenetianBlind: () => {
         const venetianContainer = document.getElementById('venetian');
         if (venetianContainer) {
             const venetianDiv = Utils.createElement('div');
-venetianDiv.textContent = 'Venetian';
+            venetianDiv.textContent = 'Venetian';
             venetianContainer.appendChild(venetianDiv);
         }
     },
 
-    // Inicializa el módulo UI
     init: () => {
         UIModule.createVenetianBlinds();
         UIModule.createExperienceCheckboxes();
@@ -397,7 +452,6 @@ venetianDiv.textContent = 'Venetian';
 
 // Módulo de Paginación
 const PaginationModule = {
-    // Actualiza los indicadores de paginación
     updatePagination: () => {
         const paginationContainer = document.querySelector('.pagination-container');
         if (!paginationContainer) return;
@@ -411,15 +465,14 @@ const PaginationModule = {
         }
     },
 
-    // Cambia la página actual
     changePage: (direction) => {
-        state.currentPage += direction;
-        if (state.currentPage < 1) state.currentPage = state.totalPages;
-        if (state.currentPage > state.totalPages) state.currentPage = 1;
+        let newPage = state.currentPage + direction;
+        if (newPage < 1) newPage = state.totalPages;
+        if (newPage > state.totalPages) newPage = 1;
+        state.setState({ currentPage: newPage });
         ServicesModule.renderServices();
     },
 
-    // Inicializa el módulo de paginación
     init: () => {
         const prevButton = document.querySelector('.btn--prev');
         const nextButton = document.querySelector('.btn--next');
@@ -428,9 +481,39 @@ const PaginationModule = {
     }
 };
 
+// Componente FixedBottomBar
+class FixedBottomBar extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            items: [
+                { href: '#home', icon: 'home', text: 'Inicio' },
+                { href: '#services', icon: 'list', text: 'Servicios' },
+                { href: '#contact', icon: 'envelope', text: 'Contacto' }
+            ]
+        };
+    }
+
+    render() {
+        const bar = Utils.createElement('nav', 'fixed-bottom-bar');
+        bar.innerHTML = `
+            <ul>
+                ${this.state.items.map(item => `
+                    <li>
+                        <a href="${item.href}">
+                            <i class="fas fa-${item.icon}"></i>
+                            <span>${item.text}</span>
+                        </a>
+                    </li>
+                `).join('')}
+            </ul>
+        `;
+        return bar;
+    }
+}
+
 // Módulo de Internacionalización
 const I18nModule = {
-    // Inicializa el selector de idioma
     initLanguageSelector: () => {
         const translateIcon = document.getElementById('translate-icon');
         const languageOptions = document.querySelector('.language-options');
@@ -450,13 +533,12 @@ const I18nModule = {
         }
     },
 
-    // Cambia el idioma de la aplicación
     changeLanguage: async (lang) => {
         try {
             const response = await fetch(`/translations/${lang}.json`);
             const translations = await response.json();
             // Aplicar traducciones aquí
-            state.language = lang;
+            state.setState({ language: lang });
             Utils.showNotification(`Idioma cambiado a ${lang}`);
         } catch (error) {
             console.error('Error al cambiar el idioma:', error);
@@ -467,7 +549,6 @@ const I18nModule = {
 
 // Módulo de Testimonios
 const TestimonialsModule = {
-    // Configura el carrusel de testimonios
     setupTestimonialCarousel: () => {
         const testimonials = [
             { name: "Cliente 1", text: "Excelente servicio, muy relajante." },
@@ -495,11 +576,10 @@ const TestimonialsModule = {
         TestimonialsModule.startTestimonialAnimation();
     },
 
-    // Inicia la animación del carrusel de testimonios
     startTestimonialAnimation: () => {
         const cards = document.querySelectorAll('#card-slider .slider-item');
-        if (cards.length < 4) {
-            console.error('Se necesitan al menos 4 testimonios para la animación');
+        if (cards.length < 2) {
+            console.error('Se necesitan al menos 2 testimonios para la animación');
             return;
         }
         
@@ -512,22 +592,14 @@ const TestimonialsModule = {
     }
 };
 
-// Función para manejar el efecto de galería
-function styles(item_id, x, y, z, opacity, shadow) {
-    const item = document.querySelector(item_id);
-    if (item) {
-        item.style.transform = `translate3d(${x}px, ${y}px, ${z}px)`;
-        item.style.opacity = opacity;
-        item.style.boxShadow = shadow;
-    }
-}
-
 // Función de inicialización principal
 function init(data) {
     try {
-        state.services = data.services || {};
-        state.packages = data.services.paquetes || [];
-        state.currentCategory = Object.keys(state.services)[0] || 'individual';
+        state.setState({
+            services: data.services || {},
+            packages: data.services.paquetes || [],
+            currentCategory: Object.keys(data.services)[0] || 'individual'
+        });
         
         BeneficiosModule.renderBeneficiosDestacados();
         ServicesModule.init();
@@ -539,9 +611,16 @@ function init(data) {
         I18nModule.initLanguageSelector();
         TestimonialsModule.setupTestimonialCarousel();
 
-        // Renderizar servicios y paquetes desde datos crudos
-        ServicesModule.renderServicesFromData(data.services);
-        PackagesModule.renderPackagesFromData(data.services.paquetes);
+        // Renderizar SugerenciasParaTi
+        const sugerenciasContainer = document.getElementById('sugerencias-container');
+        if (sugerenciasContainer) {
+            const sugerenciasComponent = new SugerenciasParaTi();
+            sugerenciasContainer.appendChild(sugerenciasComponent.render());
+        }
+
+        // Renderizar FixedBottomBar
+        const bottomBar = new FixedBottomBar();
+        document.body.appendChild(bottomBar.render());
 
         // Habilitar el contenedor sticky
         const stickyContainer = document.getElementById('sticky');
@@ -561,6 +640,11 @@ function init(data) {
                 }
             });
         });
+
+        // Renderizar servicios y paquetes desde datos crudos
+        ServicesModule.renderServicesFromData(data.services);
+        PackagesModule.renderPackagesFromData(data.services.paquetes);
+
     } catch (error) {
         console.error('Error durante la inicialización:', error);
         Utils.showNotification('Hubo un problema al inicializar la aplicación. Por favor, recarga la página.');
@@ -620,6 +704,16 @@ document.addEventListener('DOMContentLoaded', () => {
     var accordion = new Accordion(document.getElementById('accordion'), false);
 });
 
+// Función para manejar el efecto de galería
+function styles(item_id, x, y, z, opacity, shadow) {
+    const item = document.querySelector(item_id);
+    if (item) {
+        item.style.transform = `translate3d(${x}px, ${y}px, ${z}px)`;
+        item.style.opacity = opacity;
+        item.style.boxShadow = shadow;
+    }
+}
+
 // Event listeners para la galería
 document.getElementById('one')?.addEventListener('click', function() {
     document.getElementById('one')?.classList.add('focus');
@@ -646,4 +740,17 @@ document.getElementById('three')?.addEventListener('click', function() {
     styles('#first', 70, -80, -50, 0.6, 'none');
     styles('#second', 110, 80, -60, 0.1, 'none');
     styles('#third', 0, 0, 0, 1, '0 20px 50px rgba(0,34,45,0.5)');
+});
+
+// Depuración: Agregar logs para verificar la carga de servicios
+function logServiceData() {
+    console.log('Estado actual:', state);
+    console.log('Servicios:', state.services);
+    console.log('Categoría actual:', state.currentCategory);
+    console.log('Servicios en la categoría actual:', state.services[state.currentCategory]);
+}
+
+// Llamar a la función de depuración después de la inicialización
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(logServiceData, 2000); // Esperar 2 segundos para asegurarse de que los datos se hayan cargado
 });
