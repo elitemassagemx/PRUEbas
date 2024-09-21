@@ -2,7 +2,8 @@
 const CONFIG = {
     BASE_URL: "https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/",
     ITEMS_PER_PAGE: 3,
-    WHATSAPP_NUMBER: "5215640020305"
+    WHATSAPP_NUMBER: "5215640020305",
+    DATA_URL: "https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/data.json"
 };
 
 // Estado global de la aplicación
@@ -93,25 +94,6 @@ const BeneficiosModule = {
 
 // Módulo de Servicios
 const ServicesModule = {
-    // Carga los servicios desde data.json
-    loadServices: async () => {
-        try {
-            const response = await fetch('data.json');
-            if (!response.ok) {
-                throw new Error('No se pudo cargar el archivo data.json');
-            }
-            const data = await response.json();
-            state.services = data.services || {};
-            state.packages = data.services.paquetes || [];
-            state.currentCategory = Object.keys(state.services)[0] || '';
-            ServicesModule.renderServices();
-            PackagesModule.renderPackages();
-        } catch (error) {
-            console.error('Error al cargar los servicios:', error);
-            Utils.showNotification('Error al cargar los servicios. Por favor, intenta de nuevo más tarde.');
-        }
-    },
-
     // Renderiza los servicios en la página actual
     renderServices: () => {
         const servicesList = document.getElementById('services-list');
@@ -168,7 +150,6 @@ const ServicesModule = {
 
     // Método para inicializar el módulo
     init: () => {
-        ServicesModule.loadServices();
         const categorySelector = document.querySelector('.category-selector');
         if (categorySelector) {
             categorySelector.addEventListener('click', (e) => {
@@ -363,7 +344,7 @@ const UIModule = {
         header.appendChild(accordionToggle);
         header.appendChild(accordionContent);
 
-accordionToggle.addEventListener('click', function() {
+        accordionToggle.addEventListener('click', function() {
             this.classList.toggle('active');
             accordionContent.style.display = accordionContent.style.display === 'block' ? 'none' : 'block';
         });
@@ -391,7 +372,7 @@ accordionToggle.addEventListener('click', function() {
         }
     },
 
-    // Configura el mensaje de bienvenida
+// Configura el mensaje de bienvenida
     setupWelcomeMessage: () => {
         const welcomeContainer = document.getElementById('welcome');
         if (welcomeContainer) {
@@ -555,38 +536,69 @@ function styles(item_id, x, y, z, opacity, shadow) {
 }
 
 // Función de inicialización principal
-function init() {
-    BeneficiosModule.renderBeneficiosDestacados();
-    ServicesModule.init();
-    PackagesModule.init();
-    UIModule.init();
-    PaginationModule.init();
-    CommunicationModule.setupContactForm();
-    I18nModule.initLanguageSelector();
-    TestimonialsModule.setupTestimonialCarousel();
+function init(data) {
+    try {
+        state.services = data.services || {};
+        state.packages = data.services.paquetes || [];
+        
+        BeneficiosModule.renderBeneficiosDestacados();
+        ServicesModule.init();
+        ServicesModule.renderServices(); // Llamamos directamente a renderServices
+        PackagesModule.init();
+        UIModule.init();
+        PaginationModule.init();
+        CommunicationModule.setupContactForm();
+        I18nModule.initLanguageSelector();
+        TestimonialsModule.setupTestimonialCarousel();
 
-    // Habilitar el contenedor sticky
-    const stickyContainer = document.getElementById('sticky');
-    if (stickyContainer) {
-        stickyContainer.style.display = 'block';
-    }
+        // Renderizar servicios y paquetes desde datos crudos
+        ServicesModule.renderServicesFromData(data.services);
+        PackagesModule.renderPackagesFromData(data.packages);
 
-    // Smooth Scroll
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth'
-                });
-            }
+        // Habilitar el contenedor sticky
+        const stickyContainer = document.getElementById('sticky');
+        if (stickyContainer) {
+            stickyContainer.style.display = 'block';
+        }
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
         });
-    });
+    } catch (error) {
+        console.error('Error durante la inicialización:', error);
+        Utils.showNotification('Hubo un problema al inicializar la aplicación. Por favor, recarga la página.');
+    }
 }
 
 // Event listener para DOMContentLoaded
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', () => {
+    fetch(CONFIG.DATA_URL)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (!data || !data.services) {
+                throw new Error('Datos inválidos recibidos del servidor');
+            }
+            init(data);
+        })
+        .catch(error => {
+            console.error('Error al cargar los datos:', error);
+            Utils.showNotification('Error al cargar los datos. Por favor, intenta de nuevo más tarde.');
+        });
+});
 
 // Configuración del menú acordeón
 var Accordion = function(el, multiple) {
