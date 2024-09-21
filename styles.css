@@ -59,14 +59,16 @@ body {
   background-color: var(--header-background);
   color: var(--text-color);
   padding: var(--spacing-unit) 0;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 100%;
   z-index: 1000;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-/* Estos estilos hacen que el encabezado sea "sticky", es decir,
-   que se mantenga visible en la parte superior al hacer scroll. */
+/* Estos estilos hacen que el encabezado sea fijo en la parte superior de la página,
+   asegurando que siempre esté visible y accesible. */
 
 .header-top {
   display: flex;
@@ -83,8 +85,8 @@ body {
 }
 
 .logo {
-  width: 100px;
-  height: 100px;
+  width: 50px;
+  height: 50px;
   object-fit: contain;
   margin-right: var(--spacing-unit);
 }
@@ -97,7 +99,7 @@ h1, h2 {
 }
 
 h1 {
-  font-size: 32px;
+  font-size: 24px;
   letter-spacing: -0.5px;
 }
 
@@ -133,9 +135,10 @@ h1 {
 /* Estilos para secciones */
 .section {
   padding: calc(var(--spacing-unit) * 6) 0;
+  margin-top: 60px; /* Para compensar el header fijo */
 }
 
-/* Espacio vertical para las secciones principales. */
+/* Espacio vertical para las secciones principales y margen superior para compensar el header fijo. */
 
 /* Estilos para grids de servicios y paquetes */
 .services-grid, .package-grid {
@@ -145,7 +148,8 @@ h1 {
   padding: 0 var(--spacing-unit);
 }
 
-/* Estas clases crean layouts de cuadrícula para servicios y paquetes. */
+/* Estas clases crean layouts de cuadrícula para servicios y paquetes.
+   El uso de auto-fit y minmax permite un diseño responsive sin media queries adicionales. */
 
 .service-item, .package-item {
   background: linear-gradient(135deg, var(--item-background) 0%, #3a3a3a 100%);
@@ -162,7 +166,8 @@ h1 {
   box-shadow: 0 8px 15px rgba(212, 175, 55, 0.4);
 }
 
-/* Estilos para cada item de servicio o paquete, incluyendo efectos hover. */
+/* Estilos para cada item de servicio o paquete, incluyendo efectos hover.
+   El efecto de elevación al pasar el cursor mejora la interactividad. */
 
 .service-buttons, .package-item .button-container {
   display: flex;
@@ -191,7 +196,8 @@ h1 {
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-/* Estilos para los botones dentro de los items de servicio y paquete. */
+/* Estilos para los botones dentro de los items de servicio y paquete.
+   Los efectos de hover proporcionan retroalimentación visual al usuario. */
 
 /* Estilos para la barra fija inferior */
 .fixed-bar {
@@ -230,27 +236,8 @@ h1 {
   font-size: 12px;
 }
 
-/* Estos estilos configuran la barra de navegación fija en la parte inferior. */
-
-/* Estilos para el pie de página */
-footer {
-  background-color: var(--header-background);
-  color: var(--text-color);
-  padding: calc(var(--spacing-unit) * 2.5) 0;
-  text-align: center;
-}
-
-.social-media {
-  margin-top: calc(var(--spacing-unit) * 2);
-}
-
-.social-media a {
-  margin: 0 var(--spacing-unit);
-  color: var(--primary-color);
-  text-decoration: none;
-}
-
-/* Estilos para el pie de página y los enlaces de redes sociales. */
+/* Estos estilos configuran la barra de navegación fija en la parte inferior.
+   Es especialmente útil para la navegación en dispositivos móviles. */
 
 /* Estilos para el selector de idioma */
 .language-selector {
@@ -289,7 +276,8 @@ footer {
   margin-right: 8px;
 }
 
-/* Estos estilos configuran el selector de idioma y sus opciones. */
+/* Estos estilos configuran el selector de idioma y sus opciones.
+   Proporciona una experiencia de usuario intuitiva para cambiar el idioma del sitio. */
 
 /* Estilos para la sección de experiencias (checkboxes) */
 .checkbox-group {
@@ -323,7 +311,6 @@ footer {
   transform: translateY(-5px);
   box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
 }
-
 
 .checkbox-icon {
   font-size: 48px;
@@ -455,38 +442,39 @@ footer {
 /* Estos estilos definen la apariencia del carrusel de testimonios.
    Cada testimonio es una tarjeta que se anima para mostrarse y ocultarse. */
 
+
 /* Estilos para Acordeón */
 .accordion {
-  width: 100%;
-  max-width: 360px;
-  margin: 30px auto;
-  background: var(--item-background);
-  border-radius: 4px;
+width: 100%;
+max-width: 360px;
+margin: 30px auto;
+background: var(--item-background);
+border-radius: 4px;
 }
 
 .accordion .link {
-  cursor: pointer;
-  display: block;
-  padding: 15px;
-  color: var(--text-color);
-  font-size: 14px;
-  position: relative;
-  transition: all 0.4s ease;
+cursor: pointer;
+display: block;
+padding: 15px;
+color: var(--text-color);
+font-size: 14px;
+position: relative;
+transition: all 0.4s ease;
 }
 
 .accordion li i {
-  position: absolute;
-  top: 16px;
-  left: 12px;
-  font-size: 18px;
-  color: var(--text-color);
-  transition: all 0.4s ease;
+position: absolute;
+top: 16px;
+left: 12px;
+font-size: 18px;
+color: var(--text-color);
+transition: all 0.4s ease;
 }
 
 .accordion li i.fa-chevron-down {
-  right: 12px;
-  left: auto;
-  font-size: 16px;
+right: 12px;
+left: auto;
+font-size: 16px;
 }
 
 .accordion li.open .link { color: var(--primary-color); }
@@ -494,267 +482,429 @@ footer {
 .accordion li.open i { color: var(--primary-color); }
 
 .submenu {
-  display: none;
-  background: #444359;
-  font-size: 14px;
+display: none;
+background: #444359;
+font-size: 14px;
 }
 
 .submenu a {
-  display: block;
-  text-decoration: none;
-  color: #d9d9d9;
-  padding: 12px;
-  padding-left: 42px;
-  transition: all 0.25s ease;
+display: block;
+text-decoration: none;
+color: #d9d9d9;
+padding: 12px;
+padding-left: 42px;
+transition: all 0.25s ease;
 }
 
 .submenu a:hover {
-  background: var(--primary-color);
-  color: #FFF;
+background: var(--primary-color);
+color: #FFF;
 }
 
-/* Estos estilos crean un menú acordeón, comúnmente usado en la navegación móvil. */
+/* Estos estilos crean un menú acordeón, comúnmente usado en la navegación móvil o FAQs.
+Proporciona una forma compacta de mostrar información jerárquica. */
 
 /* Estilos para el popup */
 .popup {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.7);
+display: none;
+position: fixed;
+z-index: 1001;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+overflow: auto;
+background-color: rgba(0,0,0,0.4);
 }
 
 .popup-content {
-  background-color: var(--item-background);
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid var(--primary-color);
-  width: 80%;
-  max-width: 600px;
-  border-radius: 10px;
-  position: relative;
+background-color: var(--item-background);
+margin: 15% auto;
+padding: calc(var(--spacing-unit) * 2);
+border: 1px solid var(--primary-color);
+width: 80%;
+max-width: 600px;
+border-radius: 15px;
+position: relative;
 }
 
 .close {
-  color: var(--primary-color);
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
+color: var(--text-color);
+float: right;
+font-size: 28px;
+font-weight: bold;
+cursor: pointer;
 }
 
-/* Estos estilos definen la apariencia del popup que se muestra para información detallada. */
+.close:hover,
+.close:focus {
+color: var(--primary-color);
+text-decoration: none;
+cursor: pointer;
+}
+
+/* Estos estilos definen la apariencia del popup que se muestra para información detallada.
+El fondo semitransparente y la animación suave mejoran la experiencia del usuario. */
 
 /* Estilos para las notificaciones toast */
 #toast {
-  visibility: hidden;
-  min-width: 250px;
-  margin-left: -125px;
-  background-color: var(--item-background);
-  color: var(--text-color);
-  text-align: center;
-  border-radius: 2px;
-  padding: 16px;
-  position: fixed;
-  z-index: 1;
-  left: 50%;
-  bottom: 30px;
+visibility: hidden;
+min-width: 250px;
+margin-left: -125px;
+background-color: var(--item-background);
+color: var(--text-color);
+text-align: center;
+border-radius: 2px;
+padding: 16px;
+position: fixed;
+z-index: 1002;
+left: 50%;
+bottom: 30px;
 }
 
 #toast.show {
-  visibility: visible;
-  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+visibility: visible;
+-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
 
 @keyframes fadein {
-  from {bottom: 0; opacity: 0;}
-  to {bottom: 30px; opacity: 1;}
+from {bottom: 0; opacity: 0;}
+to {bottom: 30px; opacity: 1;}
 }
 
 @keyframes fadeout {
-  from {bottom: 30px; opacity: 1;}
-  to {bottom: 0; opacity: 0;}
+from {bottom: 30px; opacity: 1;}
+to {bottom: 0; opacity: 0;}
 }
 
-/* Estos estilos crean notificaciones toast que aparecen brevemente en la parte inferior de la pantalla. */
+/* Estos estilos crean notificaciones toast que aparecen brevemente en la parte inferior de la pantalla.
+Son útiles para mostrar mensajes de confirmación o alertas no intrusivas. */
 
 /* Estilos para SugerenciasParaTi */
 .sugerencias-container {
-  background-color: #1a1a1a;
-  border-radius: 8px;
-  padding: 16px;
-  margin-top: 20px;
+background-color: var(--item-background);
+border-radius: 8px;
+padding: 16px;
+margin-top: 20px;
 }
 
 .sugerencia-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #2a2a2a;
-  border-radius: 8px;
-  padding: 12px;
-  margin-bottom: 12px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+background-color: var(--background-color);
+border-radius: 8px;
+padding: 12px;
+margin-bottom: 12px;
 }
 
 .sugerencia-info {
-  display: flex;
-  align-items: center;
+display: flex;
+align-items: center;
 }
 
 .sugerencia-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  margin-right: 12px;
+width: 48px;
+height: 48px;
+border-radius: 50%;
+margin-right: 12px;
 }
 
 .sugerencia-nombre {
-  font-weight: bold;
-  color: #ffffff;
+font-weight: bold;
+color: var(--text-color);
 }
 
 .sugerencia-usuario {
-  color: #888888;
+color: #888888;
 }
 
 .sugerencia-seguir {
-  background-color: #D4AF37;
-  color: #1a1a1a;
-  border: none;
-  border-radius: 20px;
-  padding: 8px 16px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+background-color: var(--primary-color);
+color: var(--background-color);
+border: none;
+border-radius: 20px;
+padding: 8px 16px;
+cursor: pointer;
+transition: background-color 0.3s;
 }
 
 .sugerencia-seguir:hover {
-  background-color: #FFD700;
+background-color: var(--gold);
 }
 
-/* Estos estilos definen la apariencia de la sección de sugerencias, 
-   que podría usarse para recomendar servicios o paquetes adicionales. */
+/* Estos estilos definen la apariencia de la sección de sugerencias,
+que podría usarse para recomendar servicios o paquetes adicionales. */
 
 /* Estilos para ServiceCard */
 .service-card {
-  background-color: #2a2a2a;
-  border-radius: 8px;
-  overflow: hidden;
-  margin-bottom: 20px;
+background-color: var(--item-background);
+border-radius: 8px;
+overflow: hidden;
+margin-bottom: 20px;
 }
 
 .service-card-content {
-  padding: 16px;
+padding: 16px;
 }
 
 .service-card-title {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: #D4AF37;
-  margin-bottom: 8px;
+font-size: 1.25rem;
+font-weight: bold;
+color: var(--primary-color);
+margin-bottom: 8px;
 }
 
 .service-card-description {
-  color: #ffffff;
-  margin-bottom: 16px;
+color: var(--text-color);
+margin-bottom: 16px;
 }
 
 .service-card-benefits {
-  background-color: #4c0026;
-  padding: 16px;
+background-color: var(--header-background);
+padding: 16px;
 }
 
 .service-card-benefits h4 {
-  color: #D4AF37;
-  margin-bottom: 8px;
+color: var(--primary-color);
+margin-bottom: 8px;
 }
 
 .service-card-benefits ul {
-  list-style-type: none;
-  padding: 0;
+list-style-type: none;
+padding: 0;
 }
 
 .service-card-benefits li {
-  color: #ffffff;
-  margin-bottom: 4px;
+color: var(--text-color);
+margin-bottom: 4px;
 }
 
 .service-card-duration {
-  background-color: #D4AF37;
-  color: #1a1a1a;
-  padding: 8px 16px;
-  font-weight: bold;
+background-color: var(--primary-color);
+color: var(--background-color);
+padding: 8px 16px;
+font-weight: bold;
 }
 
 .service-card-buttons {
-  display: flex;
-  justify-content: space-between;
-  padding: 16px;
+display: flex;
+justify-content: space-between;
+padding: 16px;
 }
 
 .service-card-button {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+padding: 8px 16px;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+transition: background-color 0.3s;
 }
 
 .service-card-button-reserve {
-  background-color: #4c0026;
-  color: #ffffff;
+background-color: var(--header-background);
+color: var(--text-color);
 }
 
 .service-card-button-reserve:hover {
-  background-color: #6b0036;
+background-color: var(--primary-color);
 }
 
 .service-card-button-info {
-  background-color: #888888;
-  color: #ffffff;
+background-color: #888888;
+color: var(--text-color);
 }
 
 .service-card-button-info:hover {
-  background-color: #999999;
+background-color: #999999;
 }
 
-/* Estos estilos definen la apariencia de las tarjetas de servicio individuales. */
+/* Estos estilos definen la apariencia de las tarjetas de servicio individuales.
+Proporcionan una presentación clara y atractiva de la información del servicio. */
+
+/* Estilos para la sección de Beneficios Destacados */
+.sugerencias-section {
+background-color: var(--item-background);
+padding: calc(var(--spacing-unit) * 2) 0;
+overflow-x: auto;
+}
+
+.sugerencias-container {
+display: flex;
+justify-content: space-between;
+align-items: center;
+min-width: 100%;
+padding: 0 var(--spacing-unit);
+}
+
+.sugerencia-item {
+display: flex;
+flex-direction: column;
+align-items: center;
+text-align: center;
+padding: 0 var(--spacing-unit);
+flex: 1;
+min-width: 100px;
+}
+
+.sugerencia-icon {
+width: 40px;
+height: 40px;
+margin-bottom: var(--spacing-unit);
+}
+
+.sugerencia-item p {
+font-size: 14px;
+margin-top: var(--spacing-unit);
+white-space: nowrap;
+}
+
+/* Estos estilos crean una sección horizontal desplazable para mostrar beneficios destacados.
+Es útil para presentar características clave de manera visual y compacta. */
+
+/* Estilos para la paginación */
+.pagination-wrapper {
+display: flex;
+justify-content: center;
+align-items: center;
+margin-top: calc(var(--spacing-unit) * 2);
+}
+
+.btn {
+background-color: var(--primary-color);
+color: var(--background-color);
+border: none;
+padding: calc(var(--spacing-unit) * 0.5);
+border-radius: 50%;
+cursor: pointer;
+transition: all 0.3s ease;
+}
+
+.btn:hover {
+background-color: var(--gold);
+}
+
+.pagination-container {
+display: flex;
+align-items: center;
+margin: 0 var(--spacing-unit);
+}
+
+.little-dot {
+width: 8px;
+height: 8px;
+background-color: var(--text-color);
+border-radius: 50%;
+margin: 0 4px;
+}
+
+.big-dot-container {
+width: 12px;
+height: 12px;
+background-color: var(--primary-color);
+border-radius: 50%;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.big-dot {
+width: 8px;
+height: 8px;
+background-color: var(--background-color);
+border-radius: 50%;
+}
+
+/* Estos estilos crean una paginación visual para navegar entre diferentes secciones o elementos.
+Proporciona una forma intuitiva de indicar la posición actual en una serie de elementos. */
+
+/* Estilos para el selector de categoría */
+.category-selector {
+display: flex;
+justify-content: center;
+margin-bottom: calc(var(--spacing-unit) * 2);
+}
+
+.choice-chip {
+background-color: var(--item-background);
+color: var(--text-color);
+border: 2px solid var(--primary-color);
+border-radius: 20px;
+padding: calc(var(--spacing-unit) * 0.5) var(--spacing-unit);
+margin: 0 var(--spacing-unit);
+cursor: pointer;
+transition: all 0.3s ease;
+}
+
+.choice-chip.active,
+.choice-chip:hover {
+background-color: var(--primary-color);
+color: var(--background-color);
+}
+
+/* Estos estilos crean un selector de categorías con chips interactivos.
+Permiten una selección visual y táctil de diferentes categorías o opciones. */
 
 /* Estilos responsivos */
 @media (max-width: 768px) {
-  .slider-item {
-    width: 90%;
-    left: 5%;
-  }
-
-  .accordion {
-    width: 90%;
-  }
-
-  .header-top {
-    flex-direction: column;
-  }
-
-  .services-grid, .package-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .fixed-bar .nav-text {
-    display: none;
-  }
-
-  .checkbox-tile {
-    width: 120px;
-    height: 120px;
-  }
-
-  .slider-item {
-    flex: 0 0 100%;
-  }
+.slider-item {
+width: 90%;
+left: 5%;
 }
 
-/* Estos estilos se aplican cuando la pantalla es más pequeña que 768px de ancho,
-   adaptando el diseño para dispositivos móviles. */
+.accordion {
+width: 90%;
+}
+
+.header-top {
+flex-direction: column;
+}
+
+.services-grid, .package-grid {
+grid-template-columns: 1fr;
+}
+
+.fixed-bar .nav-text {
+display: none;
+}
+
+.checkbox-tile {
+width: 120px;
+height: 120px;
+}
+
+.sugerencias-container,
+.package-benefits {
+justify-content: flex-start;
+padding-bottom: var(--spacing-unit);
+}
+
+.sugerencia-item,
+.package-benefit-item {
+flex: 0 0 auto;
+width: 120px;
+}
+
+.main-nav {
+margin-top: var(--spacing-unit);
+}
+
+.main-nav ul {
+flex-direction: column;
+align-items: center;
+}
+
+.main-nav li {
+margin: var(--spacing-unit) 0;
+}
+
+.category-selector {
+flex-direction: column;
+align-items: center;
+}
+
+.choice-chip {
+margin: var(--spacing-unit) 0;
+}
+}
