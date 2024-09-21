@@ -1,4 +1,3 @@
-
 // Configuración global
 const CONFIG = {
     BASE_URL: "https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/",
@@ -214,6 +213,26 @@ class ServiceCard extends Component {
 
 // Módulo de Servicios
 const ServicesModule = {
+    // Carga los servicios desde data.json
+    loadServices: async () => {
+        try {
+            const response = await fetch(CONFIG.DATA_URL);
+            if (!response.ok) {
+                throw new Error('No se pudo cargar el archivo data.json');
+            }
+            const data = await response.json();
+            state.setState({
+                services: data.services || {},
+                currentCategory: Object.keys(data.services)[0] || ''
+            });
+            ServicesModule.renderServices();
+        } catch (error) {
+            console.error('Error al cargar los servicios:', error);
+            Utils.showNotification('Error al cargar los servicios. Por favor, intenta de nuevo más tarde.');
+        }
+    },
+
+    // Renderiza los servicios en la página actual
     renderServices: () => {
         const servicesList = document.getElementById('services-list');
         if (!servicesList) return;
@@ -246,6 +265,7 @@ const ServicesModule = {
     },
 
     init: () => {
+        ServicesModule.loadServices();
         const categorySelector = document.querySelector('.category-selector');
         if (categorySelector) {
             categorySelector.addEventListener('click', (e) => {
@@ -366,7 +386,7 @@ const UIModule = {
         });
     },
 
-    setupAccordion: () => {
+setupAccordion: () => {
         const header = document.querySelector('#sticky-header .container');
         if (!header) return;
         const accordionToggle = Utils.createElement('button', 'accordion-button', 'Menú <i class="fas fa-chevron-down"></i>');
@@ -389,14 +409,6 @@ const UIModule = {
     },
 
     initializeGallery: () => {
-        const galleryItems = document.querySelectorAll('.gallery-grid img');
-        galleryItems.forEach(item => {
-            item.addEventListener('click', () => {
-                UIModule.showPopup({
-                    title: item.alt,
-                    image: item.src,
-                    description: 'Descripción de la imagen
-                        initializeGallery: () => {
         const galleryItems = document.querySelectorAll('.gallery-grid img');
         galleryItems.forEach(item => {
             item.addEventListener('click', () => {
@@ -593,17 +605,10 @@ const TestimonialsModule = {
 };
 
 // Función de inicialización principal
-function init(data) {
+function init() {
     try {
-        state.setState({
-            services: data.services || {},
-            packages: data.services.paquetes || [],
-            currentCategory: Object.keys(data.services)[0] || 'individual'
-        });
-        
         BeneficiosModule.renderBeneficiosDestacados();
         ServicesModule.init();
-        ServicesModule.renderServices();
         PackagesModule.init();
         UIModule.init();
         PaginationModule.init();
@@ -641,10 +646,6 @@ function init(data) {
             });
         });
 
-        // Renderizar servicios y paquetes desde datos crudos
-        ServicesModule.renderServicesFromData(data.services);
-        PackagesModule.renderPackagesFromData(data.services.paquetes);
-
     } catch (error) {
         console.error('Error durante la inicialización:', error);
         Utils.showNotification('Hubo un problema al inicializar la aplicación. Por favor, recarga la página.');
@@ -652,25 +653,7 @@ function init(data) {
 }
 
 // Event listener para DOMContentLoaded
-document.addEventListener('DOMContentLoaded', () => {
-    fetch(CONFIG.DATA_URL)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (!data || !data.services) {
-                throw new Error('Datos inválidos recibidos del servidor');
-            }
-            init(data);
-        })
-        .catch(error => {
-            console.error('Error al cargar los datos:', error);
-            Utils.showNotification('Error al cargar los datos. Por favor, intenta de nuevo más tarde.');
-        });
-});
+document.addEventListener('DOMContentLoaded', init);
 
 // Configuración del menú acordeón
 var Accordion = function(el, multiple) {
