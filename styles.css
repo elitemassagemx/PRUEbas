@@ -11,11 +11,17 @@
   --spacing-unit: 8px;
 }
 
-{
+/* Estas variables CSS definen los colores y espaciados principales del sitio.
+   Modificarlas afectará a todo el diseño de manera consistente. */
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
+/* Este selector universal resetea los márgenes y rellenos de todos los elementos,
+   y cambia el modelo de caja para que el padding no afecte al ancho total. */
 
 body {
   font-family: 'Open Sans', sans-serif;
@@ -28,11 +34,16 @@ body {
   padding-bottom: 60px;
 }
 
+/* Estos estilos se aplican al cuerpo de la página, definiendo la fuente,
+   el tamaño de texto base, y un fondo con gradiente animado. */
+
 @keyframes gradientTransition {
   0% { background-position: 0% 50% }
   50% { background-position: 100% 50% }
   100% { background-position: 0% 50% }
 }
+
+/* Esta animación crea el efecto de transición suave en el fondo del body. */
 
 .container {
   width: 100%;
@@ -40,6 +51,8 @@ body {
   margin: 0 auto;
   padding: 0 var(--spacing-unit);
 }
+
+/* La clase .container se usa para centrar y limitar el ancho del contenido. */
 
 /* Estilos para el encabezado */
 #sticky-header {
@@ -52,12 +65,17 @@ body {
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
+/* Estos estilos hacen que el encabezado sea "sticky", es decir,
+   que se mantenga visible en la parte superior al hacer scroll. */
+
 .header-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: calc(var(--spacing-unit) * 0.5) var(--spacing-unit);
 }
+
+/* .header-top organiza los elementos del encabezado en una fila con espacio entre ellos. */
 
 .logo-container {
   display: flex;
@@ -71,6 +89,8 @@ body {
   margin-right: var(--spacing-unit);
 }
 
+/* Estos estilos configuran el logo y su contenedor. */
+
 h1, h2 {
   font-family: 'Playfair Display', serif;
   font-weight: 700;
@@ -80,6 +100,8 @@ h1 {
   font-size: 32px;
   letter-spacing: -0.5px;
 }
+
+/* Estilos para los títulos principales. */
 
 /* Estilos para botones y enlaces */
 .btn-shine {
@@ -106,10 +128,14 @@ h1 {
   100% { background-position: 180px }
 }
 
+/* Estos estilos crean un efecto de "brillo" en los botones y enlaces. */
+
 /* Estilos para secciones */
 .section {
   padding: calc(var(--spacing-unit) * 6) 0;
 }
+
+/* Espacio vertical para las secciones principales. */
 
 /* Estilos para grids de servicios y paquetes */
 .services-grid, .package-grid {
@@ -118,6 +144,8 @@ h1 {
   gap: var(--spacing-unit);
   padding: 0 var(--spacing-unit);
 }
+
+/* Estas clases crean layouts de cuadrícula para servicios y paquetes. */
 
 .service-item, .package-item {
   background: linear-gradient(135deg, var(--item-background) 0%, #3a3a3a 100%);
@@ -133,6 +161,8 @@ h1 {
   transform: translateY(-5px);
   box-shadow: 0 8px 15px rgba(212, 175, 55, 0.4);
 }
+
+/* Estilos para cada item de servicio o paquete, incluyendo efectos hover. */
 
 .service-buttons, .package-item .button-container {
   display: flex;
@@ -160,6 +190,8 @@ h1 {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
+
+/* Estilos para los botones dentro de los items de servicio y paquete. */
 
 /* Estilos para la barra fija inferior */
 .fixed-bar {
@@ -198,6 +230,8 @@ h1 {
   font-size: 12px;
 }
 
+/* Estos estilos configuran la barra de navegación fija en la parte inferior. */
+
 /* Estilos para el pie de página */
 footer {
   background-color: var(--header-background);
@@ -215,6 +249,8 @@ footer {
   color: var(--primary-color);
   text-decoration: none;
 }
+
+/* Estilos para el pie de página y los enlaces de redes sociales. */
 
 /* Estilos para el selector de idioma */
 .language-selector {
@@ -253,6 +289,8 @@ footer {
   margin-right: 8px;
 }
 
+/* Estos estilos configuran el selector de idioma y sus opciones. */
+
 /* Estilos para la sección de experiencias (checkboxes) */
 .checkbox-group {
   display: flex;
@@ -286,6 +324,7 @@ footer {
   box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
 }
 
+
 .checkbox-icon {
   font-size: 48px;
   color: var(--primary-color);
@@ -311,6 +350,9 @@ footer {
   color: var(--background-color);
 }
 
+/* Estos estilos crean un diseño atractivo para los checkboxes de experiencias.
+   El input real está oculto y se estiliza el label para crear un aspecto personalizado. */
+
 /* Estilos para la galería con efecto de persianas venecianas */
 .venetian-blinds {
   width: 100%;
@@ -328,7 +370,8 @@ footer {
   transition: all 0.5s ease;
 }
 
-/* ... (código anterior) ... */
+/* Estos estilos crean el efecto de persianas venecianas en la galería. 
+   Cada "persiana" es una parte de la imagen que se anima independientemente. */
 
 /* Estilos para el Carrusel de Testimonios */
 .slider-wrap {
@@ -409,6 +452,9 @@ footer {
   color: #696d74;
 }
 
+/* Estos estilos definen la apariencia del carrusel de testimonios.
+   Cada testimonio es una tarjeta que se anima para mostrarse y ocultarse. */
+
 /* Estilos para Acordeón */
 .accordion {
   width: 100%;
@@ -467,6 +513,8 @@ footer {
   color: #FFF;
 }
 
+/* Estos estilos crean un menú acordeón, comúnmente usado en la navegación móvil. */
+
 /* Estilos para el popup */
 .popup {
   display: none;
@@ -497,6 +545,8 @@ footer {
   font-weight: bold;
   cursor: pointer;
 }
+
+/* Estos estilos definen la apariencia del popup que se muestra para información detallada. */
 
 /* Estilos para las notificaciones toast */
 #toast {
@@ -529,6 +579,8 @@ footer {
   from {bottom: 30px; opacity: 1;}
   to {bottom: 0; opacity: 0;}
 }
+
+/* Estos estilos crean notificaciones toast que aparecen brevemente en la parte inferior de la pantalla. */
 
 /* Estilos para SugerenciasParaTi */
 .sugerencias-container {
@@ -569,7 +621,6 @@ footer {
   color: #888888;
 }
 
-
 .sugerencia-seguir {
   background-color: #D4AF37;
   color: #1a1a1a;
@@ -583,6 +634,9 @@ footer {
 .sugerencia-seguir:hover {
   background-color: #FFD700;
 }
+
+/* Estos estilos definen la apariencia de la sección de sugerencias, 
+   que podría usarse para recomendar servicios o paquetes adicionales. */
 
 /* Estilos para ServiceCard */
 .service-card {
@@ -667,236 +721,7 @@ footer {
   background-color: #999999;
 }
 
-/* Estilos para FixedBottomBar */
-.fixed-bottom-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: #4c0026;
-  padding: 8px 0;
-  z-index: 1000;
-}
-
-.fixed-bottom-bar ul {
-  display: flex;
-  justify-content: space-around;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-.fixed-bottom-bar a {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #ffffff;
-  text-decoration: none;
-}
-
-.fixed-bottom-bar-icon {
-  margin-bottom: 4px;
-}
-
-.fixed-bottom-bar-text {
-  font-size: 0.75rem;
-}
-
-/* Estilos para Venetian Blinds effect */
-body {
-  margin: 0;
-  text-align: center;
-  background-color: #1A1919;
-}
-
-.placeholder {
-  display: inline-block;
-  width: 800px;
-  height: 600px;
-  box-sizing: border-box;
-  margin-top: 40px;
-  position: relative;
-}
-
-.column, .blind, .blindImg {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  box-sizing: border-box;
-}
-
-.blind {
-  overflow: hidden;
-}
-
-.blindImg {
-  width: 100%;
-  background-size: cover;
-}
-
-/* Estilos para Toast Notification */
-#toast {
-  visibility: hidden;
-  max-width: 50px;
-  height: 50px;
-  margin: auto;
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  border-radius: 2px;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  right: 0;
-  bottom: 30px;
-  font-size: 17px;
-  white-space: nowrap;
-}
-
-#toast #img {
-  width: 50px;
-  height: 50px;
-  float: left;
-  padding-top: 16px;
-  padding-bottom: 16px;
-  box-sizing: border-box;
-  background-color: #111;
-  color: #fff;
-}
-
-#toast #desc {
-  color: #fff;
-  padding: 16px;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-#toast.show {
-  visibility: visible;
-  -webkit-animation: fadein 0.5s, expand 0.5s 0.5s, stay 3s 1s, shrink 0.5s 2s, fadeout 0.5s 2.5s;
-  animation: fadein 0.5s, expand 0.5s 0.5s, stay 3s 1s, shrink 0.5s 4s, fadeout 0.5s 4.5s;
-}
-
-@-webkit-keyframes fadein {
-  from {bottom: 0; opacity: 0;} 
-  to {bottom: 30px; opacity: 1;}
-}
-
-@keyframes fadein {
-  from {bottom: 0; opacity: 0;}
-  to {bottom: 30px; opacity: 1;}
-}
-
-@-webkit-keyframes expand {
-  from {min-width: 50px} 
-  to {min-width: 350px}
-}
-
-@keyframes expand {
-  from {min-width: 50px}
-  to {min-width: 350px}
-}
-
-@-webkit-keyframes stay {
-  from {min-width: 350px} 
-  to {min-width: 350px}
-}
-
-@keyframes stay {
-  from {min-width: 350px}
-  to {min-width: 350px}
-}
-
-@-webkit-keyframes shrink {
-  from {min-width: 350px;} 
-  to {min-width: 50px;}
-}
-
-@keyframes shrink {
-  from {min-width: 350px;} 
-  to {min-width: 50px;}
-}
-
-@-webkit-keyframes fadeout {
-  from {bottom: 30px; opacity: 1;} 
-  to {bottom: 60px; opacity: 0;}
-}
-
-@keyframes fadeout {
-  from {bottom: 30px; opacity: 1;}
-  to {bottom: 60px; opacity: 0;}
-}
-
-/* Estilos para Checkbox en la sección de Experiencias */
-.checkbox-group {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 600px;
-  user-select: none;
-}
-
-.checkbox-group > * {
-  margin: .5rem 0.5rem;
-}
-
-.checkbox-input {
-  clip: rect(0 0 0 0);
-  clip-path: inset(100%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
-}
-
-.checkbox-tile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 7rem;
-  min-height: 7rem;
-  border-radius: 0.5rem;
-  border: 2px solid #b5bfd9;
-  background-color: #fff;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-  transition: 0.15s ease;
-  cursor: pointer;
-  position: relative;
-}
-
-.checkbox-icon {
-  transition: .375s ease;
-  color: #494949;
-}
-
-.checkbox-label {
-  color: #707070;
-  transition: .375s ease;
-  text-align: center;
-}
-
-.checkbox-input:checked + .checkbox-tile {
-  border-color: #2260ff;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-  color: #2260ff;
-}
-
-.checkbox-input:checked + .checkbox-tile:before {
-  transform: scale(1);
-  opacity: 1;
-  background-color: #2260ff;
-  border-color: #2260ff;
-}
-
-.checkbox-input:checked + .checkbox-tile .checkbox-icon,
-.checkbox-input:checked + .checkbox-tile .checkbox-label {
-  color: #2260ff;
-}
+/* Estos estilos definen la apariencia de las tarjetas de servicio individuales. */
 
 /* Estilos responsivos */
 @media (max-width: 768px) {
@@ -930,3 +755,6 @@ body {
     flex: 0 0 100%;
   }
 }
+
+/* Estos estilos se aplican cuando la pantalla es más pequeña que 768px de ancho,
+   adaptando el diseño para dispositivos móviles. */
