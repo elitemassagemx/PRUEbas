@@ -5,6 +5,7 @@ const CONFIG = {
     WHATSAPP_NUMBER: "5215640020305",
     DATA_URL: "https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/data.json"
 };
+
 // Importar todos los scripts individuales
 import './script.js';
 import './services.js';
@@ -14,22 +15,6 @@ import './testimonials.js';
 import './contact.js';
 import './popup.js';
 import './toast.js';
-
-// Código principal
-document.addEventListener('DOMContentLoaded', function() {
-    // Inicialización de componentes
-    initializeServices();
-    initializePackages();
-    initializeExperiences();
-    initializeTestimonials();
-    initializeContactForm();
-    initializePopup();
-    initializeToast();
-
-    // Otras inicializaciones y configuraciones globales
-    setupLanguageSelector();
-    setupNavigationMenu();
-    setupStickyHeader();
 
 // Estado global de la aplicación
 class AppState {
@@ -238,7 +223,6 @@ class ServiceCard extends Component {
 
 // Módulo de Servicios
 const ServicesModule = {
-    // Carga los servicios desde data.json
     loadServices: async () => {
         try {
             const response = await fetch(CONFIG.DATA_URL);
@@ -257,7 +241,6 @@ const ServicesModule = {
         }
     },
 
-    // Renderiza los servicios en la página actual
     renderServices: () => {
         const servicesList = document.getElementById('services-list');
         if (!servicesList) return;
@@ -411,7 +394,7 @@ const UIModule = {
         });
     },
 
-setupAccordion: () => {
+    setupAccordion: () => {
         const header = document.querySelector('#sticky-header .container');
         if (!header) return;
         const accordionToggle = Utils.createElement('button', 'accordion-button', 'Menú <i class="fas fa-chevron-down"></i>');
