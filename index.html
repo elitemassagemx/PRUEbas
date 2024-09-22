@@ -1,24 +1,302 @@
-                                <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elite Massage</title>
+    <style>
+        /* Estilos CSS integrados */
+        :root {
+            --primary-color: #D4AF37;
+            --secondary-color: #8B4513;
+            --text-color: #ffffff;
+            --background-color: #1a1a1a;
+            --item-background: #2a2a2a;
+            --header-background: #4c0026;
+            --spacing-unit: 8px;
+        }
 
-    <!-- Enlaces a hojas de estilo externas -->
-    <link rel="stylesheet" href="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/styles.css">
-    <link rel="stylesheet" href="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/popup.css">
-    <link rel="stylesheet" href="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/toast.css">
-    <link rel="stylesheet" href="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/accordion.css">
-    <link rel="stylesheet" href="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/acercade.css">
-    <link rel="stylesheet" href="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/cdevalor.css">
-    <link rel="stylesheet" href="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/checkbox.css">
-    <link rel="stylesheet" href="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/especialistas.css">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <!-- Carga de fuentes de Google -->
+        body {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            background: linear-gradient(270deg, var(--background-color), #2c2c2c, #3a3a3a);
+            background-size: 600% 600%;
+            animation: gradientTransition 15s ease infinite;
+            color: var(--text-color);
+            padding-bottom: 60px;
+        }
+
+        @keyframes gradientTransition {
+            0% { background-position: 0% 50% }
+            50% { background-position: 100% 50% }
+            100% { background-position: 0% 50% }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-unit);
+        }
+
+        #sticky-header {
+            background-color: var(--header-background);
+            color: var(--text-color);
+            padding: var(--spacing-unit) 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: calc(var(--spacing-unit) * 0.5) var(--spacing-unit);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            margin-right: var(--spacing-unit);
+        }
+
+        h1, h2 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: 24px;
+            letter-spacing: -0.5px;
+        }
+
+        .btn-shine {
+            position: relative;
+            display: inline-block;
+            padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 6);
+            color: var(--text-color);
+            background: linear-gradient(to right, #4d4d4d 0, white 10%, #4d4d4d 20%);
+            background-position: 0;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s infinite linear;
+            animation-fill-mode: forwards;
+            -webkit-text-size-adjust: none;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        @keyframes shine {
+            0% { background-position: 0 }
+            60% { background-position: 180px }
+            100% { background-position: 180px }
+        }
+
+        .section {
+            padding: calc(var(--spacing-unit) * 6) 0;
+            margin-top: 60px;
+        }
+
+        .services-grid, .paquetes-grid, .experiencias-grid, .galeria-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-unit);
+            padding: 0 var(--spacing-unit);
+        }
+
+        .service-item, .paquete-item, .experiencia-item, .galeria-item {
+            background: linear-gradient(135deg, var(--item-background) 0%, #3a3a3a 100%);
+            border: 2px solid var(--primary-color);
+            border-radius: 15px;
+            padding: var(--spacing-unit) calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 2);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .service-item:hover, .paquete-item:hover, .experiencia-item:hover, .galeria-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .service-buttons, .paquete-item .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+
+        .service-buttons button, .paquete-item button, .btn {
+            background-color: var(--primary-color);
+            color: var(--background-color);
+            border: none;
+            padding: calc(var(--spacing-unit) * 0.5) var(--spacing-unit);
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .service-buttons button:hover, .paquete-item button:hover, .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .fixed-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--header-background);
+            padding: var(--spacing-unit) 0;
+            z-index: 1000;
+        }
+
+        .fixed-bar .main-nav ul {
+            display: flex;
+            justify-content: space-around;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .fixed-bar .main-nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .fixed-bar .nav-icon {
+            width: 24px;
+            height: 24px;
+            margin-bottom: calc(var(--spacing-unit) * 0.5);
+        }
+
+        .fixed-bar .nav-text {
+            font-size: 12px;
+        }
+
+        .language-selector {
+            position: relative;
+        }
+
+        .language-options {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--item-background);
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .language-options.show {
+            display: block;
+        }
+
+        .lang-option {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .lang-option:hover {
+            background-color: var(--primary-color);
+        }
+
+        .lang-option img {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+        }
+
+        .contacto-form {
+            display: flex;
+            flex-direction: column;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-unit);
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: calc(var(--spacing-unit) * 0.5);
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: calc(var(--spacing-unit) * 0.5);
+            border: 1px solid var(--primary-color);
+            background-color: var(--item-background);
+            color: var(--text-color);
+            border-radius: 4px;
+        }
+
+        .mapa {
+            height: 400px;
+            margin-top: var(--spacing-unit);
+        }
+
+        footer {
+            background-color: var(--header-background);
+            color: var(--text-color);
+            padding: calc(var(--spacing-unit) * 2) 0;
+            text-align: center;
+        }
+
+        .social-icons a {
+            color: var(--text-color);
+            font-size: 24px;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .header-top {
+                flex-direction: column;
+            }
+
+            .services-grid, .paquetes-grid, .experiencias-grid, .galeria-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .fixed-bar .nav-text {
+                display: none;
+            }
+        }
+    </style>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-
-    <!-- Carga de la biblioteca de iconos Font Awesome -->
     <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -26,122 +304,37 @@
         <div class="container">
             <div class="header-top">
                 <div class="logo-container">
-                    <img src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/logo.png" alt="Elite Massage Logo" class="logo">
+                    <img src="https://via.placeholder.com/50x50" alt="Elite Massage Logo" class="logo">
                     <h1 class="btn-shine">Elite Massage</h1>
                 </div>
                 <div class="language-selector">
-                    <img src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/trad.png" alt="Traducir" id="translate-icon">
+                    <img src="https://via.placeholder.com/24x24" alt="Traducir" id="translate-icon">
                     <div class="language-options">
-                        <button class="lang-option" data-lang="es"><img src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/omx.png" alt="Bandera de México"> Español</button>
-                        <button class="lang-option" data-lang="en"><img src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/ous.png" alt="Bandera de Estados Unidos"> English</button>
-                        <button class="lang-option" data-lang="fr"><img src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/ofr.png" alt="Bandera de Francia"> Français</button>
-                        <button class="lang-option" data-lang="iw"><img src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/ois.png" alt="Bandera de Israel"> עברית</button>
-                        <button class="lang-option" data-lang="zh-CN"><img src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/och.png" alt="Bandera de China"> 中文</button>
+                        <button class="lang-option" data-lang="es"><img src="https://via.placeholder.com/20x20" alt="Bandera de México"> Español</button>
+                        <button class="lang-option" data-lang="en"><img src="https://via.placeholder.com/20x20" alt="Bandera de Estados Unidos"> English</button>
+                        <button class="lang-option" data-lang="fr"><img src="https://via.placeholder.com/20x20" alt="Bandera de Francia"> Français</button>
+                        <button class="lang-option" data-lang="iw"><img src="https://via.placeholder.com/20x20" alt="Bandera de Israel"> עברית</button>
+                        <button class="lang-option" data-lang="zh-CN"><img src="https://via.placeholder.com/20x20" alt="Bandera de China"> 中文</button>
                     </div>
                 </div>
-                <nav class="main-nav">
-                    <button id="menu-toggle" aria-label="Abrir menú">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                    <ul id="accordion" class="accordion">
-                        <li>
-                            <div class="link"><i class="fa fa-spa"></i>Servicios<i class="fa fa-chevron-down"></i></div>
-                            <ul class="submenu">
-                                <li><a href="#servicios">Masajes</a></li>
-                                <li><a href="#paquetes">Paquetes</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <div class="link"><i class="fa fa-star"></i>Experiencias<i class="fa fa-chevron-down"></i></div>
-                            <ul class="submenu">
-                                <li><a href="#experiencias">Nuestras Experiencias</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <div class="link"><i class="fa fa-image"></i>Galería<i class="fa fa-chevron-down"></i></div>
-                            <ul class="submenu">
-                                <li><a href="#galeria">Ver Galería</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <div class="link"><i class="fa fa-envelope"></i>Contacto<i class="fa fa-chevron-down"></i></div>
-                            <ul class="submenu">
-                                <li><a href="#contacto">Contactar</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
             </div>
             <a href="#" class="btn-shine">Masajes y experiencias premium para ti y tu invitado</a>
         </div>
     </header>
 
     <main role="main">
-        <section id="inicio" class="hero">
+        <section id="inicio" class="hero section">
             <div class="container">
                 <h2 class="btn-shine">Bienvenido a tu Oasis de Tranquilidad</h2>
                 <p>Descubre el poder de la relajación y el bienestar en nuestro exclusivo spa de masajes.</p>
             </div>
         </section>
 
-        <section id="sugerencias" class="sugerencias-section">
-            <div class="container">
-                <h2>Beneficios destacados</h2>
-                <div class="sugerencias-container">
-                    <div class="sugerencia-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/benefits-icon1.png" alt="Beneficio 1" class="sugerencia-icon">
-                        <p>Reducción de estrés</p>
-                    </div>
-                    <div class="sugerencia-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/benefits-icon2.png" alt="Beneficio 2" class="sugerencia-icon">
-                        <p>Mejora circulación</p>
-                    </div>
-                    <div class="sugerencia-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/benefits-icon3.png" alt="Beneficio 3" class="sugerencia-icon">
-                        <p>Alivio dolor muscular</p>
-                    </div>
-                    <div class="sugerencia-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/chidratacion.png" alt="Beneficio 4" class="sugerencia-icon">
-                        <p>Hidratación de la piel</p>
-                    </div>
-                    <div class="sugerencia-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/ccirculacion.png" alt="Beneficio 5" class="sugerencia-icon">
-                        <p>Mejora energía vital</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <section id="servicios" class="section services">
             <div class="container">
                 <h2>Nuestros Servicios</h2>
-                <div class="category-selector">
-                    <button class="choice-chip active" data-category="individual">Individual</button>
-                    <button class="choice-chip" data-category="pareja">En Pareja</button>
-                </div>
-                <div id="services-list" class="services-grid"></div>
-                <div class="pagination-wrapper">
-                    <button class="btn btn--prev" aria-label="Página anterior">
-                        <svg height="96" viewBox="0 0 24 24" width="96" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"/>
-                        </svg>
-                    </button>
-                    <div class="pagination-container">
-                        <div class="little-dot little-dot--first"></div>
-                        <div class="little-dot">
-                            <div class="big-dot-container">
-                                <div class="big-dot"></div>
-                            </div>
-                        </div>
-                        <div class="little-dot little-dot--last"></div>
-                    </div>
-                    <button class="btn btn--next" aria-label="Página siguiente">
-                        <svg height="96" viewBox="0 0 24 24" width="96" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8.59 16.34l4.58-4.59-4.58-
-                        </svg>
-                    </button>
+                <div id="services-list" class="services-grid">
+                    <!-- Los servicios se cargarán dinámicamente aquí -->
                 </div>
             </div>
         </section>
@@ -151,18 +344,18 @@
                 <h2>Paquetes Especiales</h2>
                 <div class="paquetes-grid">
                     <div class="paquete-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/paquete1.jpg" alt="Paquete 1" class="paquete-img">
+                        <img src="https://via.placeholder.com/300x200" alt="Paquete 1" class="paquete-img">
                         <h3>Paquete Relajación Total</h3>
                         <p>Incluye masaje relajante, acceso a sauna y aromaterapia.</p>
                         <p class="price">$1,200 MXN</p>
-                        <a href="#" class="btn btn-shine">Reservar</a>
+                        <button class="btn btn-shine">Reservar</button>
                     </div>
                     <div class="paquete-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/paquete2.jpg" alt="Paquete 2" class="paquete-img">
+                        <img src="https://via.placeholder.com/300x200" alt="Paquete 2" class="paquete-img">
                         <h3>Paquete Dúo Zen</h3>
                         <p>Disfruta en pareja de un masaje sincronizado y relajación profunda.</p>
                         <p class="price">$2,300 MXN</p>
-                        <a href="#" class="btn btn-shine">Reservar</a>
+                        <button class="btn btn-shine">Reservar</button>
                     </div>
                 </div>
             </div>
@@ -173,17 +366,12 @@
                 <h2>Nuestras Experiencias</h2>
                 <div class="experiencias-grid">
                     <div class="experiencia-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/experiencia1.jpg" alt="Experiencia 1" class="experiencia-img">
+                        <img src="https://via.placeholder.com/300x200" alt="Experiencia 1" class="experiencia-img">
                         <p>"Un lugar maravilloso para desconectar del mundo. Me encantó la atención personalizada."</p>
                         <span>- Ana G.</span>
                     </div>
-                    <div class="experiencia-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/experiencia2.jpg" alt="Experiencia 2" class="experiencia-img">
-                        <p>"La mejor experiencia de spa en la ciudad, totalmente recomendado."</p>
-                        <span>- Carlos M.</span>
-                    </div>
-                    <div class="experiencia-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/experiencia3.jpg" alt="Experiencia 3" class="experiencia-img">
+<div class="experiencia-item">
+                        <img src="https://via.placeholder.com/300x200" alt="Experiencia 3" class="experiencia-img">
                         <p>"Mis dolores musculares desaparecieron después de una sesión, me siento renovado."</p>
                         <span>- Roberto P.</span>
                     </div>
@@ -196,16 +384,16 @@
                 <h2>Galería</h2>
                 <div class="galeria-grid">
                     <div class="galeria-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/gallery1.jpg" alt="Galería 1" class="galeria-img">
+                        <img src="https://via.placeholder.com/300x200" alt="Galería 1" class="galeria-img">
                     </div>
                     <div class="galeria-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/gallery2.jpg" alt="Galería 2" class="galeria-img">
+                        <img src="https://via.placeholder.com/300x200" alt="Galería 2" class="galeria-img">
                     </div>
                     <div class="galeria-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/gallery3.jpg" alt="Galería 3" class="galeria-img">
+                        <img src="https://via.placeholder.com/300x200" alt="Galería 3" class="galeria-img">
                     </div>
                     <div class="galeria-item">
-                        <img src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/gallery4.jpg" alt="Galería 4" class="galeria-img">
+                        <img src="https://via.placeholder.com/300x200" alt="Galería 4" class="galeria-img">
                     </div>
                 </div>
             </div>
@@ -239,13 +427,6 @@
                 <p>Estamos ubicados en el corazón de la ciudad, con fácil acceso desde cualquier punto. Visítanos en nuestra sucursal para disfrutar de una experiencia inolvidable.</p>
             </div>
         </section>
-
-        <section id="acercade" class="section acercade">
-            <div class="container">
-                <h2>Acerca de Nosotros</h2>
-                <p>En Elite Massage nos dedicamos a ofrecerte las mejores experiencias de relajación y bienestar. Nuestro equipo está conformado por expertos en diversas técnicas de masajes y cuidados corporales, siempre enfocados en brindarte una atención personalizada y de calidad.</p>
-            </div>
-        </section>
     </main>
 
     <footer>
@@ -259,43 +440,108 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
-    <script src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/scripts.js"></script>
-    <script src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/popup.js"></script>
-    <script src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/toast.js"></script>
-    <script src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/accordion.js"></script>
-
     <script>
+        // Configuración global
+        const CONFIG = {
+            BASE_URL: "https://elitemassagemx.github.io/Home/",
+            ITEMS_PER_PAGE: 3,
+            WHATSAPP_NUMBER: "5215640020305"
+        };
 
-        // Mapa
+        // Datos de servicios
+        const servicios = [
+            {
+                title: "Masaje Relajante",
+                description: "Un masaje suave para aliviar el estrés y la tensión muscular.",
+                duration: "60 minutos",
+                price: "$800 MXN",
+                image: "masaje-relajante.jpg"
+            },
+            {
+                title: "Masaje Deportivo",
+                description: "Ideal para atletas y personas activas. Ayuda a prevenir lesiones y mejorar el rendimiento.",
+                duration: "90 minutos",
+                price: "$1000 MXN",
+                image: "masaje-deportivo.jpg"
+            },
+            {
+                title: "Piedras Calientes",
+                description: "Combina masaje tradicional con el uso de piedras calientes para una relajación profunda.",
+                duration: "75 minutos",
+                price: "$1200 MXN",
+                image: "piedras-calientes.jpg"
+            }
+        ];
+
+        // Función para renderizar servicios
+        function renderizarServicios() {
+            const servicesList = document.getElementById('services-list');
+            servicesList.innerHTML = '';
+            
+            servicios.forEach(servicio => {
+                const servicioElement = document.createElement('div');
+                servicioElement.className = 'service-item';
+                servicioElement.innerHTML = `
+                    <img src="${CONFIG.BASE_URL}${servicio.image}" alt="${servicio.title}" class="service-img">
+                    <h3>${servicio.title}</h3>
+                    <p>${servicio.description}</p>
+                    <p>Duración: ${servicio.duration}</p>
+                    <p class="price">${servicio.price}</p>
+                    <div class="service-buttons">
+                        <button onclick="reservar('${servicio.title}')">Reservar</button>
+                        <button onclick="mostrarInfo('${servicio.title}')">Más Info</button>
+                    </div>
+                `;
+                servicesList.appendChild(servicioElement);
+            });
+        }
+
+        // Función para reservar
+        function reservar(servicioTitle) {
+            const message = encodeURIComponent(`Hola! Quiero reservar un ${servicioTitle}`);
+            const url = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${message}`;
+            window.open(url, '_blank');
+        }
+
+        // Función para mostrar más información
+        function mostrarInfo(servicioTitle) {
+            alert(`Más información sobre ${servicioTitle}`);
+            // Aquí podrías implementar un modal o un popup con más detalles
+        }
+
+        // Inicialización del mapa
         function initMap() {
-            var location = { lat: 19.4326, lng: -99.1332 }; // Coordenadas de la ubicación
-            var map = new google.maps.Map(document.getElementById('mapa'), {
+            const location = { lat: 19.4326, lng: -99.1332 }; // Coordenadas de ejemplo (Ciudad de México)
+            const map = new google.maps.Map(document.getElementById('mapa'), {
                 zoom: 15,
                 center: location
             });
-            var marker = new google.maps.Marker({
+            new google.maps.Marker({
                 position: location,
                 map: map
             });
         }
-    </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
-                                 
-                              
-  // Traducción
+
+        // Manejo del selector de idioma
         document.getElementById('translate-icon').addEventListener('click', function() {
-            document.querySelector('.language-options').classList.toggle('active');
+            document.querySelector('.language-options').classList.toggle('show');
         });
 
         document.querySelectorAll('.lang-option').forEach(button => {
             button.addEventListener('click', function() {
-                const selectedLang = button.getAttribute('data-lang');
-                // Lógica para cambiar el idioma
+                const selectedLang = this.getAttribute('data-lang');
+                // Aquí iría la lógica para cambiar el idioma
                 console.log('Cambiando idioma a:', selectedLang);
+                document.querySelector('.language-options').classList.remove('show');
             });
         });
 
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            renderizarServicios();
+            // Otros inicializadores...
+        });
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
 </body>
 </html>
-
