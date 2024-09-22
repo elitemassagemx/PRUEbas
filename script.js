@@ -5,6 +5,31 @@ const CONFIG = {
     WHATSAPP_NUMBER: "5215640020305",
     DATA_URL: "https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/data.json"
 };
+// Importar todos los scripts individuales
+import './script.js';
+import './services.js';
+import './packages.js';
+import './experiences.js';
+import './testimonials.js';
+import './contact.js';
+import './popup.js';
+import './toast.js';
+
+// Código principal
+document.addEventListener('DOMContentLoaded', function() {
+    // Inicialización de componentes
+    initializeServices();
+    initializePackages();
+    initializeExperiences();
+    initializeTestimonials();
+    initializeContactForm();
+    initializePopup();
+    initializeToast();
+
+    // Otras inicializaciones y configuraciones globales
+    setupLanguageSelector();
+    setupNavigationMenu();
+    setupStickyHeader();
 
 // Estado global de la aplicación
 class AppState {
