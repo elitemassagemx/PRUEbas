@@ -266,18 +266,6 @@
     <script src="https://raw.githubusercontent.com/elitemassagemx/PRUEbas/main/accordion.js"></script>
 
     <script>
-        // Traducción
-        document.getElementById('translate-icon').addEventListener('click', function() {
-            document.querySelector('.language-options').classList.toggle('active');
-        });
-
-        document.querySelectorAll('.lang-option').forEach(button => {
-            button.addEventListener('click', function() {
-                const selectedLang = button.getAttribute('data-lang');
-                // Lógica para cambiar el idioma
-                console.log('Cambiando idioma a:', selectedLang);
-            });
-        });
 
         // Mapa
         function initMap() {
@@ -293,6 +281,21 @@
         }
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
+                                 
+                              
+  // Traducción
+        document.getElementById('translate-icon').addEventListener('click', function() {
+            document.querySelector('.language-options').classList.toggle('active');
+        });
+
+        document.querySelectorAll('.lang-option').forEach(button => {
+            button.addEventListener('click', function() {
+                const selectedLang = button.getAttribute('data-lang');
+                // Lógica para cambiar el idioma
+                console.log('Cambiando idioma a:', selectedLang);
+            });
+        });
+
 </body>
 </html>
 
