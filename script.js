@@ -1,3 +1,4 @@
+
 // Configuración global
 const CONFIG = {
     BASE_URL: "https://raw.githubusercontent.com/elitemassagemx/Home/main/ICONOS/",
@@ -58,6 +59,50 @@ class Component {
 
     render() {
         throw new Error('El método render debe ser implementado');
+    }
+}
+
+// Componente SugerenciasParaTi (transferido del documento 1)
+class SugerenciasParaTi extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            sugerencias: [
+                { nombre: 'Mary Aguilar', usuario: 'maryaguilar0', imagen: 'https://via.placeholder.com/100' },
+                { nombre: 'Vanessa Villeg...', usuario: 'vanahi19', imagen: 'https://via.placeholder.com/100' },
+            ]
+        };
+    }
+
+    seguirUsuario(usuario) {
+        console.log(`Siguiendo a ${usuario}`);
+        // Aquí iría la lógica para seguir al usuario
+    }
+
+    render() {
+        const container = Utils.createElement('div', 'sugerencias-container');
+        
+        const title = Utils.createElement('h2', '', 'Sugerencias para ti');
+        container.appendChild(title);
+
+        this.state.sugerencias.forEach(sugerencia => {
+            const item = Utils.createElement('div', 'sugerencia-item');
+            item.innerHTML = `
+                <div class="sugerencia-info">
+                    <img src="${sugerencia.imagen}" alt="${sugerencia.nombre}" class="sugerencia-avatar">
+                    <div>
+                        <div class="sugerencia-nombre">${sugerencia.nombre}</div>
+                        <div class="sugerencia-usuario">${sugerencia.usuario}</div>
+                    </div>
+                </div>
+                <button class="sugerencia-seguir">Seguir</button>
+            `;
+            const seguirButton = item.querySelector('.sugerencia-seguir');
+            seguirButton.addEventListener('click', () => this.seguirUsuario(sugerencia.usuario));
+            container.appendChild(item);
+        });
+
+        return container;
     }
 }
 
@@ -130,50 +175,6 @@ const BeneficiosModule = {
         });
     }
 };
-
-// Componente SugerenciasParaTi
-class SugerenciasParaTi extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            sugerencias: [
-                { nombre: 'Mary Aguilar', usuario: 'maryaguilar0', imagen: 'https://via.placeholder.com/100' },
-                { nombre: 'Vanessa Villeg...', usuario: 'vanahi19', imagen: 'https://via.placeholder.com/100' },
-            ]
-        };
-    }
-
-    seguirUsuario(usuario) {
-        console.log(`Siguiendo a ${usuario}`);
-        // Aquí iría la lógica para seguir al usuario
-    }
-
-    render() {
-        const container = Utils.createElement('div', 'sugerencias-container');
-        
-        const title = Utils.createElement('h2', '', 'Sugerencias para ti');
-        container.appendChild(title);
-
-        this.state.sugerencias.forEach(sugerencia => {
-            const item = Utils.createElement('div', 'sugerencia-item');
-            item.innerHTML = `
-                <div class="sugerencia-info">
-                    <img src="${sugerencia.imagen}" alt="${sugerencia.nombre}" class="sugerencia-avatar">
-                    <div>
-                        <div class="sugerencia-nombre">${sugerencia.nombre}</div>
-                        <div class="sugerencia-usuario">${sugerencia.usuario}</div>
-                    </div>
-                </div>
-                <button class="sugerencia-seguir">Seguir</button>
-            `;
-            const seguirButton = item.querySelector('.sugerencia-seguir');
-            seguirButton.addEventListener('click', () => this.seguirUsuario(sugerencia.usuario));
-            container.appendChild(item);
-        });
-
-        return container;
-    }
-}
 
 // Componente ServiceCard
 class ServiceCard extends Component {
@@ -400,8 +401,7 @@ const UIModule = {
         const accordionToggle = Utils.createElement('button', 'accordion-button', 'Menú <i class="fas fa-chevron-down"></i>');
         accordionToggle.id = 'accordion-toggle';
         
-        const accordionContent = Utils.createElement('div', 'accordion-content');
-        accordionContent.id = 'accordion-content';
+       accordionContent.id = 'accordion-content';
         const mainNav = document.querySelector('.main-nav');
         if (mainNav) {
             accordionContent.innerHTML = mainNav.innerHTML;
