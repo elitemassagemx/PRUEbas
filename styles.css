@@ -14,7 +14,7 @@
 /* Estas variables CSS definen los colores y espaciados principales del sitio.
    Modificarlas afectará a todo el diseño de manera consistente. */
 
-* {
+{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
